@@ -1,2 +1,19 @@
-<header class="topbar"></header>
+<header class="topbar">
+  <div class="topbar__search" [class.topbar__search--hidden]="!showSearch">
+    <i class="pi pi-search" aria-hidden="true"></i>
+    <input class="p-inputtext" type="search" placeholder="Global system lookup..." />
+  </div>
 
+  <h2 class="topbar__title">{{ pageTitle }}</h2>
+
+  <div class="topbar__actions">
+    <button class="topbar__icon-button" type="button" aria-label="Notificações">
+      <i class="pi pi-bell"></i>
+    </button>
+
+    <div class="topbar__operator" aria-label="Usuário atual">
+      <i class="pi pi-user-circle" aria-hidden="true"></i>
+      <span>OPERATOR_04</span>
+    </div>
+  </div>
+</header>

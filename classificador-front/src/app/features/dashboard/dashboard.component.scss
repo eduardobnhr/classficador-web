@@ -1,1 +1,354 @@
+.dashboard {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 2fr) minmax(18rem, 1fr);
+  gap: 1.5rem;
+}
 
+.dashboard__primary {
+  display: grid;
+  min-width: 0;
+  gap: 1.5rem;
+}
+
+.dashboard__secondary {
+  min-width: 0;
+}
+
+.dashboard-panel,
+.metric-card {
+  border: 0;
+  border-radius: var(--radius-md);
+  background: var(--surface-container);
+}
+
+.dashboard-panel {
+  padding: 1.5rem;
+}
+
+.metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.metric-card {
+  display: grid;
+  min-height: 10rem;
+  align-content: space-between;
+  padding: 1.5rem;
+}
+
+.metric-card__title,
+.panel-header__label,
+.threat-item__header,
+.tickets-panel th {
+  color: var(--on-surface-variant);
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+}
+
+.metric-card__title {
+  margin: 0;
+}
+
+.metric-card__value {
+  color: var(--on-surface);
+  font-family: var(--font-family-heading);
+  font-size: clamp(1.8rem, 4vw, 2.35rem);
+  font-weight: 700;
+}
+
+.metric-card__meta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.82rem;
+  font-weight: 700;
+}
+
+.metric-card__meta--primary {
+  color: var(--primary);
+}
+
+.metric-card__meta--error {
+  color: var(--error);
+}
+
+.metric-card__meta--muted {
+  color: var(--on-surface-variant);
+}
+
+.metric-card__icon {
+  line-height: 1;
+}
+
+.panel-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.panel-header__label {
+  margin: 0 0 0.5rem;
+}
+
+.panel-header h2 {
+  margin: 0;
+  color: var(--on-surface);
+  font-family: var(--font-family-heading);
+  font-size: 1.25rem;
+  font-weight: 700;
+}
+
+.chart-panel__toggles {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.chart-panel__toggle {
+  min-height: 2rem;
+  padding: 0 0.75rem;
+  border: 0;
+  border-radius: var(--radius-md);
+  background: transparent;
+  box-shadow: inset 0 0 0 1px rgb(65 71 85 / 0.2);
+  color: var(--on-surface-variant);
+  cursor: pointer;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+}
+
+.chart-panel__toggle--active,
+.chart-panel__toggle:hover {
+  background: var(--surface-container-high);
+  color: var(--primary);
+}
+
+.chart-panel__canvas {
+  height: 18rem;
+}
+
+.threat-panel {
+  min-height: 100%;
+}
+
+.threat-list {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.threat-item__header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 0.625rem;
+}
+
+.threat-item__header strong {
+  color: var(--on-surface);
+}
+
+.threat-panel__status {
+  display: flex;
+  gap: 0.875rem;
+  margin-top: 2rem;
+  padding: 1rem;
+  border-radius: var(--radius-md);
+  background: var(--surface-container-low);
+  color: var(--on-surface-variant);
+}
+
+.threat-panel__status i {
+  color: var(--primary);
+  font-size: 1.2rem;
+}
+
+.threat-panel__status p {
+  margin: 0;
+  font-size: 0.875rem;
+  line-height: 1.6;
+}
+
+.tickets-panel {
+  grid-column: 1 / -1;
+}
+
+.tickets-panel__header a {
+  color: var(--primary);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-decoration: none;
+}
+
+.category-badge {
+  display: inline-flex;
+  align-items: center;
+  min-height: 1.75rem;
+  padding: 0 0.7rem;
+  border-radius: var(--radius-md);
+  background: var(--surface-container-high);
+  color: var(--primary);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+}
+
+.category-badge--server {
+  background: rgb(147 0 10 / 0.42);
+  color: var(--error);
+}
+
+.category-badge--network {
+  background: rgb(0 154 218 / 0.24);
+  color: var(--primary);
+}
+
+.category-badge--auth {
+  background: rgb(124 77 255 / 0.24);
+  color: #c7b8ff;
+}
+
+.category-badge--db {
+  background: rgb(18 129 74 / 0.28);
+  color: #8df0b3;
+}
+
+.category-badge--ops {
+  background: var(--surface-container-high);
+  color: var(--on-surface-variant);
+}
+
+.status-dot {
+  color: var(--on-surface-variant);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+}
+
+.status-dot::before {
+  content: '•';
+  margin-right: 0.4rem;
+}
+
+.status-dot--open::before {
+  color: var(--error);
+}
+
+.status-dot--in-progress::before {
+  color: var(--primary);
+}
+
+.status-dot--classified::before {
+  color: var(--tertiary);
+}
+
+.tickets-table__action {
+  color: var(--primary);
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.dashboard-fab {
+  position: fixed;
+  right: 2rem;
+  bottom: 2rem;
+  display: grid;
+  width: 3.5rem;
+  height: 3.5rem;
+  place-items: center;
+  border-radius: var(--radius-xl);
+  background: var(--primary-gradient);
+  color: var(--on-primary-fixed);
+  text-decoration: none;
+}
+
+:host ::ng-deep {
+  .p-chart {
+    display: block;
+    height: 100%;
+  }
+
+  .p-progressbar {
+    height: 0.5rem;
+    border-radius: var(--radius-md);
+    background: var(--surface-container-lowest);
+  }
+
+  .p-progressbar .p-progressbar-value {
+    border-radius: var(--radius-md);
+  }
+
+  .threat-item--error .p-progressbar-value {
+    background: var(--error);
+  }
+
+  .threat-item--primary .p-progressbar-value {
+    background: var(--primary);
+  }
+
+  .threat-item--tertiary .p-progressbar-value {
+    background: var(--tertiary);
+  }
+
+  .tickets-table.p-datatable,
+  .tickets-table .p-datatable-wrapper,
+  .tickets-table .p-datatable-table {
+    background: transparent;
+  }
+
+  .tickets-table .p-datatable-thead > tr > th {
+    padding: 0 1rem 1rem;
+    border: 0;
+    background: transparent;
+    color: var(--on-surface-variant);
+  }
+
+  .tickets-table .p-datatable-tbody > tr {
+    background: transparent;
+  }
+
+  .tickets-table .p-datatable-tbody > tr > td {
+    padding: 1rem;
+    border: 0;
+    background: transparent;
+    color: var(--on-surface);
+  }
+
+  .tickets-table .p-datatable-tbody > tr:hover > td {
+    background: var(--surface-container-low);
+  }
+}
+
+@media (max-width: 76rem) {
+  .dashboard {
+    grid-template-columns: 1fr;
+  }
+
+  .metrics-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 42rem) {
+  .metrics-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .panel-header {
+    flex-direction: column;
+  }
+
+  .chart-panel__toggles {
+    width: 100%;
+  }
+
+  .chart-panel__toggle {
+    flex: 1;
+  }
+}

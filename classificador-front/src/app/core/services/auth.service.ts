@@ -24,6 +24,10 @@ export class AuthService {
     localStorage.setItem(TOKEN_KEY, btoa(`${credentials.email}:${credentials.name}:${Date.now()}`));
   }
 
+  logout(): void {
+    localStorage.removeItem(TOKEN_KEY);
+  }
+
   getToken(): string | null {
     return localStorage.getItem(TOKEN_KEY);
   }
