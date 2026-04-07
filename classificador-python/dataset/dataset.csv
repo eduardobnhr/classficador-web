@@ -1,0 +1,101 @@
+﻿title,description,category
+E-mail pedindo troca urgente de senha,Colaboradores receberam mensagem solicitando atualização imediata da senha corporativa por meio de um link externo.,phishing
+Mensagem falsa de recadastramento,Usuários relataram e-mail informando suposta expiração de conta e pedindo confirmação de credenciais.,phishing
+Link suspeito enviado ao financeiro,A equipe financeira recebeu mensagem com link para validar acesso ao sistema bancário.,phishing
+Campanha de e-mails imitando RH,Foi detectado envio de mensagens em nome do RH solicitando confirmação de dados de acesso.,phishing
+Aviso falso de bloqueio de conta,Mensagens afirmavam que a conta seria bloqueada caso o usuário não acessasse um portal informado no e-mail.,phishing
+E-mail simulando suporte técnico,Usuários receberam contato pedindo login em página externa para suposta correção de falha no sistema.,phishing
+Página clonada de webmail,Foi identificado redirecionamento para página semelhante ao webmail institucional pedindo usuário e senha.,phishing
+Mensagem com falso boleto corporativo,Funcionários receberam e-mail com anexo e orientação para abrir documento e confirmar credenciais.,phishing
+Pedido de atualização cadastral,Uma campanha de e-mails solicitou dados pessoais e senha para atualização cadastral interna.,phishing
+Ataque por mensagem de redefinição,Diversos usuários receberam aviso falso de redefinição de senha com link encurtado.,phishing
+E-mail em nome da diretoria,Foi enviada mensagem fraudulenta em nome da diretoria solicitando acesso rápido a um portal externo.,phishing
+Solicitação falsa de aprovação,Mensagem pedia autenticação em página externa para aprovar documento importante.,phishing
+Portal falso de folha de pagamento,Usuários relataram acesso a página falsa que imitava o sistema de folha de pagamento.,phishing
+E-mail de auditoria inexistente,Foi identificado envio de mensagens falsas alegando auditoria interna e pedindo credenciais.,phishing
+Notificação falsa de armazenamento cheio,Usuários receberam aviso de caixa postal cheia com link para liberar espaço mediante login.,phishing
+Ataque por falso compartilhamento,E-mails informavam compartilhamento de arquivo e pediam autenticação para visualização.,phishing
+Mensagem fraudulenta de VPN,Foi reportado e-mail solicitando revalidação do acesso VPN em página externa.,phishing
+Alerta falso de segurança,Usuários receberam mensagem com tom urgente pedindo confirmação da conta por motivo de segurança.,phishing
+Aviso falso de vencimento de senha,Foi enviada campanha com link para troca de senha em domínio não oficial.,phishing
+Imitação de sistema acadêmico,Mensagens simulavam o sistema institucional e pediam login para consulta de pendências.,phishing
+Anexo malicioso aberto por usuário,Um colaborador abriu um anexo de e-mail e o antivírus detectou comportamento malicioso na estação.,malware
+Executável suspeito após download,Foi identificado arquivo executável baixado da internet com indícios de código malicioso.,malware
+Instalação não autorizada em notebook,A máquina apresentou instalação automática de programa suspeito após clique em pop-up.,malware
+Detecção de trojan na estação,Ferramenta de segurança identificou trojan em diretório temporário após abertura de documento.,malware
+Script suspeito em pasta de usuário,Foi localizado script desconhecido sendo executado automaticamente no perfil do usuário.,malware
+Comportamento anômalo após pendrive,"Após conexão de mídia removível, o sistema passou a exibir processos desconhecidos.",malware
+Ransomware bloqueando arquivos,Usuários relataram arquivos renomeados e inacessíveis após execução de programa suspeito.,malware
+Download de falso instalador,Foi detectado instalador adulterado que implantou software malicioso no equipamento.,malware
+Arquivo infectado em compartilhamento,Um documento armazenado em pasta compartilhada acionou alertas de malware em múltiplas máquinas.,malware
+Macro maliciosa em planilha,Planilha recebida por e-mail executou macro suspeita e iniciou conexões não esperadas.,malware
+Backdoor identificado no servidor,Análise apontou presença de processo malicioso mantendo acesso remoto persistente.,malware
+Malware em atualização falsa,Uma suposta atualização de software instalou binários maliciosos na estação.,malware
+Código suspeito em diretório do sistema,Ferramenta EDR encontrou binários desconhecidos em caminho sensível do sistema operacional.,malware
+Infecção por anexo compactado,Usuário extraiu arquivo compactado e houve detecção imediata de malware.,malware
+Serviço desconhecido iniciado automaticamente,Foi observado novo serviço persistente sem autorização associado a arquivo malicioso.,malware
+Biblioteca adulterada em aplicação,A aplicação passou a carregar biblioteca não reconhecida com comportamento malicioso.,malware
+Bot identificado em equipamento,Máquina apresentou comunicação suspeita compatível com participação em botnet.,malware
+Comando malicioso via PowerShell,Logs mostraram execução de script PowerShell ofuscado após interação do usuário.,malware
+Arquivo malicioso em download de navegador,Navegador registrou download de arquivo que foi classificado como malware.,malware
+Infecção em host administrativo,Host administrativo apresentou alteração indevida de processos e arquivos compatível com malware.,malware
+Múltiplas tentativas de login,O sistema registrou dezenas de falhas consecutivas de autenticação para a mesma conta em poucos minutos.,brute_force
+Ataque contra conta administrativa,Foram detectadas tentativas repetidas de acesso à conta admin a partir do mesmo endereço IP.,brute_force
+Falhas massivas no portal interno,Houve grande volume de logins inválidos tentando combinações de senha para usuários conhecidos.,brute_force
+Tentativas automatizadas em VPN,A VPN registrou diversas tentativas sequenciais de autenticação sem sucesso.,brute_force
+Pico de erros de senha,Serviço de autenticação apresentou aumento abrupto de senhas incorretas para múltiplos usuários.,brute_force
+Ataque de força bruta via web,Aplicação web recebeu sucessivas requisições de login para o mesmo perfil com credenciais diferentes.,brute_force
+Tentativas repetidas no e-mail corporativo,Conta de e-mail sofreu elevado número de tentativas de acesso em curto intervalo.,brute_force
+Autenticação falha em massa,Logs indicaram padrão automatizado de tentativa de login com combinações variadas.,brute_force
+Insistência de acesso a painel,Painel administrativo registrou centenas de autenticações inválidas em sequência.,brute_force
+Acessos falhos em servidor SSH,O servidor recebeu inúmeras tentativas de login SSH com usuários comuns do sistema.,brute_force
+Ataque contra portal acadêmico,Foi observado grande número de tentativas de acesso com senhas diferentes para a mesma matrícula.,brute_force
+Múltiplos logins negados por IP,Um mesmo IP gerou repetidas falhas de autenticação em várias contas.,brute_force
+Padrão automatizado de autenticação,Sequência acelerada de tentativas de login indicou uso de ferramenta automatizada.,brute_force
+Conta bloqueada por excesso de erros,Usuário teve conta bloqueada após muitas tentativas maliciosas de adivinhação de senha.,brute_force
+Tentativas sucessivas em console remoto,Interface de acesso remoto registrou várias combinações de senha para o mesmo usuário.,brute_force
+Ataque de dicionário em aplicação,Logs revelaram tentativa sistemática de senhas comuns contra contas válidas.,brute_force
+Concentração de falhas de login,Monitoramento apontou comportamento repetitivo de autenticação inválida no mesmo serviço.,brute_force
+Força bruta contra administrador,Conta com privilégios elevados foi alvo de várias tentativas de acesso malsucedidas.,brute_force
+Exploração de credenciais por repetição,Mecanismo de login recebeu diversas tentativas similares de autenticação para poucos usuários.,brute_force
+Ataque automatizado em portal VPN,Sistema VPN identificou padrão intenso de tentativa de senhas em sequência.,brute_force
+Pico anormal de tráfego no portal,O serviço ficou indisponível após receber grande volume de requisições simultâneas de múltiplas origens.,ddos
+Indisponibilidade por excesso de conexões,Servidor apresentou saturação de recursos devido a inúmeras conexões concorrentes.,ddos
+Ataque volumétrico contra site institucional,"O site recebeu tráfego muito acima do normal, comprometendo a disponibilidade.",ddos
+Sobrecarga em API pública,A API passou a responder lentamente após enxurrada de requisições em curto período.,ddos
+Serviço fora do ar por flood,Foi identificado padrão de requisições massivas causando negação de serviço.,ddos
+Latência elevada em portal externo,O portal apresentou lentidão severa associada a volume anormal de acessos simultâneos.,ddos
+Conexões massivas ao balanceador,O balanceador recebeu muitas conexões concorrentes e deixou aplicações indisponíveis.,ddos
+Tráfego distribuído contra aplicação,Diversos endereços de origem enviaram grande quantidade de requisições ao mesmo recurso.,ddos
+Exaustão de recursos do servidor,CPU e memória chegaram ao limite durante alto volume de tráfego malicioso.,ddos
+Ataque de negação de serviço na rede,Equipamentos registraram aumento abrupto de pacotes comprometendo a disponibilidade do serviço.,ddos
+Queda de serviço por volume externo,Aplicação ficou instável após recebimento de número excessivo de acessos por segundo.,ddos
+Flood HTTP em sistema corporativo,Logs mostram milhares de requisições HTTP em intervalo muito curto.,ddos
+Indisponibilidade em plataforma web,A plataforma saiu do ar diante de tráfego excessivo vindo de múltiplas origens.,ddos
+Pressão de tráfego na infraestrutura,Servidores frontais apresentaram saturação de conexões e lentidão generalizada.,ddos
+Excesso de requisições em endpoint,Um único endpoint foi alvo de volume extremo de chamadas simultâneas.,ddos
+Ataque distribuído em página principal,A página inicial tornou-se indisponível após milhares de acessos coordenados.,ddos
+Sobrecarga em serviço exposto,O serviço público apresentou comportamento compatível com ataque DDoS.,ddos
+Picos de pacotes comprometendo disponibilidade,A rede registrou tráfego muito acima da capacidade operacional prevista.,ddos
+Negação de serviço em aplicação crítica,Aplicação crítica sofreu interrupção após grande volume de solicitações externas.,ddos
+Tráfego malicioso distribuído,Fontes diversas geraram excesso de acessos simultâneos e degradaram o serviço.,ddos
+Planilha enviada ao destinatário errado,Arquivo contendo dados de clientes foi compartilhado por engano com pessoa não autorizada.,vazamento_de_dados
+Exposição indevida de base interna,Foi identificada pasta com informações sensíveis acessível a usuários sem permissão.,vazamento_de_dados
+Dados pessoais em e-mail externo,Colaborador encaminhou planilha com dados pessoais para endereço externo indevido.,vazamento_de_dados
+Compartilhamento indevido de relatório,Relatório com informações confidenciais ficou disponível em link público.,vazamento_de_dados
+Base de usuários exposta,Arquivo contendo dados cadastrais foi armazenado sem proteção em diretório acessível.,vazamento_de_dados
+Documento sigiloso compartilhado sem controle,Um documento interno com informações sensíveis foi enviado a terceiros sem autorização.,vazamento_de_dados
+Planilha de colaboradores exposta,Lista com dados de colaboradores ficou disponível em pasta compartilhada aberta.,vazamento_de_dados
+Link público para arquivo sensível,Foi detectado compartilhamento por URL pública de documento contendo dados restritos.,vazamento_de_dados
+Anexo com dados financeiros enviado incorretamente,Mensagem foi encaminhada com informações financeiras para destinatário inadequado.,vazamento_de_dados
+Exportação indevida de registros,Usuário realizou exportação de dados sensíveis sem seguir o procedimento autorizado.,vazamento_de_dados
+Informações pessoais em canal impróprio,Dados de clientes foram postados em canal sem controle de acesso.,vazamento_de_dados
+Arquivo de backup acessível indevidamente,Cópia de segurança contendo registros sensíveis ficou sem proteção adequada.,vazamento_de_dados
+Documento com CPF exposto,Material contendo identificadores pessoais foi compartilhado fora do ambiente controlado.,vazamento_de_dados
+Relatório confidencial em armazenamento aberto,Foi encontrado relatório com dados internos em repositório acessível publicamente.,vazamento_de_dados
+Dados acadêmicos enviados a terceiros,Planilha com informações institucionais foi enviada a pessoa não autorizada.,vazamento_de_dados
+Acesso indevido a documento de clientes,Arquivo com histórico de clientes foi acessado por usuários sem necessidade operacional.,vazamento_de_dados
+Compartilhamento externo não autorizado,Documento com dados sensíveis foi compartilhado com domínio externo sem aprovação.,vazamento_de_dados
+Informações restritas em pasta pública,Dados internos ficaram disponíveis em local acessível a qualquer colaborador.,vazamento_de_dados
+Lista de contatos exposta,Foi identificada exposição de lista de contatos com informações pessoais em ambiente aberto.,vazamento_de_dados
+Vazamento por erro operacional,Um colaborador anexou arquivo sigiloso em mensagem enviada para grupo incorreto.,vazamento_de_dados
