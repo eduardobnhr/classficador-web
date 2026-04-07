@@ -109,12 +109,33 @@ export class Documentation {
 
   static login(apiBodyDto: any, ApiResponseEntity: any): MethodDecorator {
     const decorators = [
+      ApiSecurity('x-csrf-token'),
       ApiBody({ type: apiBodyDto }),
       ApiResponse({ type: ApiResponseEntity, status: HttpStatus.OK }),
       ApiUnauthorizedResponse(this.createErrorResponseSchema('Unauthorized')),
       ApiInternalServerErrorResponse(this.createErrorResponseSchema('Internal Server Error')),
     ];
  
+    return this.applyDecorators(decorators);
+  }
+
+  static logout(): MethodDecorator {
+    const decorators = [
+      ApiCookieAuth('access_token'),
+      ApiSecurity('x-csrf-token'),
+      ApiResponse({ status: HttpStatus.OK }),
+      ApiInternalServerErrorResponse(this.createErrorResponseSchema('Internal Server Error')),
+    ];
+
+    return this.applyDecorators(decorators);
+  }
+
+  static csrfToken(): MethodDecorator {
+    const decorators = [
+      ApiResponse({ status: HttpStatus.OK }),
+      ApiInternalServerErrorResponse(this.createErrorResponseSchema('Internal Server Error')),
+    ];
+
     return this.applyDecorators(decorators);
   }
  

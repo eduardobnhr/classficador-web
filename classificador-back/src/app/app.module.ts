@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { ClassSerializerInterceptor, Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { APP_FILTER, APP_GUARD, APP_INTERCEPTOR } from '@nestjs/core';
 import { configValidationSchema } from 'src/commons/configs/env/env.validation';
@@ -7,7 +7,10 @@ import { HttpExceptionFilter } from 'src/commons/filters/httpExceptionFilter';
 import { JwtAuthGuard } from 'src/commons/guards/jwt-auth.guard';
 import { LoggerInterceptor } from 'src/commons/interceptors/logger.interceptor';
 import { ResponseInterceptor } from 'src/commons/interceptors/response.interceptor';
+import { ExternalsModule } from 'src/externals/externals.module';
 import { AuthModule } from './auth/auth.module';
+import { ClassificationModule } from './modules/classification/classification.module';
+import { IncidentModule } from './modules/incident/incident.module';
 import { UsersModule } from './modules/users/users.module';
 
 
@@ -21,6 +24,9 @@ import { UsersModule } from './modules/users/users.module';
     DatabaseModule,
     AuthModule,
     UsersModule,
+    IncidentModule,
+    ClassificationModule,
+    ExternalsModule,
   ],
   controllers: [],
   providers: [
@@ -35,6 +41,10 @@ import { UsersModule } from './modules/users/users.module';
     {
       provide: APP_INTERCEPTOR,
       useClass: ResponseInterceptor,
+    },
+    {
+      provide: APP_INTERCEPTOR,
+      useClass: ClassSerializerInterceptor,
     },
     {
       provide: APP_FILTER,

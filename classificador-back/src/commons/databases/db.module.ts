@@ -1,9 +1,8 @@
-import { Module } from '@nestjs/common';
+import { Global, Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
-
-
+@Global()
 @Module({
   imports: [
     ConfigModule,
@@ -19,9 +18,9 @@ import { TypeOrmModule } from '@nestjs/typeorm';
         password: configService.get<string>('DATABASE_PASSWORD'),
         database: configService.get<string>('DATABASE_NAME'),
         entities: [
-          __dirname + '/../../models/entities/sfcs/**/*.entity{.ts,.js}',
+          __dirname + '/../../models/entities/**/*.entity{.ts,.js}',
         ],
-        synchronize: false,
+        synchronize: true,
       }),
     }),
   ],

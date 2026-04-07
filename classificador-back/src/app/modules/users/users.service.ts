@@ -10,7 +10,7 @@ import { GenerateException } from '../../../commons/exceptions/generateException
 @Injectable()
 export class UsersService {
   constructor(
-    @InjectRepository(User)
+    @InjectRepository(User, 'pg')
     private readonly usuarioRepository: Repository<User>,
   ) { }
 
@@ -43,7 +43,7 @@ export class UsersService {
   async findOne(id: string): Promise<User> {
     const usuario = await this.usuarioRepository.findOne({
       where: { id },
-      relations: ['carteiras'],
+      relations: ['incidents'],
     });
 
     if (!usuario) {

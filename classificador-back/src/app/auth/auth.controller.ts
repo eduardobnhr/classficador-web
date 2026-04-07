@@ -43,12 +43,14 @@ export class AuthController {
     return { message: 'Login successful' };
   }
 
+  @Documentation.csrfToken()
   @IsPublic()
   @Get('csrf-token')
   getCsrfToken(@Request() req: any, @Res({ passthrough: true }) response: Response) {
     return { token: CsrfConfig.generateCsrfToken(req, response) };
   }
 
+  @Documentation.logout()
   @Post('logout')
   @HttpCode(HttpStatus.OK)
   async logout(@Res({ passthrough: true }) response: Response) {
