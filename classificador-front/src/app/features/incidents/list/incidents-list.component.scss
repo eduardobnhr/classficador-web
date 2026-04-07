@@ -174,12 +174,22 @@
   color: var(--error);
 }
 
+.severity-dot--critica {
+  background: var(--error-container);
+  color: var(--error);
+}
+
 .severity-dot--alta {
   background: rgb(123 208 255 / 0.18);
   color: #ffcf7b;
 }
 
 .severity-dot--média {
+  background: rgb(137 206 255 / 0.16);
+  color: var(--primary);
+}
+
+.severity-dot--media {
   background: rgb(137 206 255 / 0.16);
   color: var(--primary);
 }
@@ -200,6 +210,10 @@
 }
 
 .status-badge--em-análise {
+  color: var(--primary);
+}
+
+.status-badge--em_analise {
   color: var(--primary);
 }
 

@@ -1,8 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { ChartModule } from 'primeng/chart';
 import { ProgressBarModule } from 'primeng/progressbar';
 import { TableModule } from 'primeng/table';
+
+import { Incident, IncidentService } from '../../core/services/incident.service';
 
 interface MetricCard {
   title: string;
@@ -33,8 +35,10 @@ interface Ticket {
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.scss'
 })
-export class DashboardComponent {
-  protected readonly metrics: MetricCard[] = [
+export class DashboardComponent implements OnInit {
+  private readonly incidentService = inject(IncidentService);
+
+  protected metrics: MetricCard[] = [
     { title: 'TOTAL DE INCIDENTES', value: '1,284', meta: '+12%', tone: 'primary' },
     { title: 'CRÍTICOS', value: '42', meta: 'High Risk', tone: 'error' },
     { title: 'PENDENTES', value: '156', meta: 'Awaiting action', tone: 'muted', icon: '···' },
@@ -111,13 +115,13 @@ export class DashboardComponent {
     }
   };
 
-  protected readonly threats: ThreatDistribution[] = [
+  protected threats: ThreatDistribution[] = [
     { label: 'NETWORK BREACH', value: 32, tone: 'error' },
     { label: 'UNAUTHORIZED ACCESS', value: 48, tone: 'primary' },
     { label: 'DATA LEAKAGE', value: 20, tone: 'tertiary' }
   ];
 
-  protected readonly tickets: Ticket[] = [
+  protected tickets: Ticket[] = [
     {
       id: '#INC-1048',
       subject: 'Suspicious lateral movement detected',
@@ -154,4 +158,69 @@ export class DashboardComponent {
       createdAt: 'APR 05, 2026'
     }
   ];
+
+  ngOnInit(): void {
+    this.incidentService.getDashboardStats().subscribe({
+      next: (stats) => {
+        this.metrics = [
+          { title: 'TOTAL DE INCIDENTES', value: String(stats.totalIncidents), meta: '+12%', tone: 'primary' },
+          { title: 'CRÍTICOS', value: String(stats.critical), meta: 'High Risk', tone: 'error' },
+          { title: 'PENDENTES', value: String(stats.pending), meta: 'Awaiting action', tone: 'muted', icon: '···' },
+          { title: 'CLASSIFICADOS', value: String(stats.classified), meta: '84% Resolved', tone: 'primary', icon: '✓' }
+        ];
+        this.threats = stats.threatDistribution.map((item, index) => ({
+          label: item.label,
+          value: item.value,
+          tone: index === 0 ? 'error' : index === 1 ? 'primary' : 'tertiary'
+        }));
+        this.tickets = stats.recentTickets.map((incident) => this.mapTicket(incident));
+      }
+    });
+  }
+
+  private mapTicket(incident: Incident): Ticket {
+    return {
+      id: incident.id,
+      subject: incident.title,
+      category: this.mapCategory(incident.category),
+      status: this.mapStatus(incident.status),
+      createdAt: new Intl.DateTimeFormat('pt-BR', {
+        day: '2-digit',
+        month: 'short',
+        year: 'numeric'
+      }).format(new Date(incident.createdAt))
+    };
+  }
+
+  private mapCategory(category: Incident['category']): Ticket['category'] {
+    if (category === 'DB' || category === 'DATA_LEAK') {
+      return 'DB';
+    }
+
+    if (category === 'AUTH' || category === 'SEGURANÇA') {
+      return 'AUTH';
+    }
+
+    if (category === 'SERVER' || category === 'RECURSOS') {
+      return 'SERVER';
+    }
+
+    if (category === 'OPS') {
+      return 'OPS';
+    }
+
+    return 'NETWORK';
+  }
+
+  private mapStatus(status: Incident['status']): Ticket['status'] {
+    if (status === 'CLASSIFICADO' || status === 'RESOLVIDO') {
+      return 'CLASSIFIED';
+    }
+
+    if (status === 'EM_ANALISE') {
+      return 'IN PROGRESS';
+    }
+
+    return 'OPEN';
+  }
 }

@@ -1,12 +1,32 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { Router } from '@angular/router';
-import { BehaviorSubject, Observable, tap } from 'rxjs';
+import { BehaviorSubject, Observable, map, of, switchMap, tap } from 'rxjs';
 
 import { environment } from '../../../environments/environment';
 
-const TOKEN_KEY = 'sentinel_token';
+const CSRF_TOKEN_KEY = 'sentinel_csrf_token';
+const AUTH_STATUS_KEY = 'sentinel_auth_status';
 const USER_KEY = 'sentinel_user';
+
+interface ApiResponse<T> {
+  data: T;
+}
+
+interface LoginResponse {
+  message: string;
+}
+
+interface CsrfResponse {
+  token: string;
+}
+
+interface BackendUser {
+  id: string;
+  name: string;
+  email: string;
+  role: string;
+}
 
 export interface LoginPayload {
   email: string;
@@ -38,7 +58,9 @@ export class AuthService {
   readonly currentUser$ = this.currentUserSubject.asObservable();
 
   login(payload: LoginPayload): Observable<AuthUser> {
-    return this.http.post<AuthUser>(`${environment.apiUrl}/auth/login`, payload).pipe(
+    return this.ensureCsrfToken().pipe(
+      switchMap(() => this.http.post<ApiResponse<LoginResponse>>(`${environment.apiUrl}/login`, payload)),
+      map(() => this.createSessionUser(payload.email)),
       tap((user) => {
         this.persistSession(user);
       })
@@ -46,24 +68,42 @@ export class AuthService {
   }
 
   register(payload: RegisterPayload): Observable<AuthUser> {
-    return this.http.post<AuthUser>(`${environment.apiUrl}/auth/register`, payload).pipe(
-      tap((user) => {
-        this.persistSession(user);
-      })
+    const createUserPayload = {
+      ...payload,
+      role: 'OPERATOR',
+      is_active: true
+    };
+
+    return this.ensureCsrfToken().pipe(
+      switchMap(() => this.http.post<ApiResponse<BackendUser>>(`${environment.apiUrl}/users`, createUserPayload)),
+      switchMap(() => this.login({ email: payload.email, password: payload.password }))
     );
   }
 
-  logout(): void {
-    localStorage.removeItem(TOKEN_KEY);
-    localStorage.removeItem(USER_KEY);
-    this.currentUserSubject.next(null);
-    void this.router.navigate(['/login']);
+  logout(remote = true): void {
+    const clearLocalSession = () => {
+      localStorage.removeItem(AUTH_STATUS_KEY);
+      localStorage.removeItem(USER_KEY);
+      localStorage.removeItem(CSRF_TOKEN_KEY);
+      this.currentUserSubject.next(null);
+      void this.router.navigate(['/login']);
+    };
+
+    if (!remote) {
+      clearLocalSession();
+      return;
+    }
+
+    this.ensureCsrfToken()
+      .pipe(switchMap(() => this.http.post<ApiResponse<LoginResponse>>(`${environment.apiUrl}/logout`, {})))
+      .subscribe({
+        next: clearLocalSession,
+        error: clearLocalSession
+      });
   }
 
   isAuthenticated(): boolean {
-    const token = this.getToken();
-
-    return Boolean(token && !this.isTokenExpired(token));
+    return localStorage.getItem(AUTH_STATUS_KEY) === 'authenticated';
   }
 
   getCurrentUser(): AuthUser | null {
@@ -71,22 +111,38 @@ export class AuthService {
   }
 
   getToken(): string | null {
-    return localStorage.getItem(TOKEN_KEY);
+    return localStorage.getItem(CSRF_TOKEN_KEY);
+  }
+
+  getCsrfToken(): string | null {
+    return localStorage.getItem(CSRF_TOKEN_KEY);
+  }
+
+  ensureCsrfToken(): Observable<string> {
+    const cachedToken = this.getCsrfToken();
+
+    if (cachedToken) {
+      return of(cachedToken);
+    }
+
+    return this.http.get<ApiResponse<CsrfResponse>>(`${environment.apiUrl}/csrf-token`).pipe(
+      map((response) => response.data.token),
+      tap((token) => {
+        localStorage.setItem(CSRF_TOKEN_KEY, token);
+      })
+    );
   }
 
   private persistSession(user: AuthUser): void {
-    localStorage.setItem(TOKEN_KEY, user.token);
+    localStorage.setItem(AUTH_STATUS_KEY, 'authenticated');
     localStorage.setItem(USER_KEY, JSON.stringify(user));
     this.currentUserSubject.next(user);
   }
 
   private loadStoredUser(): AuthUser | null {
-    const token = localStorage.getItem(TOKEN_KEY);
     const user = localStorage.getItem(USER_KEY);
 
-    if (!token || !user || this.isTokenExpired(token)) {
-      localStorage.removeItem(TOKEN_KEY);
-      localStorage.removeItem(USER_KEY);
+    if (!user || !this.isAuthenticated()) {
       return null;
     }
 
@@ -98,30 +154,15 @@ export class AuthService {
     }
   }
 
-  private isTokenExpired(token: string): boolean {
-    const payload = this.decodeJwtPayload(token);
+  private createSessionUser(email: string): AuthUser {
+    const name = email.split('@')[0] || 'Operator';
 
-    if (!payload?.exp) {
-      return false;
-    }
-
-    return payload.exp * 1000 <= Date.now();
-  }
-
-  private decodeJwtPayload(token: string): { exp?: number } | null {
-    const [, payload] = token.split('.');
-
-    if (!payload) {
-      return null;
-    }
-
-    try {
-      const normalizedPayload = payload.replace(/-/g, '+').replace(/_/g, '/');
-      const decodedPayload = atob(normalizedPayload);
-
-      return JSON.parse(decodedPayload) as { exp?: number };
-    } catch {
-      return null;
-    }
+    return {
+      id: 'cookie-session',
+      name,
+      email,
+      role: 'OPERATOR',
+      token: 'http-only-cookie-session'
+    };
   }
 }

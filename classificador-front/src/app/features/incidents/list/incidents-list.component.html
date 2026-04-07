@@ -23,7 +23,14 @@
       <span>BUSCA POR ID/TÍTULO</span>
       <span class="filter-field__search">
         <i class="pi pi-search" aria-hidden="true"></i>
-        <input pInputText type="search" name="search" [(ngModel)]="searchTerm" placeholder="#INC-2023..." />
+        <input
+          pInputText
+          type="search"
+          name="search"
+          [(ngModel)]="searchTerm"
+          (ngModelChange)="loadIncidents()"
+          placeholder="#INC-2023..."
+        />
       </span>
     </label>
 
@@ -35,6 +42,7 @@
         [options]="statusOptions"
         optionLabel="label"
         optionValue="value"
+        (onChange)="loadIncidents()"
       />
     </label>
 
@@ -46,6 +54,7 @@
         [options]="severityOptions"
         optionLabel="label"
         optionValue="value"
+        (onChange)="loadIncidents()"
       />
     </label>
 
@@ -57,6 +66,7 @@
         [options]="categoryOptions"
         optionLabel="label"
         optionValue="value"
+        (onChange)="loadIncidents()"
       />
     </label>
   </form>
@@ -87,28 +97,28 @@
       <ng-template pTemplate="body" let-incident>
         <tr>
           <td>
-            <a class="incident-id" [routerLink]="['/incidents', incident.id.replace('#INC-', '')]">
+            <a class="incident-id" [routerLink]="['/incidents', incident.id]">
               {{ incident.id }}
             </a>
           </td>
           <td>
             <div class="incident-title">
               <strong>{{ incident.title }}</strong>
-              <span>{{ incident.node }}</span>
+              <span>Node: {{ incident.asset }}</span>
             </div>
           </td>
           <td>
-            <span class="category-pill">{{ incident.category }}</span>
+            <span class="category-pill">{{ displayCategory(incident) }}</span>
           </td>
           <td>
             <span class="severity-dot severity-dot--{{ incident.severity.toLowerCase() }}">
-              {{ incident.severity }}
+              {{ displaySeverity(incident) }}
             </span>
           </td>
-          <td>{{ incident.date }}</td>
+          <td>{{ formatDate(incident.createdAt) }}</td>
           <td>
             <span class="status-badge status-badge--{{ incident.status.toLowerCase().replace(' ', '-') }}">
-              {{ incident.status }}
+              {{ displayStatus(incident) }}
             </span>
           </td>
           <td>

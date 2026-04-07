@@ -1,9 +1,12 @@
 import { Component, inject } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { CalendarModule } from 'primeng/calendar';
 import { DropdownModule } from 'primeng/dropdown';
 import { InputTextModule } from 'primeng/inputtext';
 import { InputTextareaModule } from 'primeng/inputtextarea';
+
+import { IncidentService } from '../../../core/services/incident.service';
 
 interface AssetOption {
   label: string;
@@ -20,6 +23,8 @@ interface AssetOption {
 })
 export class IncidentCreateComponent {
   private readonly formBuilder = inject(FormBuilder);
+  private readonly incidentService = inject(IncidentService);
+  private readonly router = inject(Router);
 
   protected readonly affectedAssets: AssetOption[] = [
     { label: 'BR-SAO-01 · API Gateway', value: 'br-sao-01', icon: 'pi pi-server' },
@@ -41,6 +46,19 @@ export class IncidentCreateComponent {
       return;
     }
 
-    this.incidentForm.reset();
+    const payload = this.incidentForm.getRawValue();
+
+    this.incidentService
+      .createIncident({
+        title: payload.title,
+        description: payload.description,
+        asset: payload.affectedAsset,
+        occurredAt: payload.occurredAt?.toISOString() ?? new Date().toISOString()
+      })
+      .subscribe({
+        next: (incident) => {
+          void this.router.navigate(['/incidents', incident.id]);
+        }
+      });
   }
 }
