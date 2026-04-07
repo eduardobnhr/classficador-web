@@ -16,7 +16,7 @@ export const routes: Routes = [
   {
     path: '',
     component: AppShellComponent,
-    canActivateChild: [authGuard],
+    canActivate: [authGuard],
     children: [
       {
         path: '',

@@ -31,7 +31,10 @@ export class LoginComponent {
       return;
     }
 
-    this.authService.login(this.loginForm.getRawValue());
-    void this.router.navigate(['/dashboard']);
+    this.authService.login(this.loginForm.getRawValue()).subscribe({
+      next: () => {
+        void this.router.navigate(['/dashboard']);
+      }
+    });
   }
 }

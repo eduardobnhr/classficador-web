@@ -38,8 +38,13 @@ export class RegisterComponent {
       return;
     }
 
-    this.authService.register(this.registerForm.getRawValue());
-    void this.router.navigate(['/dashboard']);
+    const { confirmPassword, ...payload } = this.registerForm.getRawValue();
+
+    this.authService.register(payload).subscribe({
+      next: () => {
+        void this.router.navigate(['/dashboard']);
+      }
+    });
   }
 
   private passwordsMatch(control: AbstractControl): ValidationErrors | null {
