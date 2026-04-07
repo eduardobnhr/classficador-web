@@ -1,0 +1,156 @@
+<section class="incidents-page">
+  <header class="incidents-header">
+    <div>
+      <h1>Incidentes</h1>
+      <p>Monitoramento e triagem de anomalias detectadas em tempo real.</p>
+    </div>
+
+    <div class="incidents-header__actions">
+      <button class="incidents-button incidents-button--ghost" type="button">
+        <i class="pi pi-download" aria-hidden="true"></i>
+        Exportar Relatório
+      </button>
+
+      <a class="incidents-button incidents-button--primary" routerLink="/incidents/new">
+        <i class="pi pi-plus" aria-hidden="true"></i>
+        Novo Incidente
+      </a>
+    </div>
+  </header>
+
+  <form class="incidents-filters" aria-label="Filtros de incidentes">
+    <label class="filter-field filter-field--search">
+      <span>BUSCA POR ID/TÍTULO</span>
+      <span class="filter-field__search">
+        <i class="pi pi-search" aria-hidden="true"></i>
+        <input pInputText type="search" name="search" [(ngModel)]="searchTerm" placeholder="#INC-2023..." />
+      </span>
+    </label>
+
+    <label class="filter-field">
+      <span>STATUS</span>
+      <p-dropdown
+        name="status"
+        [(ngModel)]="selectedStatus"
+        [options]="statusOptions"
+        optionLabel="label"
+        optionValue="value"
+      />
+    </label>
+
+    <label class="filter-field">
+      <span>SEVERIDADE</span>
+      <p-dropdown
+        name="severity"
+        [(ngModel)]="selectedSeverity"
+        [options]="severityOptions"
+        optionLabel="label"
+        optionValue="value"
+      />
+    </label>
+
+    <label class="filter-field">
+      <span>CATEGORIA</span>
+      <p-dropdown
+        name="category"
+        [(ngModel)]="selectedCategory"
+        [options]="categoryOptions"
+        optionLabel="label"
+        optionValue="value"
+      />
+    </label>
+  </form>
+
+  <article class="incidents-table-card">
+    <p-menu #actionsMenu [model]="actionItems" [popup]="true" appendTo="body" />
+
+    <p-table
+      [value]="incidents"
+      [paginator]="true"
+      [rows]="5"
+      [rowsPerPageOptions]="[5, 10, 20]"
+      styleClass="incidents-table"
+      responsiveLayout="scroll"
+    >
+      <ng-template pTemplate="header">
+        <tr>
+          <th>ID</th>
+          <th>TÍTULO</th>
+          <th>CATEGORIA</th>
+          <th>SEVERIDADE</th>
+          <th>DATA</th>
+          <th>STATUS</th>
+          <th>AÇÕES</th>
+        </tr>
+      </ng-template>
+
+      <ng-template pTemplate="body" let-incident>
+        <tr>
+          <td>
+            <a class="incident-id" [routerLink]="['/incidents', incident.id.replace('#INC-', '')]">
+              {{ incident.id }}
+            </a>
+          </td>
+          <td>
+            <div class="incident-title">
+              <strong>{{ incident.title }}</strong>
+              <span>{{ incident.node }}</span>
+            </div>
+          </td>
+          <td>
+            <span class="category-pill">{{ incident.category }}</span>
+          </td>
+          <td>
+            <span class="severity-dot severity-dot--{{ incident.severity.toLowerCase() }}">
+              {{ incident.severity }}
+            </span>
+          </td>
+          <td>{{ incident.date }}</td>
+          <td>
+            <span class="status-badge status-badge--{{ incident.status.toLowerCase().replace(' ', '-') }}">
+              {{ incident.status }}
+            </span>
+          </td>
+          <td>
+            <button
+              class="row-action"
+              type="button"
+              aria-label="Abrir menu de ações"
+              (click)="actionsMenu.toggle($event)"
+            >
+              ⋮
+            </button>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </article>
+
+  <footer class="incidents-footer">
+    <article class="insight-card">
+      <div>
+        <p>MÉDIA DE RESOLUÇÃO</p>
+        <strong>42m <span>↓12%</span></strong>
+      </div>
+      <div class="sparkline" aria-hidden="true">
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+    </article>
+
+    <article class="insight-card">
+      <div>
+        <p>STATUS DA REDE</p>
+        <strong>12 Críticos · 45 Alertas · 1,024 Estáveis</strong>
+      </div>
+      <div class="mini-bars" aria-hidden="true">
+        <span class="mini-bars__critical"></span>
+        <span class="mini-bars__warning"></span>
+        <span class="mini-bars__stable"></span>
+      </div>
+    </article>
+  </footer>
+</section>

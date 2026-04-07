@@ -1,0 +1,334 @@
+.incident-detail {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.detail-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1.5rem;
+}
+
+.detail-header__content {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+}
+
+.detail-header__back {
+  display: grid;
+  width: 2.75rem;
+  height: 2.75rem;
+  flex: 0 0 auto;
+  place-items: center;
+  border-radius: var(--radius-md);
+  background: var(--surface-container-high);
+  color: var(--primary);
+  text-decoration: none;
+}
+
+.detail-header__eyebrow,
+.detail-card__header,
+.classification-row span,
+.metadata-row span {
+  color: var(--on-surface-variant);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+}
+
+.detail-header__eyebrow {
+  margin: 0;
+}
+
+.detail-header__id {
+  margin: 0.45rem 0 0;
+  color: var(--primary);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', monospace;
+  font-size: 0.875rem;
+}
+
+.detail-header h1 {
+  margin: 0.75rem 0 0;
+  color: var(--on-surface);
+  font-family: var(--font-family-heading);
+  font-size: clamp(1.8rem, 4vw, 2.45rem);
+  font-weight: 700;
+  line-height: 1.15;
+}
+
+.detail-header__description {
+  max-width: 44rem;
+  margin: 0.75rem 0 0;
+  color: var(--on-surface-variant);
+  line-height: 1.7;
+}
+
+.detail-header__actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 0.75rem;
+}
+
+.detail-button {
+  display: inline-flex;
+  min-height: 2.75rem;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+}
+
+.detail-button--ghost {
+  padding: 0 1rem;
+  background: transparent;
+  box-shadow: inset 0 0 0 1px rgb(65 71 85 / 0.2);
+  color: var(--on-surface-variant);
+}
+
+.detail-button--primary {
+  padding: 0 1.125rem;
+  background: var(--primary-gradient);
+  color: var(--on-primary-fixed);
+}
+
+.detail-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 3fr) minmax(20rem, 2fr);
+  gap: 1.5rem;
+}
+
+.detail-grid__left,
+.detail-grid__right {
+  display: grid;
+  align-content: start;
+  gap: 1.5rem;
+}
+
+.detail-card {
+  border: 0;
+  border-radius: var(--radius-md);
+  background: var(--surface-container);
+  padding: 1.5rem;
+}
+
+.detail-card__header {
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
+  margin-bottom: 1.25rem;
+}
+
+.detail-card__header i {
+  color: var(--primary);
+}
+
+.detail-card__body p {
+  margin: 0;
+  color: var(--on-surface);
+  line-height: 1.8;
+}
+
+.detail-card__body p + p {
+  margin-top: 1rem;
+}
+
+.detail-code {
+  margin: 1.25rem 0 0;
+  overflow: auto;
+  border-radius: var(--radius-md);
+  background: var(--surface-container-lowest);
+  padding: 1rem;
+}
+
+.detail-code code {
+  color: var(--primary);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', monospace;
+  font-size: 0.875rem;
+}
+
+.action-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.action-card {
+  display: grid;
+  min-height: 8rem;
+  align-content: space-between;
+  border: 0;
+  border-radius: var(--radius-md);
+  background: var(--surface-container-high);
+  color: var(--on-surface);
+  cursor: pointer;
+  padding: 1rem;
+  text-align: left;
+  transition: background 160ms ease, box-shadow 160ms ease;
+}
+
+.action-card:hover {
+  background: var(--surface-container-highest);
+  box-shadow: inset 0 0 0 1px var(--ghost-border);
+}
+
+.action-card i {
+  color: var(--primary);
+  font-size: 1.25rem;
+}
+
+.action-card span {
+  font-family: var(--font-family-heading);
+  font-weight: 700;
+}
+
+.classification-card {
+  display: grid;
+  justify-items: center;
+}
+
+.classification-card .detail-card__header {
+  justify-self: stretch;
+}
+
+.confidence {
+  position: relative;
+  display: grid;
+  width: 13rem;
+  height: 13rem;
+  place-items: center;
+  margin: 0.5rem 0 1.5rem;
+}
+
+.confidence svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  transform: rotate(-90deg);
+}
+
+.confidence circle {
+  fill: none;
+  stroke-width: 9;
+}
+
+.confidence__track {
+  stroke: var(--surface-container-lowest);
+}
+
+.confidence__progress {
+  stroke: var(--primary);
+  stroke-linecap: round;
+}
+
+.confidence__value {
+  display: grid;
+  gap: 0.35rem;
+  text-align: center;
+}
+
+.confidence__value strong {
+  color: var(--on-surface);
+  font-family: var(--font-family-heading);
+  font-size: 2rem;
+  line-height: 1;
+}
+
+.confidence__value span {
+  color: var(--on-surface-variant);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+}
+
+.classification-list,
+.metadata-list {
+  display: grid;
+  width: 100%;
+  gap: 0.5rem;
+}
+
+.classification-row,
+.metadata-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.5rem 0;
+}
+
+.classification-row strong,
+.metadata-row strong {
+  color: var(--on-surface);
+  font-weight: 700;
+  text-align: right;
+}
+
+.detail-badge {
+  display: inline-flex;
+  min-height: 1.85rem;
+  align-items: center;
+  border-radius: var(--radius-md);
+  background: var(--surface-container-high);
+  color: var(--primary);
+  padding: 0 0.75rem;
+  font-size: 0.75rem;
+  letter-spacing: 0.06em;
+}
+
+.detail-badge--critical {
+  background: var(--error-container);
+  color: var(--error);
+}
+
+.metadata-row__mono {
+  color: var(--primary) !important;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', monospace;
+  font-size: 0.875rem;
+}
+
+@media (max-width: 78rem) {
+  .detail-header,
+  .detail-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .detail-header {
+    display: grid;
+  }
+
+  .detail-header__actions {
+    justify-content: flex-start;
+  }
+}
+
+@media (max-width: 42rem) {
+  .detail-header__content,
+  .detail-header__actions,
+  .classification-row,
+  .metadata-row {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .detail-button,
+  .action-card {
+    width: 100%;
+  }
+
+  .action-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .confidence {
+    width: 11rem;
+    height: 11rem;
+  }
+}

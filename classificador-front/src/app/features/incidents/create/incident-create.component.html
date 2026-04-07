@@ -1,0 +1,127 @@
+<section class="create-incident">
+  <header class="create-header">
+    <h1>Criar Novo Incidente</h1>
+    <p>Preencha os detalhes técnicos para iniciar o processo de classificação automática de segurança.</p>
+  </header>
+
+  <div class="create-layout">
+    <form class="incident-form" [formGroup]="incidentForm" (ngSubmit)="submitForClassification()" novalidate>
+      <label class="form-field">
+        <span>TÍTULO DO INCIDENTE *</span>
+        <input
+          pInputText
+          type="text"
+          formControlName="title"
+          placeholder="Ex: Atividade suspeita em porta não convencional"
+        />
+        @if (incidentForm.controls.title.invalid && incidentForm.controls.title.touched) {
+          <small>Informe um título com pelo menos 8 caracteres.</small>
+        }
+      </label>
+
+      <div class="form-grid">
+        <label class="form-field">
+          <span>ATIVO AFETADO</span>
+          <p-dropdown
+            formControlName="affectedAsset"
+            [options]="affectedAssets"
+            appendTo="body"
+            optionLabel="label"
+            optionValue="value"
+            panelStyleClass="sentinel-dropdown-panel"
+            placeholder="Selecionar Ativo..."
+          >
+            <ng-template pTemplate="selectedItem" let-asset>
+              @if (asset) {
+                <div class="asset-option">
+                  <i [class]="asset.icon" aria-hidden="true"></i>
+                  <span>{{ asset.label }}</span>
+                </div>
+              }
+            </ng-template>
+            <ng-template pTemplate="item" let-asset>
+              <div class="asset-option">
+                <i [class]="asset.icon" aria-hidden="true"></i>
+                <span>{{ asset.label }}</span>
+              </div>
+            </ng-template>
+          </p-dropdown>
+          @if (incidentForm.controls.affectedAsset.invalid && incidentForm.controls.affectedAsset.touched) {
+            <small>Selecione o ativo afetado.</small>
+          }
+        </label>
+
+        <label class="form-field">
+          <span>DATA/HORA DA OCORRÊNCIA</span>
+          <p-calendar
+            formControlName="occurredAt"
+            appendTo="body"
+            [showIcon]="true"
+            [showTime]="true"
+            hourFormat="24"
+            dateFormat="dd/mm/yy"
+            panelStyleClass="sentinel-calendar-panel"
+            placeholder="Selecionar data e hora"
+          />
+          @if (incidentForm.controls.occurredAt.invalid && incidentForm.controls.occurredAt.touched) {
+            <small>Informe a data e hora da ocorrência.</small>
+          }
+        </label>
+      </div>
+
+      <label class="form-field">
+        <span>DESCRIÇÃO DETALHADA</span>
+        <textarea
+          pInputTextarea
+          formControlName="description"
+          rows="8"
+          placeholder="Descreva logs, padrões de tráfego, comportamento anômalo, endpoints afetados e qualquer evidência técnica observada."
+        ></textarea>
+        @if (incidentForm.controls.description.invalid && incidentForm.controls.description.touched) {
+          <small>Inclua uma descrição técnica com pelo menos 24 caracteres.</small>
+        }
+      </label>
+
+      <button class="incident-form__submit" type="submit" [disabled]="incidentForm.invalid">
+        <span aria-hidden="true">✦</span>
+        ENVIAR PARA CLASSIFICAÇÃO
+      </button>
+    </form>
+
+    <aside class="create-aside">
+      <article class="guide-card">
+        <header>
+          <i class="pi pi-info-circle" aria-hidden="true"></i>
+          <span>GUIA DE REGISTRO</span>
+        </header>
+
+        <ul>
+          <li>
+            <i class="pi pi-check-circle" aria-hidden="true"></i>
+            <span>Use títulos claros e objetivos para agilizar a triagem inicial.</span>
+          </li>
+          <li>
+            <i class="pi pi-check-circle" aria-hidden="true"></i>
+            <span>Anexe logs de sistema se houver suspeita de intrusão técnica.</span>
+          </li>
+          <li>
+            <i class="pi pi-check-circle" aria-hidden="true"></i>
+            <span>Verifique se o ativo afetado está corretamente mapeado no inventário.</span>
+          </li>
+        </ul>
+      </article>
+
+      <pre class="system-status">CLS-WEB // PROTOCOL_V4
+STATUS: READY_TO_SCAN
+THREAT_MODEL: LOADED</pre>
+
+      <article class="alert-card">
+        <i class="pi pi-exclamation-triangle" aria-hidden="true"></i>
+        <div>
+          <h2>NÍVEL DE ALERTA</h2>
+          <p>Incidentes de Nível 1 exigem resposta imediata. Certifique-se de que a classificação é precisa.</p>
+        </div>
+      </article>
+    </aside>
+  </div>
+</section>

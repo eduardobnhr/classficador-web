@@ -1,0 +1,113 @@
+<section class="dashboard">
+  <div class="dashboard__primary">
+    <div class="metrics-grid" aria-label="Métricas principais">
+      @for (metric of metrics; track metric.title) {
+        <article class="metric-card">
+          <p class="metric-card__title">{{ metric.title }}</p>
+          <strong class="metric-card__value">{{ metric.value }}</strong>
+          <span class="metric-card__meta metric-card__meta--{{ metric.tone }}">
+            @if (metric.icon) {
+              <span class="metric-card__icon" aria-hidden="true">{{ metric.icon }}</span>
+            }
+            {{ metric.meta }}
+          </span>
+        </article>
+      }
+    </div>
+
+    <article class="dashboard-panel chart-panel">
+      <header class="panel-header">
+        <div>
+          <p class="panel-header__label">INCIDENT ACTIVITY OVER TIME</p>
+          <h2>Volume Telemetry</h2>
+        </div>
+
+        <div class="chart-panel__toggles" aria-label="Período do gráfico">
+          <button type="button" class="chart-panel__toggle chart-panel__toggle--active">7 DAYS</button>
+          <button type="button" class="chart-panel__toggle">30 DAYS</button>
+        </div>
+      </header>
+
+      <div class="chart-panel__canvas">
+        <p-chart type="bar" [data]="chartData" [options]="chartOptions" />
+      </div>
+    </article>
+  </div>
+
+  <aside class="dashboard__secondary">
+    <article class="dashboard-panel threat-panel">
+      <header class="panel-header">
+        <div>
+          <p class="panel-header__label">RISK VECTOR ANALYSIS</p>
+          <h2>Threat Distribution</h2>
+        </div>
+      </header>
+
+      <div class="threat-list">
+        @for (threat of threats; track threat.label) {
+          <div class="threat-item threat-item--{{ threat.tone }}">
+            <div class="threat-item__header">
+              <span>{{ threat.label }}</span>
+              <strong>{{ threat.value }}%</strong>
+            </div>
+            <p-progressBar [value]="threat.value" [showValue]="false" />
+          </div>
+        }
+      </div>
+
+      <div class="threat-panel__status">
+        <i class="pi pi-shield" aria-hidden="true"></i>
+        <p>Protection protocols are currently operating at 98.4% efficiency.</p>
+      </div>
+    </article>
+  </aside>
+
+  <article class="dashboard-panel tickets-panel">
+    <header class="panel-header tickets-panel__header">
+      <div>
+        <p class="panel-header__label">LATEST INCIDENT ENTRIES</p>
+        <h2>Recent Tickets</h2>
+      </div>
+
+      <a routerLink="/incidents">View All Tickets</a>
+    </header>
+
+    <p-table [value]="tickets" styleClass="tickets-table" responsiveLayout="scroll">
+      <ng-template pTemplate="header">
+        <tr>
+          <th>ID</th>
+          <th>SUBJECT</th>
+          <th>CATEGORY</th>
+          <th>STATUS</th>
+          <th>CREATED AT</th>
+          <th>ACTIONS</th>
+        </tr>
+      </ng-template>
+
+      <ng-template pTemplate="body" let-ticket>
+        <tr>
+          <td>{{ ticket.id }}</td>
+          <td>{{ ticket.subject }}</td>
+          <td>
+            <span class="category-badge category-badge--{{ ticket.category.toLowerCase() }}">
+              {{ ticket.category }}
+            </span>
+          </td>
+          <td>
+            <span class="status-dot status-dot--{{ ticket.status.toLowerCase().replace(' ', '-') }}">
+              {{ ticket.status }}
+            </span>
+          </td>
+          <td>{{ ticket.createdAt }}</td>
+          <td>
+            <a class="tickets-table__action" routerLink="/incidents">Inspect</a>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </article>
+
+  <a class="dashboard-fab" routerLink="/incidents/new" aria-label="Criar incidente">
+    <i class="pi pi-plus" aria-hidden="true"></i>
+  </a>
+</section>
