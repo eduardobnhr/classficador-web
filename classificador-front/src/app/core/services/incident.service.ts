@@ -1,8 +1,33 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
-import { Observable, catchError, delay, of } from 'rxjs';
+import { Observable, catchError, delay, map, of, switchMap } from 'rxjs';
 
 import { environment } from '../../../environments/environment';
+import { AuthService } from './auth.service';
+
+interface ApiResponse<T> {
+  data: T;
+}
+
+interface BackendClassification {
+  category: string;
+  severity: string;
+  confidence_score: number | string;
+  recommended_actions?: string | null;
+  model_version?: string | null;
+  classified_at: string;
+}
+
+interface BackendIncident {
+  id: string;
+  title: string;
+  description: string;
+  affected_asset?: string | null;
+  occurred_at?: string | null;
+  status: string;
+  created_at: string;
+  classification?: BackendClassification | null;
+}
 
 export type IncidentCategory =
   | 'REDE'
@@ -78,16 +103,21 @@ export interface DashboardStats {
   recentTickets: Incident[];
 }
 
-export type CreateIncidentPayload = Pick<
-  Incident,
-  'title' | 'description' | 'asset' | 'occurredAt' | 'category' | 'severity'
->;
+export interface CreateIncidentPayload {
+  title: string;
+  description: string;
+  asset: string;
+  occurredAt: string;
+  category?: IncidentCategory;
+  severity?: IncidentSeverity;
+}
 
 @Injectable({
   providedIn: 'root'
 })
 export class IncidentService {
   private readonly http = inject(HttpClient);
+  private readonly authService = inject(AuthService);
   private readonly apiUrl = environment.apiUrl;
   private readonly mockIncidents: Incident[] = [
     {
@@ -109,32 +139,7 @@ export class IncidentService {
         processingTime: '12ms',
         detectedAt: '24/05/2024 - 14:32'
       },
-      recommendedActions: [
-        {
-          id: 'block-origin-ips',
-          title: 'Bloquear IPs de Origem',
-          description: 'Bloqueie temporariamente os IPs associados ao padrão suspeito.',
-          icon: 'pi pi-ban'
-        },
-        {
-          id: 'reset-credentials',
-          title: 'Reset de Credenciais',
-          description: 'Reinicie credenciais de contas administrativas relacionadas.',
-          icon: 'pi pi-key'
-        },
-        {
-          id: 'forensic-analysis',
-          title: 'Análise Forense',
-          description: 'Colete evidências e preserve logs do gateway e do serviço de autenticação.',
-          icon: 'pi pi-file'
-        },
-        {
-          id: 'network-isolation',
-          title: 'Isolamento de Rede',
-          description: 'Isole segmentos afetados até a mitigação ser validada.',
-          icon: 'pi pi-share-alt'
-        }
-      ]
+      recommendedActions: this.defaultRecommendedActions()
     },
     {
       id: 'INC-2024-8841',
@@ -146,71 +151,56 @@ export class IncidentService {
       severity: 'CRITICA',
       status: 'ATIVO',
       createdAt: '2026-04-07T12:45:00.000Z'
-    },
-    {
-      id: 'INC-2024-8840',
-      title: 'Pacote vulnerável identificado em serviço interno',
-      description: 'Dependência com CVE crítica encontrada no serviço de classificação.',
-      asset: 'APP-CORE-07',
-      occurredAt: '2026-04-06T22:10:00.000Z',
-      category: 'VULNERABILIDADE',
-      severity: 'MEDIA',
-      status: 'RESOLVIDO',
-      createdAt: '2026-04-06T22:16:00.000Z'
-    },
-    {
-      id: 'INC-2024-8839',
-      title: 'Assinatura de vazamento encontrada em bucket',
-      description: 'Possível exposição de dados foi identificada por correspondência de assinatura.',
-      asset: 'DATA-LAKE-02',
-      occurredAt: '2026-04-07T09:56:00.000Z',
-      category: 'DATA_LEAK',
-      severity: 'ALTA',
-      status: 'EM_ANALISE',
-      createdAt: '2026-04-07T10:02:00.000Z'
-    },
-    {
-      id: 'INC-2024-8838',
-      title: 'Uso anormal de CPU no cluster de classificação',
-      description: 'Worker de classificação excedeu o baseline operacional por janela prolongada.',
-      asset: 'ML-WORKER-04',
-      occurredAt: '2026-04-06T18:34:00.000Z',
-      category: 'RECURSOS',
-      severity: 'BAIXA',
-      status: 'RESOLVIDO',
-      createdAt: '2026-04-06T18:41:00.000Z'
     }
   ];
 
   getIncidents(filter: IncidentFilter = {}): Observable<PagedResult<Incident>> {
-    const params = this.buildParams(filter);
-
-    return this.http
-      .get<PagedResult<Incident>>(`${this.apiUrl}/incidents`, { params })
-      .pipe(catchError(() => this.getMockIncidents(filter)));
+    return this.http.get<ApiResponse<BackendIncident[]>>(`${this.apiUrl}/incident`, { params: this.buildParams(filter) }).pipe(
+      map((response) => response.data.map((incident) => this.mapBackendIncident(incident))),
+      map((incidents) => this.applyClientPaging(incidents, filter)),
+      catchError(() => this.getMockIncidents(filter))
+    );
   }
 
   getIncidentById(id: string): Observable<Incident> {
-    return this.http
-      .get<Incident>(`${this.apiUrl}/incidents/${id}`)
-      .pipe(catchError(() => this.getMockIncidentById(id)));
+    return this.http.get<ApiResponse<BackendIncident>>(`${this.apiUrl}/incident/${id}`).pipe(
+      map((response) => this.mapBackendIncident(response.data)),
+      catchError(() => this.getMockIncidentById(id))
+    );
   }
 
   createIncident(payload: CreateIncidentPayload): Observable<Incident> {
-    return this.http
-      .post<Incident>(`${this.apiUrl}/incidents`, payload)
-      .pipe(catchError(() => this.createMockIncident(payload)));
+    const backendPayload = {
+      title: payload.title,
+      description: payload.description,
+      affected_asset: payload.asset,
+      occurred_at: payload.occurredAt
+    };
+
+    return this.authService.ensureCsrfToken().pipe(
+      switchMap(() => this.http.post<ApiResponse<BackendIncident>>(`${this.apiUrl}/incident`, backendPayload)),
+      map((response) => this.mapBackendIncident(response.data)),
+      catchError(() => this.createMockIncident(payload))
+    );
   }
 
   getDashboardStats(): Observable<DashboardStats> {
-    return this.http
-      .get<DashboardStats>(`${this.apiUrl}/dashboard/stats`)
-      .pipe(catchError(() => this.getMockDashboardStats()));
+    return this.getIncidents({ page: 0, size: 100 }).pipe(
+      map(({ data }) => ({
+        totalIncidents: data.length,
+        critical: data.filter((incident) => incident.severity === 'CRITICA').length,
+        pending: data.filter((incident) => incident.status === 'ATIVO' || incident.status === 'EM_ANALISE').length,
+        classified: data.filter((incident) => incident.status === 'CLASSIFICADO').length,
+        threatDistribution: this.calculateThreatDistribution(data),
+        recentTickets: data.slice(0, 5)
+      })),
+      catchError(() => this.getMockDashboardStats())
+    );
   }
 
   private buildParams(filter: IncidentFilter): HttpParams {
     return Object.entries(filter).reduce((params, [key, value]) => {
-      if (value === undefined || value === null || value === '') {
+      if (value === undefined || value === null || value === '' || value === 'all') {
         return params;
       }
 
@@ -218,34 +208,71 @@ export class IncidentService {
     }, new HttpParams());
   }
 
-  private getMockIncidents(filter: IncidentFilter): Observable<PagedResult<Incident>> {
+  private mapBackendIncident(incident: BackendIncident): Incident {
+    const classification = incident.classification ?? undefined;
+    const confidence = Number(classification?.confidence_score ?? 0);
+    const recommendedActions = this.parseRecommendedActions(classification?.recommended_actions);
+
+    return {
+      id: incident.id,
+      title: incident.title,
+      description: incident.description,
+      asset: incident.affected_asset ?? 'Ativo não informado',
+      occurredAt: incident.occurred_at ?? incident.created_at,
+      category: this.mapCategory(classification?.category),
+      severity: this.mapSeverity(classification?.severity),
+      status: this.mapStatus(incident.status),
+      createdAt: incident.created_at,
+      aiClassification: classification
+        ? {
+            confidence: confidence <= 1 ? confidence * 100 : confidence,
+            category: classification.category,
+            severity: classification.severity,
+            model: classification.model_version ?? 'SENTINEL-V4.2-PRO',
+            processingTime: '12ms',
+            detectedAt: new Date(classification.classified_at).toLocaleString('pt-BR')
+          }
+        : undefined,
+      recommendedActions: recommendedActions.length > 0 ? recommendedActions : this.defaultRecommendedActions()
+    };
+  }
+
+  private applyClientPaging(incidents: Incident[], filter: IncidentFilter): PagedResult<Incident> {
+    const filteredIncidents = incidents.filter((incident) => this.matchesFilter(incident, filter));
     const page = filter.page ?? 0;
     const size = filter.size ?? 10;
-    const filteredIncidents = this.mockIncidents.filter((incident) => this.matchesFilter(incident, filter));
     const start = page * size;
-    const data = filteredIncidents.slice(start, start + size);
 
-    return of({
-      data,
+    return {
+      data: filteredIncidents.slice(start, start + size),
       total: filteredIncidents.length,
       page,
       size
-    }).pipe(delay(300));
+    };
+  }
+
+  private getMockIncidents(filter: IncidentFilter): Observable<PagedResult<Incident>> {
+    return of(this.applyClientPaging(this.mockIncidents, filter)).pipe(delay(300));
   }
 
   private getMockIncidentById(id: string): Observable<Incident> {
-    const normalizedId = id.startsWith('INC-') ? id : `INC-2024-${id}`;
-    const incident = this.mockIncidents.find((item) => item.id === normalizedId) ?? this.mockIncidents[0];
+    const incident = this.mockIncidents.find((item) => item.id === id) ?? this.mockIncidents[0];
 
     return of(incident).pipe(delay(300));
   }
 
   private createMockIncident(payload: CreateIncidentPayload): Observable<Incident> {
     const incident: Incident = {
-      ...payload,
       id: `INC-${new Date().getFullYear()}-${Math.floor(1000 + Math.random() * 9000)}`,
+      title: payload.title,
+      description: payload.description,
+      asset: payload.asset,
+      occurredAt: payload.occurredAt,
+      category: payload.category ?? 'SEGURANÇA',
+      severity: payload.severity ?? 'MEDIA',
       status: 'EM_ANALISE',
-      createdAt: new Date().toISOString()
+      createdAt: new Date().toISOString(),
+      recommendedActions: this.defaultRecommendedActions()
     };
 
     this.mockIncidents.unshift(incident);
@@ -254,7 +281,7 @@ export class IncidentService {
   }
 
   private getMockDashboardStats(): Observable<DashboardStats> {
-    return of({
+    const stats: DashboardStats = {
       totalIncidents: 1284,
       critical: 42,
       pending: 156,
@@ -265,7 +292,22 @@ export class IncidentService {
         { label: 'DATA LEAKAGE', value: 20, category: 'DATA_LEAK' }
       ],
       recentTickets: this.mockIncidents.slice(0, 5)
-    }).pipe(delay(300));
+    };
+
+    return of(stats).pipe(delay(300));
+  }
+
+  private calculateThreatDistribution(incidents: Incident[]): ThreatDistributionItem[] {
+    const total = incidents.length || 1;
+    const auth = incidents.filter((incident) => incident.category === 'AUTH' || incident.category === 'SEGURANÇA').length;
+    const network = incidents.filter((incident) => incident.category === 'REDE').length;
+    const dataLeak = incidents.filter((incident) => incident.category === 'DATA_LEAK').length;
+
+    return [
+      { label: 'NETWORK BREACH', value: Math.round((network / total) * 100), category: 'REDE' },
+      { label: 'UNAUTHORIZED ACCESS', value: Math.round((auth / total) * 100), category: 'AUTH' },
+      { label: 'DATA LEAKAGE', value: Math.round((dataLeak / total) * 100), category: 'DATA_LEAK' }
+    ];
   }
 
   private matchesFilter(incident: Incident, filter: IncidentFilter): boolean {
@@ -288,5 +330,108 @@ export class IncidentService {
     }
 
     return true;
+  }
+
+  private mapStatus(status: string): IncidentStatus {
+    const normalizedStatus = status.toLowerCase();
+
+    if (normalizedStatus === 'classified') {
+      return 'CLASSIFICADO';
+    }
+
+    if (normalizedStatus === 'classifying' || normalizedStatus === 'pending') {
+      return 'EM_ANALISE';
+    }
+
+    if (normalizedStatus === 'resolved') {
+      return 'RESOLVIDO';
+    }
+
+    return 'ATIVO';
+  }
+
+  private mapSeverity(severity?: string): IncidentSeverity {
+    const normalizedSeverity = severity?.toLowerCase();
+
+    if (normalizedSeverity === 'critical' || normalizedSeverity === 'critica') {
+      return 'CRITICA';
+    }
+
+    if (normalizedSeverity === 'high' || normalizedSeverity === 'alta') {
+      return 'ALTA';
+    }
+
+    if (normalizedSeverity === 'low' || normalizedSeverity === 'baixa') {
+      return 'BAIXA';
+    }
+
+    return 'MEDIA';
+  }
+
+  private mapCategory(category?: string): IncidentCategory {
+    const normalizedCategory = category?.toLowerCase();
+
+    if (normalizedCategory?.includes('network') || normalizedCategory?.includes('rede')) {
+      return 'REDE';
+    }
+
+    if (normalizedCategory?.includes('leak')) {
+      return 'DATA_LEAK';
+    }
+
+    if (normalizedCategory?.includes('auth') || normalizedCategory?.includes('phishing')) {
+      return 'AUTH';
+    }
+
+    if (normalizedCategory?.includes('server')) {
+      return 'SERVER';
+    }
+
+    if (normalizedCategory?.includes('db') || normalizedCategory?.includes('database')) {
+      return 'DB';
+    }
+
+    return 'SEGURANÇA';
+  }
+
+  private parseRecommendedActions(actions?: string | null): RecommendedAction[] {
+    if (!actions) {
+      return [];
+    }
+
+    try {
+      return JSON.parse(actions) as RecommendedAction[];
+    } catch {
+      return [];
+    }
+  }
+
+  private defaultRecommendedActions(): RecommendedAction[] {
+    return [
+      {
+        id: 'block-origin-ips',
+        title: 'Bloquear IPs de Origem',
+        description: 'Bloqueie temporariamente os IPs associados ao padrão suspeito.',
+        icon: 'pi pi-ban'
+      },
+      {
+        id: 'reset-credentials',
+        title: 'Reset de Credenciais',
+        description: 'Reinicie credenciais de contas administrativas relacionadas.',
+        icon: 'pi pi-key'
+      },
+      {
+        id: 'forensic-analysis',
+        title: 'Análise Forense',
+        description: 'Colete evidências e preserve logs técnicos.',
+        icon: 'pi pi-file'
+      },
+      {
+        id: 'network-isolation',
+        title: 'Isolamento de Rede',
+        description: 'Isole segmentos afetados até a mitigação ser validada.',
+        icon: 'pi pi-share-alt'
+      }
+    ];
   }
 }
