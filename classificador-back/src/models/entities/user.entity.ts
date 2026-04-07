@@ -1,37 +1,42 @@
-import { ApiProperty } from "@nestjs/swagger";
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { ApiProperty } from '@nestjs/swagger';
+import { Exclude } from 'class-transformer';
+import { Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
+import { Incident } from './incident.entity';
 
-@Entity()
+@Entity('users')
 export class User {
     @ApiProperty()
-    @PrimaryGeneratedColumn()
+    @PrimaryGeneratedColumn('uuid')
     id: string;
 
     @ApiProperty()
-    @Column()
+    @Column({ type: 'varchar', length: 120 })
     name: string;
 
     @ApiProperty()
-    @Column()
+    @Column({ type: 'varchar', length: 255, unique: true })
     email: string;
 
-    @ApiProperty()
-    @Column()
+    @Exclude()
+    @Column({ type: 'varchar', length: 255 })
     password_hash: string;
 
     @ApiProperty()
-    @Column()
+    @Column({ type: 'varchar', length: 20, default: 'analyst' })
     role: string;
 
     @ApiProperty()
-    @Column()
+    @Column({ type: 'boolean', default: true })
     is_active: boolean;
 
     @ApiProperty()
-    @Column()
+    @CreateDateColumn({ type: 'timestamptz', default: () => 'CURRENT_TIMESTAMP' })
     created_at: Date;
 
     @ApiProperty()
-    @Column()
+    @UpdateDateColumn({ type: 'timestamptz', default: () => 'CURRENT_TIMESTAMP' })
     updated_at: Date;
+
+    @OneToMany(() => Incident, incident => incident.user)
+    incidents: Incident[];
 }
