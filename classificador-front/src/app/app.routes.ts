@@ -1,54 +1,63 @@
 import { Routes } from '@angular/router';
-import { authChildGuard, authGuard } from './core/guards/auth.guard';
-import { AppShellComponent } from './layout/app-shell/app-shell.component';
+
+import { authGuard } from './core/guards/auth.guard';
+import { AppShellComponent } from './shared/components/app-shell/app-shell.component';
 
 export const routes: Routes = [
   {
     path: 'login',
-    loadComponent: () =>
-      import('./features/auth/pages/login/login.component').then((m) => m.LoginComponent),
+    loadComponent: () => import('./features/auth/login/login.component').then((m) => m.LoginComponent)
   },
   {
     path: 'register',
     loadComponent: () =>
-      import('./features/auth/pages/register/register.component').then((m) => m.RegisterComponent),
+      import('./features/auth/register/register.component').then((m) => m.RegisterComponent)
   },
   {
     path: '',
     component: AppShellComponent,
-    canActivate: [authGuard],
-    canActivateChild: [authChildGuard],
+    canActivateChild: [authGuard],
     children: [
+      {
+        path: '',
+        pathMatch: 'full',
+        redirectTo: 'dashboard'
+      },
       {
         path: 'dashboard',
         loadComponent: () =>
-          import('./features/dashboard/pages/dashboard-home/dashboard-home.component').then(
-            (m) => m.DashboardHomeComponent,
-          ),
+          import('./features/dashboard/dashboard.component').then((m) => m.DashboardComponent)
       },
       {
         path: 'incidents',
         loadComponent: () =>
-          import('./features/incidents/pages/incidents-list/incidents-list.component').then(
-            (m) => m.IncidentsListComponent,
-          ),
+          import('./features/incidents/list/incidents-list.component').then(
+            (m) => m.IncidentsListComponent
+          )
       },
       {
-        path: 'incidents/create',
+        path: 'incidents/new',
         loadComponent: () =>
-          import('./features/incidents/pages/incident-create/incident-create.component').then(
-            (m) => m.IncidentCreateComponent,
-          ),
+          import('./features/incidents/create/incident-create.component').then(
+            (m) => m.IncidentCreateComponent
+          )
       },
       {
         path: 'incidents/:id',
         loadComponent: () =>
-          import('./features/incidents/pages/incident-detail/incident-detail.component').then(
-            (m) => m.IncidentDetailComponent,
-          ),
+          import('./features/incidents/detail/incident-detail.component').then(
+            (m) => m.IncidentDetailComponent
+          )
       },
-      { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
-    ],
+      {
+        path: 'settings',
+        loadComponent: () =>
+          import('./features/settings/settings.component').then((m) => m.SettingsComponent)
+      }
+    ]
   },
-  { path: '**', redirectTo: 'dashboard' },
+  {
+    path: '**',
+    redirectTo: 'dashboard'
+  }
 ];

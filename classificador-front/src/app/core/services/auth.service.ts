@@ -1,40 +1,34 @@
-import { Injectable, PLATFORM_ID, inject } from '@angular/core';
-import { isPlatformBrowser } from '@angular/common';
+import { Injectable } from '@angular/core';
 
-@Injectable({ providedIn: 'root' })
+const TOKEN_KEY = 'auth_token';
+
+export interface LoginCredentials {
+  email: string;
+  password: string;
+}
+
+export interface RegisterCredentials extends LoginCredentials {
+  name: string;
+  confirmPassword: string;
+}
+
+@Injectable({
+  providedIn: 'root'
+})
 export class AuthService {
-  private readonly platformId = inject(PLATFORM_ID);
-  private readonly tokenKey = 'cw_token';
+  login(credentials: LoginCredentials): void {
+    localStorage.setItem(TOKEN_KEY, btoa(`${credentials.email}:${Date.now()}`));
+  }
 
-  setToken(token: string): void {
-    if (this.isBrowser) {
-      localStorage.setItem(this.tokenKey, token);
-    }
+  register(credentials: RegisterCredentials): void {
+    localStorage.setItem(TOKEN_KEY, btoa(`${credentials.email}:${credentials.name}:${Date.now()}`));
   }
 
   getToken(): string | null {
-    if (!this.isBrowser) {
-      return null;
-    }
-
-    return localStorage.getItem(this.tokenKey);
-  }
-
-  logout(): void {
-    if (this.isBrowser) {
-      localStorage.removeItem(this.tokenKey);
-    }
+    return localStorage.getItem(TOKEN_KEY);
   }
 
   isAuthenticated(): boolean {
-    return !!this.getToken();
-  }
-
-  login(email: string, password: string): void {
-    this.setToken(btoa(`${email}:${password}:sentinel-session`));
-  }
-
-  private get isBrowser(): boolean {
-    return isPlatformBrowser(this.platformId);
+    return Boolean(this.getToken());
   }
 }
