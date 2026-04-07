@@ -1,0 +1,69 @@
+<section class="page-stack detail-page">
+  <a routerLink="/incidents" class="back-link"><i class="pi pi-arrow-left"></i> Detalhes do Incidente</a>
+
+  <div class="detail-hero">
+    <div>
+      <p class="mono-id">ID: {{ incident().id }}</p>
+      <h1>{{ incident().title }}</h1>
+      <p>{{ incident().description }}</p>
+    </div>
+
+    <div class="title-actions">
+      <button pButton type="button" label="Exportar Relatorio" class="ghost-btn"></button>
+      <button pButton type="button" label="Iniciar Mitigacao" class="primary-btn"></button>
+    </div>
+  </div>
+
+  <div class="detail-grid">
+    <div class="detail-main">
+      <article class="app-card detail-card">
+        <p class="eyebrow"><i class="pi pi-bars"></i> Descricao Completa</p>
+        <p>
+          O incidente foi disparado apos o modulo de inteligencia detectar multiplas tentativas de autenticacao
+          originadas de enderecos IP previamente associados a infraestruturas de Comando e Controle.
+        </p>
+        <p>
+          O payload interceptado contem sequencias de caracteres que tentam explorar vulnerabilidades de sanitizacao em
+          formularios de login, sugerindo uma tentativa hibrida de injecao de SQL e Phishing de sessao.
+        </p>
+        <code>GET /api/v1/auth/login?ru=admin&p=%27%20OR%201%3D1 --&sid=66723-phish-token-active</code>
+      </article>
+
+      <article class="app-card actions-card">
+        <p class="eyebrow"><i class="pi pi-shield"></i> Acoes Recomendadas</p>
+        <div class="action-grid">
+          @for (action of actions(); track action) {
+            <div>
+              <i class="pi pi-shield"></i>
+              <strong>{{ action }}</strong>
+              <small>Executar conforme playbook de resposta para incidentes classificados.</small>
+            </div>
+          }
+        </div>
+      </article>
+    </div>
+
+    <aside class="detail-aside">
+      <article class="app-card classification-card">
+        <p class="eyebrow">IA Classification <i class="pi pi-circle-fill"></i></p>
+        <div class="confidence-ring">
+          <strong>{{ incident().classification?.confidenceScore ?? 72 }}%</strong>
+          <span>Confianca</span>
+        </div>
+        <div class="classification-list">
+          <span>Categoria <p-tag [value]="incident().classification?.category ?? 'triage'" /></span>
+          <span>Severidade <p-tag [value]="incident().classification?.severity ?? 'low'" [severity]="severity()" /></span>
+          <span>Status <strong>{{ incident().status }}</strong></span>
+        </div>
+      </article>
+
+      <article class="app-card metadata-card">
+        <p class="eyebrow">Metadados da Classificacao</p>
+        <p><span>Modelo Utilizado</span><strong>{{ incident().classification?.modelVersion ?? 'SENTINEL-V4.2-PRO' }}</strong></p>
+        <p><span>Tempo de Processamento</span><strong>12ms</strong></p>
+        <p><span>Data da Deteccao</span><strong>06/04/2026 - 14:32</strong></p>
+        <div class="signal-texture"></div>
+      </article>
+    </aside>
+  </div>
+</section>

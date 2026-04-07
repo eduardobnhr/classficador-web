@@ -1,0 +1,27 @@
+<aside class="sidebar-shell">
+  <div>
+    <a class="brand-lockup" routerLink="/dashboard">
+      <span>The Sentinel</span>
+      <small>Incidents Platform</small>
+    </a>
+
+    <nav class="nav-stack" aria-label="Main navigation">
+      @for (item of navItems; track item.label) {
+        <a
+          class="nav-item"
+          [routerLink]="item.route"
+          routerLinkActive="active"
+          [routerLinkActiveOptions]="{ exact: item.route === '/dashboard' }"
+        >
+          <i [class]="item.icon"></i>
+          <span>{{ item.label }}</span>
+        </a>
+      }
+    </nav>
+  </div>
+
+  <button class="logout-button" type="button" (click)="logout()">
+    <i class="pi pi-sign-out"></i>
+    <span>Logout</span>
+  </button>
+</aside>

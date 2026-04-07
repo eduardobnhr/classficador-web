@@ -1,0 +1,67 @@
+<section class="page-stack create-page">
+  <div class="page-title-row slim">
+    <div>
+      <h1>Criar Novo Incidente</h1>
+      <p>Preencha os detalhes tecnicos para iniciar o processo de classificacao automatica de seguranca.</p>
+    </div>
+  </div>
+
+  <div class="create-grid">
+    <form class="app-card incident-form" [formGroup]="form" (ngSubmit)="submit()">
+      <label class="field-stack full">
+        <span>Titulo do Incidente *</span>
+        <input pInputText formControlName="title" placeholder="Ex: Atividade suspeita em porta nao convencional" />
+      </label>
+
+      <label class="field-stack">
+        <span>Ativo Afetado</span>
+        <p-select
+          [options]="assetOptions"
+          formControlName="affectedAsset"
+          optionLabel="label"
+          optionValue="value"
+          placeholder="Selecionar Ativo..."
+          appendTo="body"
+        />
+      </label>
+
+      <label class="field-stack">
+        <span>Data/Hora da Ocorrencia</span>
+        <p-datepicker
+          formControlName="occurredAt"
+          [showTime]="true"
+          hourFormat="24"
+          inputStyleClass="w-full"
+          styleClass="w-full"
+          appendTo="body"
+        />
+      </label>
+
+      <label class="field-stack full">
+        <span>Descricao Detalhada</span>
+        <textarea pTextarea rows="7" formControlName="description" placeholder="Descreva os logs observados, o comportamento anomalo e qualquer evidencia imediata encontrada..."></textarea>
+      </label>
+
+      <button pButton type="submit" label="Enviar para Classificacao" icon="pi pi-sparkles" class="primary-btn form-submit"></button>
+    </form>
+
+    <aside class="create-aside">
+      <article class="app-card guide-card">
+        <p class="eyebrow"><i class="pi pi-info-circle"></i> Guia de Registro</p>
+        <p><i class="pi pi-check-circle"></i>Use titulos claros e objetivos para agilizar a triagem inicial.</p>
+        <p><i class="pi pi-check-circle"></i>Anexe logs de sistema se houver suspeita de intrusao tecnica.</p>
+        <p><i class="pi pi-check-circle"></i>Verifique se o ativo afetado esta corretamente mapeado no inventario.</p>
+      </article>
+
+      <article class="app-card terminal-card">
+        <div class="terminal-lines"></div>
+        <small>CLS-WEB // PROTOCOL_V4<br />STATUS: READY_TO_SCAN<br />THREAT_MODEL: LOADED</small>
+      </article>
+
+      <article class="app-card alert-card">
+        <p class="eyebrow"><i class="pi pi-exclamation-triangle"></i> Nivel de Alerta</p>
+        <p>Incidentes de Nivel 1 exigem resposta imediata. Certifique-se de que a classificacao e precisa.</p>
+      </article>
+    </aside>
+  </div>
+</section>

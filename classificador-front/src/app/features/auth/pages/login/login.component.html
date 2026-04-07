@@ -1,0 +1,52 @@
+<section class="auth-page login-page">
+  <div class="auth-brand">
+    <div class="shield-mark"><i class="pi pi-shield"></i></div>
+    <h1>Classificador-Web</h1>
+    <span>The Observational Monolith</span>
+  </div>
+
+  <form class="auth-card" [formGroup]="form" (ngSubmit)="submit()">
+    <div class="auth-card-head">
+      <h2>Portal de Acesso</h2>
+      <p>Insira suas credenciais corporativas para prosseguir.</p>
+    </div>
+
+    <label class="field-stack">
+      <span>Email institucional</span>
+      <input pInputText type="email" formControlName="email" placeholder="usuario@dominio.com" />
+    </label>
+
+    <label class="field-stack">
+      <span class="label-row">
+        Senha de seguranca
+        <a>Esqueceu?</a>
+      </span>
+      <p-password
+        formControlName="password"
+        [toggleMask]="true"
+        [feedback]="false"
+        styleClass="w-full"
+        inputStyleClass="w-full"
+        placeholder="************"
+      />
+    </label>
+
+    <button pButton type="submit" label="Entrar" icon="pi pi-arrow-right" iconPos="right" class="primary-btn auth-submit" [loading]="loading"></button>
+
+    <p class="auth-switch">
+      Ainda nao tem uma conta?
+      <a routerLink="/register">Cadastre-se</a>
+    </p>
+
+    <div class="auth-footer-strip">
+      <span>System_online</span>
+      <span>SSL_verified</span>
+      <span>ID: 0x24f-88</span>
+    </div>
+  </form>
+
+  <div class="auth-footnote">
+    <i class="pi pi-shield"></i>
+    End-to-end encryption
+  </div>
+</section>
