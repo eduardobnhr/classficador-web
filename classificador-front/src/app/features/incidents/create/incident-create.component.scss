@@ -1,5 +1,7 @@
 .create-incident {
   display: grid;
+  width: min(100%, 88rem);
+  margin: 0 auto;
   gap: 1.5rem;
 }
 
@@ -37,7 +39,7 @@
   position: relative;
   display: grid;
   gap: 1.25rem;
-  overflow: hidden;
+  overflow: visible;
   padding: 2rem;
 }
 
@@ -52,11 +54,14 @@
 .form-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-items: start;
   gap: 1rem;
 }
 
 .form-field {
   display: grid;
+  min-width: 0;
+  align-content: start;
   gap: 0.5rem;
 }
 
@@ -191,9 +196,9 @@
     width: 100%;
   }
 
-  .form-field .p-inputtext,
   .form-field .p-dropdown,
-  .form-field .p-calendar .p-inputtext,
+  .form-field .p-calendar,
+  .form-field .p-inputtext,
   .form-field textarea.p-inputtextarea {
     border: 0;
     border-bottom: 2px solid transparent;
@@ -203,9 +208,35 @@
     box-shadow: none;
   }
 
+  .form-field .p-dropdown,
+  .form-field .p-calendar {
+    display: flex;
+    min-height: 3rem;
+    align-items: stretch;
+  }
+
   .form-field .p-inputtext,
   .form-field .p-calendar .p-inputtext {
     min-height: 3rem;
+  }
+
+  .form-field .p-calendar .p-inputtext {
+    flex: 1 1 auto;
+    min-width: 0;
+    border: 0;
+    border-radius: var(--radius-md) 0 0 0;
+    background: transparent;
+  }
+
+  .form-field .p-dropdown .p-dropdown-label {
+    display: flex;
+    align-items: center;
+  }
+
+  .form-field .p-dropdown .p-dropdown-trigger,
+  .form-field .p-calendar .p-button {
+    width: 3rem;
+    flex: 0 0 3rem;
   }
 
   .form-field textarea.p-inputtextarea {
@@ -216,7 +247,7 @@
 
   .form-field .p-inputtext:enabled:focus,
   .form-field .p-dropdown.p-focus,
-  .form-field .p-calendar .p-inputtext:enabled:focus,
+  .form-field .p-calendar:focus-within,
   .form-field textarea.p-inputtextarea:enabled:focus {
     border-bottom-color: var(--primary);
     box-shadow: none;
@@ -230,8 +261,8 @@
 
   .form-field .p-calendar .p-button {
     border: 0;
-    border-radius: 0;
-    background: var(--surface-container-lowest);
+    border-radius: 0 var(--radius-md) 0 0;
+    background: transparent;
   }
 }
 

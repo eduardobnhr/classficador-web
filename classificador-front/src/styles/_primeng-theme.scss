@@ -104,6 +104,9 @@
 
 .p-dropdown-panel,
 .p-multiselect-panel,
+.p-datepicker,
+.p-datepicker .p-datepicker-header,
+.p-datepicker .p-datepicker-buttonbar,
 .p-overlaypanel,
 .p-tooltip .p-tooltip-text {
   border: 0;
@@ -112,15 +115,119 @@
   color: var(--on-surface);
 }
 
+.p-datepicker {
+  width: min(24rem, calc(100vw - 2rem));
+  box-shadow: none;
+}
+
+.sentinel-calendar-panel,
+.sentinel-dropdown-panel {
+  max-width: calc(100vw - 2rem);
+}
+
+.sentinel-dropdown-panel {
+  min-width: 18rem;
+}
+
+.p-datepicker,
+.p-datepicker .p-datepicker-group,
+.p-datepicker .p-datepicker-calendar-container,
+.p-datepicker table,
+.p-datepicker .p-timepicker,
+.p-datepicker .p-datepicker-header {
+  background: var(--surface-container-high) !important;
+  color: var(--on-surface) !important;
+}
+
+.p-datepicker .p-datepicker-header {
+  border: 0;
+  padding: 0.75rem;
+}
+
+.p-datepicker .p-datepicker-title,
+.p-datepicker .p-datepicker-title .p-datepicker-month,
+.p-datepicker .p-datepicker-title .p-datepicker-year,
+.p-datepicker .p-datepicker-title button,
+.p-datepicker .p-datepicker-title select,
+.p-datepicker table th,
+.p-datepicker table td,
+.p-datepicker table td > span,
+.p-datepicker .p-timepicker span,
+.p-datepicker .p-timepicker button {
+  background: transparent !important;
+  color: var(--on-surface) !important;
+}
+
+.p-datepicker .p-datepicker-title {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--on-surface) !important;
+  font-family: var(--font-family-heading);
+  font-weight: 700;
+}
+
+.p-datepicker table th {
+  color: var(--on-surface-variant) !important;
+}
+
+.p-datepicker table td.p-datepicker-other-month > span {
+  color: rgb(193 198 215 / 0.35) !important;
+}
+
+.p-datepicker table td > span {
+  border: 0;
+  border-radius: var(--radius-md);
+}
+
+.p-datepicker table td > span:hover,
+.p-datepicker .p-datepicker-prev:hover,
+.p-datepicker .p-datepicker-next:hover,
+.p-datepicker .p-monthpicker .p-monthpicker-month:hover,
+.p-datepicker .p-yearpicker .p-yearpicker-year:hover {
+  background: var(--surface-container-highest) !important;
+  color: var(--primary) !important;
+}
+
+.p-datepicker table td > span.p-highlight,
+.p-datepicker .p-monthpicker .p-monthpicker-month.p-highlight,
+.p-datepicker .p-yearpicker .p-yearpicker-year.p-highlight {
+  background: var(--primary-gradient) !important;
+  color: var(--on-primary-fixed) !important;
+}
+
+.p-datepicker .p-timepicker {
+  border: 0;
+}
+
+.p-datepicker .p-timepicker button {
+  color: var(--primary) !important;
+}
+
+.p-datepicker .p-datepicker-prev,
+.p-datepicker .p-datepicker-next {
+  background: transparent !important;
+  color: var(--on-surface-variant) !important;
+}
+
 .p-dropdown-items .p-dropdown-item,
-.p-multiselect-items .p-multiselect-item {
+.p-multiselect-items .p-multiselect-item,
+.p-menu .p-menuitem > .p-menuitem-content .p-menuitem-link {
   color: var(--on-surface);
 }
 
 .p-dropdown-items .p-dropdown-item.p-highlight,
-.p-multiselect-items .p-multiselect-item.p-highlight {
+.p-dropdown-items .p-dropdown-item:not(.p-highlight):not(.p-disabled):hover,
+.p-multiselect-items .p-multiselect-item.p-highlight,
+.p-multiselect-items .p-multiselect-item:not(.p-highlight):not(.p-disabled):hover,
+.p-menu .p-menuitem > .p-menuitem-content:hover {
   background: var(--surface-container-highest);
   color: var(--primary);
+}
+
+.p-menu .p-menuitem > .p-menuitem-content .p-menuitem-link .p-menuitem-icon,
+.p-menu .p-menuitem > .p-menuitem-content .p-menuitem-link .p-menuitem-text {
+  color: inherit;
 }
 
 .p-checkbox .p-checkbox-box,
@@ -159,4 +266,3 @@
   background: var(--error-container);
   color: var(--error);
 }
-
