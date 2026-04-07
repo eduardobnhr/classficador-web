@@ -1,0 +1,268 @@
+/* The Sentinel Aesthetic PrimeNG theme overrides */
+.p-component {
+  color: var(--on-surface);
+  font-family: var(--font-family-body);
+}
+
+.p-card,
+.p-panel,
+.p-dialog,
+.p-sidebar,
+.p-menu,
+.p-menubar,
+.p-datatable,
+.p-toast-message {
+  border: 0;
+  border-radius: var(--radius-md);
+  background: var(--surface-container);
+  color: var(--on-surface);
+}
+
+.p-card,
+.p-panel,
+.p-dialog {
+  box-shadow: none;
+}
+
+.p-dialog .p-dialog-header,
+.p-dialog .p-dialog-content,
+.p-dialog .p-dialog-footer,
+.p-panel .p-panel-header,
+.p-panel .p-panel-content,
+.p-datatable .p-datatable-header,
+.p-datatable .p-datatable-thead > tr > th,
+.p-datatable .p-datatable-tbody > tr,
+.p-datatable .p-datatable-tbody > tr > td {
+  border: 0;
+  background: transparent;
+  color: var(--on-surface);
+}
+
+.p-datatable .p-datatable-thead > tr > th,
+.p-datatable .p-datatable-tbody > tr:nth-child(even) {
+  background: var(--surface-container-low);
+}
+
+.p-inputtext,
+.p-inputtextarea,
+.p-password-input,
+.p-dropdown,
+.p-multiselect,
+.p-calendar .p-inputtext {
+  border: 0;
+  border-bottom: 2px solid transparent;
+  border-radius: var(--radius-md) var(--radius-md) 0 0;
+  background: var(--surface-container-lowest);
+  color: var(--on-surface);
+  box-shadow: none;
+}
+
+.p-inputtext:enabled:focus,
+.p-inputtextarea:enabled:focus,
+.p-password-input:enabled:focus,
+.p-dropdown:not(.p-disabled).p-focus,
+.p-multiselect:not(.p-disabled).p-focus,
+.p-calendar .p-inputtext:enabled:focus {
+  border-bottom-color: var(--primary);
+  box-shadow: none;
+  outline: 0;
+}
+
+.p-inputtext::placeholder,
+.p-inputtextarea::placeholder {
+  color: var(--on-surface-variant);
+}
+
+.p-button {
+  border: 0;
+  border-radius: var(--radius-md);
+  background: var(--surface-container-high);
+  color: var(--on-surface);
+  box-shadow: none;
+}
+
+.p-button:enabled:focus {
+  box-shadow: 0 0 0 0.125rem var(--ghost-border);
+}
+
+.p-button.p-button-primary,
+.p-button:not(.p-button-secondary):not(.p-button-success):not(.p-button-info):not(.p-button-warning):not(.p-button-danger):not(.p-button-help):not(.p-button-text):not(.p-button-outlined) {
+  background: var(--primary-gradient);
+  color: var(--on-primary-fixed);
+}
+
+.p-button.p-button-outlined,
+.p-button.p-button-text {
+  border: 0;
+  background: transparent;
+  color: var(--primary);
+}
+
+.p-button.p-button-outlined {
+  box-shadow: inset 0 0 0 1px var(--ghost-border);
+}
+
+.p-dropdown-panel,
+.p-multiselect-panel,
+.p-datepicker,
+.p-datepicker .p-datepicker-header,
+.p-datepicker .p-datepicker-buttonbar,
+.p-overlaypanel,
+.p-tooltip .p-tooltip-text {
+  border: 0;
+  border-radius: var(--radius-md);
+  background: var(--surface-container-high);
+  color: var(--on-surface);
+}
+
+.p-datepicker {
+  width: min(24rem, calc(100vw - 2rem));
+  box-shadow: none;
+}
+
+.sentinel-calendar-panel,
+.sentinel-dropdown-panel {
+  max-width: calc(100vw - 2rem);
+}
+
+.sentinel-dropdown-panel {
+  min-width: 18rem;
+}
+
+.p-datepicker,
+.p-datepicker .p-datepicker-group,
+.p-datepicker .p-datepicker-calendar-container,
+.p-datepicker table,
+.p-datepicker .p-timepicker,
+.p-datepicker .p-datepicker-header {
+  background: var(--surface-container-high) !important;
+  color: var(--on-surface) !important;
+}
+
+.p-datepicker .p-datepicker-header {
+  border: 0;
+  padding: 0.75rem;
+}
+
+.p-datepicker .p-datepicker-title,
+.p-datepicker .p-datepicker-title .p-datepicker-month,
+.p-datepicker .p-datepicker-title .p-datepicker-year,
+.p-datepicker .p-datepicker-title button,
+.p-datepicker .p-datepicker-title select,
+.p-datepicker table th,
+.p-datepicker table td,
+.p-datepicker table td > span,
+.p-datepicker .p-timepicker span,
+.p-datepicker .p-timepicker button {
+  background: transparent !important;
+  color: var(--on-surface) !important;
+}
+
+.p-datepicker .p-datepicker-title {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--on-surface) !important;
+  font-family: var(--font-family-heading);
+  font-weight: 700;
+}
+
+.p-datepicker table th {
+  color: var(--on-surface-variant) !important;
+}
+
+.p-datepicker table td.p-datepicker-other-month > span {
+  color: rgb(193 198 215 / 0.35) !important;
+}
+
+.p-datepicker table td > span {
+  border: 0;
+  border-radius: var(--radius-md);
+}
+
+.p-datepicker table td > span:hover,
+.p-datepicker .p-datepicker-prev:hover,
+.p-datepicker .p-datepicker-next:hover,
+.p-datepicker .p-monthpicker .p-monthpicker-month:hover,
+.p-datepicker .p-yearpicker .p-yearpicker-year:hover {
+  background: var(--surface-container-highest) !important;
+  color: var(--primary) !important;
+}
+
+.p-datepicker table td > span.p-highlight,
+.p-datepicker .p-monthpicker .p-monthpicker-month.p-highlight,
+.p-datepicker .p-yearpicker .p-yearpicker-year.p-highlight {
+  background: var(--primary-gradient) !important;
+  color: var(--on-primary-fixed) !important;
+}
+
+.p-datepicker .p-timepicker {
+  border: 0;
+}
+
+.p-datepicker .p-timepicker button {
+  color: var(--primary) !important;
+}
+
+.p-datepicker .p-datepicker-prev,
+.p-datepicker .p-datepicker-next {
+  background: transparent !important;
+  color: var(--on-surface-variant) !important;
+}
+
+.p-dropdown-items .p-dropdown-item,
+.p-multiselect-items .p-multiselect-item,
+.p-menu .p-menuitem > .p-menuitem-content .p-menuitem-link {
+  color: var(--on-surface);
+}
+
+.p-dropdown-items .p-dropdown-item.p-highlight,
+.p-dropdown-items .p-dropdown-item:not(.p-highlight):not(.p-disabled):hover,
+.p-multiselect-items .p-multiselect-item.p-highlight,
+.p-multiselect-items .p-multiselect-item:not(.p-highlight):not(.p-disabled):hover,
+.p-menu .p-menuitem > .p-menuitem-content:hover {
+  background: var(--surface-container-highest);
+  color: var(--primary);
+}
+
+.p-menu .p-menuitem > .p-menuitem-content .p-menuitem-link .p-menuitem-icon,
+.p-menu .p-menuitem > .p-menuitem-content .p-menuitem-link .p-menuitem-text {
+  color: inherit;
+}
+
+.p-checkbox .p-checkbox-box,
+.p-radiobutton .p-radiobutton-box {
+  border: 0;
+  border-radius: var(--radius-sm);
+  background: var(--surface-container-lowest);
+  box-shadow: inset 0 0 0 1px var(--ghost-border);
+}
+
+.p-radiobutton .p-radiobutton-box {
+  border-radius: 50%;
+}
+
+.p-checkbox .p-checkbox-box.p-highlight,
+.p-radiobutton .p-radiobutton-box.p-highlight {
+  background: var(--primary-gradient);
+}
+
+.p-tag {
+  border-radius: var(--radius-md);
+  background: var(--surface-container-high);
+  color: var(--on-surface);
+}
+
+.p-message,
+.p-inline-message {
+  border: 0;
+  border-radius: var(--radius-md);
+  background: var(--surface-container-low);
+  color: var(--on-surface);
+}
+
+.p-message.p-message-error,
+.p-inline-message.p-inline-message-error {
+  background: var(--error-container);
+  color: var(--error);
+}

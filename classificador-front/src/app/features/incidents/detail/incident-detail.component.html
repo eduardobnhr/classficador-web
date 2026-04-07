@@ -1,0 +1,118 @@
+<section class="incident-detail">
+  <header class="detail-header">
+    <div class="detail-header__content">
+      <a class="detail-header__back" routerLink="/incidents" aria-label="Voltar para lista de incidentes">
+        <i class="pi pi-arrow-left" aria-hidden="true"></i>
+      </a>
+
+      <div>
+        <p class="detail-header__eyebrow">DETALHES DO INCIDENTE</p>
+        <p class="detail-header__id">INC-2024-8842</p>
+        <h1>Suspicious Login Pattern via API Gateway</h1>
+        <p class="detail-header__description">
+          Sequência anômala de autenticações detectada no gateway público com padrões compatíveis com phishing e tentativa de enumeração.
+        </p>
+      </div>
+    </div>
+
+    <div class="detail-header__actions">
+      <button class="detail-button detail-button--ghost" type="button">EXPORTAR RELATÓRIO</button>
+      <button class="detail-button detail-button--primary" type="button">INICIAR MITIGAÇÃO</button>
+    </div>
+  </header>
+
+  <div class="detail-grid">
+    <div class="detail-grid__left">
+      <article class="detail-card">
+        <header class="detail-card__header">
+          <i class="pi pi-align-left" aria-hidden="true"></i>
+          <span>DESCRIÇÃO COMPLETA</span>
+        </header>
+
+        <div class="detail-card__body">
+          <p>
+            O sistema correlacionou múltiplas tentativas de login direcionadas a contas administrativas por meio do API Gateway. O padrão inclui variação mínima de payload, uso de user-agents inconsistentes e repetição em janelas curtas de tempo.
+          </p>
+          <p>
+            A classificação automática indica alta probabilidade de campanha de phishing com tentativa de validação de credenciais. Recomenda-se mitigação imediata e revisão das credenciais afetadas.
+          </p>
+
+          <pre class="detail-code"><code>GET /api/v1/auth/login?u=admin&amp;p=...</code></pre>
+        </div>
+      </article>
+
+      <article class="detail-card">
+        <header class="detail-card__header">
+          <i class="pi pi-shield" aria-hidden="true"></i>
+          <span>AÇÕES RECOMENDADAS</span>
+        </header>
+
+        <div class="action-grid">
+          @for (action of recommendedActions; track action.title) {
+            <button class="action-card" type="button">
+              <i [class]="action.icon" aria-hidden="true"></i>
+              <span>{{ action.title }}</span>
+            </button>
+          }
+        </div>
+      </article>
+    </div>
+
+    <aside class="detail-grid__right">
+      <article class="detail-card classification-card">
+        <header class="detail-card__header">
+          <span>IA CLASSIFICATION</span>
+        </header>
+
+        <div class="confidence" aria-label="Confiança 98.5%">
+          <svg viewBox="0 0 120 120" role="img">
+            <circle class="confidence__track" cx="60" cy="60" r="48"></circle>
+            <circle
+              class="confidence__progress"
+              cx="60"
+              cy="60"
+              r="48"
+              pathLength="100"
+              [attr.stroke-dasharray]="100"
+              [attr.stroke-dashoffset]="progressOffset"
+            ></circle>
+          </svg>
+          <div class="confidence__value">
+            <strong>{{ confidence }}%</strong>
+            <span>CONFIANÇA</span>
+          </div>
+        </div>
+
+        <div class="classification-list">
+          <div class="classification-row">
+            <span>CATEGORIA</span>
+            <strong class="detail-badge">PHISHING</strong>
+          </div>
+          <div class="classification-row">
+            <span>SEVERIDADE</span>
+            <strong class="detail-badge detail-badge--critical">⚠ CRÍTICA</strong>
+          </div>
+          <div class="classification-row">
+            <span>STATUS</span>
+            <strong>CLASSIFICADO</strong>
+          </div>
+        </div>
+      </article>
+
+      <article class="detail-card metadata-card">
+        <header class="detail-card__header">
+          <span>METADADOS DA CLASSIFICAÇÃO</span>
+        </header>
+
+        <div class="metadata-list">
+          @for (item of metadata; track item.label) {
+            <div class="metadata-row">
+              <span>{{ item.label }}</span>
+              <strong [class.metadata-row__mono]="item.mono">{{ item.value }}</strong>
+            </div>
+          }
+        </div>
+      </article>
+    </aside>
+  </div>
+</section>

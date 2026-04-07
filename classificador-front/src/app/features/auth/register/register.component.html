@@ -1,0 +1,88 @@
+<main class="register-page">
+  <div class="register-page__accent" aria-hidden="true"></div>
+
+  <nav class="register-nav" aria-label="Navegação de cadastro">
+    <a class="register-nav__brand" routerLink="/login">classificador-web</a>
+    <a class="register-nav__help" href="#" aria-label="Ajuda">
+      <i class="pi pi-question-circle"></i>
+    </a>
+  </nav>
+
+  <section class="register-page__content" aria-labelledby="register-title">
+    <form class="register-card" [formGroup]="registerForm" (ngSubmit)="onSubmit()" novalidate>
+      <div class="register-card__header">
+        <h1 id="register-title">NOVO ACESSO</h1>
+        <p>PREENCHA OS DADOS PARA REGISTRAR-SE NO CLASSIFICADOR-WEB</p>
+      </div>
+
+      <div class="register-field">
+        <label for="name">NOME</label>
+        <input
+          id="name"
+          type="text"
+          formControlName="name"
+          autocomplete="name"
+          placeholder="Seu nome completo"
+          [attr.aria-invalid]="registerForm.controls.name.invalid && (submitted || registerForm.controls.name.touched)"
+        />
+        @if (registerForm.controls.name.invalid && (submitted || registerForm.controls.name.touched)) {
+          <p class="register-field__error">Informe seu nome completo.</p>
+        }
+      </div>
+
+      <div class="register-field">
+        <label for="email">E-MAIL</label>
+        <input
+          id="email"
+          type="email"
+          formControlName="email"
+          autocomplete="email"
+          placeholder="exemplo@dominio.com"
+          [attr.aria-invalid]="registerForm.controls.email.invalid && (submitted || registerForm.controls.email.touched)"
+        />
+        @if (registerForm.controls.email.invalid && (submitted || registerForm.controls.email.touched)) {
+          <p class="register-field__error">Informe um e-mail válido.</p>
+        }
+      </div>
+
+      <div class="register-field">
+        <label for="password">SENHA</label>
+        <input
+          id="password"
+          type="password"
+          formControlName="password"
+          autocomplete="new-password"
+          placeholder="•••••••••"
+          [attr.aria-invalid]="registerForm.controls.password.invalid && (submitted || registerForm.controls.password.touched)"
+        />
+        @if (registerForm.controls.password.invalid && (submitted || registerForm.controls.password.touched)) {
+          <p class="register-field__error">Use pelo menos 6 caracteres.</p>
+        }
+      </div>
+
+      <div class="register-field">
+        <label for="confirmPassword">CONFIRMAR SENHA</label>
+        <input
+          id="confirmPassword"
+          type="password"
+          formControlName="confirmPassword"
+          autocomplete="new-password"
+          placeholder="•••••••••"
+          [attr.aria-invalid]="registerForm.hasError('passwordsMismatch') && (submitted || registerForm.controls.confirmPassword.touched)"
+        />
+        @if (registerForm.hasError('passwordsMismatch') && (submitted || registerForm.controls.confirmPassword.touched)) {
+          <p class="register-field__error">As senhas precisam coincidir.</p>
+        }
+      </div>
+
+      <button class="register-card__submit" type="submit">CRIAR CONTA</button>
+
+      <p class="register-card__login">
+        Já possui uma conta?
+        <a routerLink="/login">Entrar agora</a>
+      </p>
+
+      <p class="register-card__footer">PRIVACY POLICY · SYSTEM STATUS: ONLINE · V4.2.0</p>
+    </form>
+  </section>
+</main>

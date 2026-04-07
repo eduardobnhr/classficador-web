@@ -1,0 +1,111 @@
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  display: grid;
+  min-height: 4.5rem;
+  grid-template-columns: minmax(12rem, 1fr) auto minmax(12rem, 1fr);
+  align-items: center;
+  gap: 1.5rem;
+  padding: 1rem 2rem;
+  background: rgb(45 52 73 / 0.6);
+  backdrop-filter: blur(20px);
+}
+
+.topbar__title {
+  margin: 0;
+  color: var(--on-surface);
+  font-family: var(--font-family-heading);
+  font-size: 0.95rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-align: center;
+}
+
+.topbar__search {
+  display: flex;
+  width: min(100%, 19rem);
+  align-items: center;
+  gap: 0.625rem;
+  padding: 0 0.875rem;
+  border-bottom: 2px solid transparent;
+  border-radius: var(--radius-md) var(--radius-md) 0 0;
+  background: var(--surface-container-lowest);
+  color: var(--on-surface-variant);
+}
+
+.topbar__search:focus-within {
+  border-bottom-color: var(--primary);
+}
+
+.topbar__search--hidden {
+  visibility: hidden;
+}
+
+.topbar__search input {
+  width: 100%;
+  min-height: 2.5rem;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: var(--on-surface);
+}
+
+.topbar__search input::placeholder {
+  color: var(--on-surface-variant);
+}
+
+.topbar__actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.875rem;
+}
+
+.topbar__icon-button,
+.topbar__operator {
+  display: inline-flex;
+  min-height: 2.5rem;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  border-radius: var(--radius-md);
+  background: var(--surface-container-high);
+  color: var(--on-surface);
+}
+
+.topbar__icon-button {
+  width: 2.5rem;
+  cursor: pointer;
+}
+
+.topbar__operator {
+  gap: 0.5rem;
+  padding: 0 0.875rem;
+  color: var(--on-surface-variant);
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+}
+
+.topbar__operator i {
+  color: var(--primary);
+  font-size: 1.1rem;
+}
+
+@media (max-width: 48rem) {
+  .topbar {
+    position: static;
+    grid-template-columns: 1fr;
+  }
+
+  .topbar__search,
+  .topbar__search--hidden {
+    visibility: visible;
+    width: 100%;
+  }
+
+  .topbar__actions {
+    justify-content: center;
+  }
+}

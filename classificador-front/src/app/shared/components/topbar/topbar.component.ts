@@ -1,0 +1,58 @@
+import { Component, DestroyRef, inject } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { NavigationEnd, Router } from '@angular/router';
+import { filter } from 'rxjs';
+
+@Component({
+  selector: 'app-topbar',
+  standalone: true,
+  templateUrl: './topbar.component.html',
+  styleUrl: './topbar.component.scss'
+})
+export class TopbarComponent {
+  private readonly router = inject(Router);
+  private readonly destroyRef = inject(DestroyRef);
+
+  protected pageTitle = this.getTitle(this.router.url);
+  protected showSearch = this.shouldShowSearch(this.router.url);
+
+  constructor() {
+    this.router.events
+      .pipe(
+        filter((event): event is NavigationEnd => event instanceof NavigationEnd),
+        takeUntilDestroyed(this.destroyRef)
+      )
+      .subscribe((event) => {
+        this.pageTitle = this.getTitle(event.urlAfterRedirects);
+        this.showSearch = this.shouldShowSearch(event.urlAfterRedirects);
+      });
+  }
+
+  private getTitle(url: string): string {
+    if (url.startsWith('/dashboard')) {
+      return 'DASHBOARD';
+    }
+
+    if (url.startsWith('/incidents/new')) {
+      return 'CREATE INCIDENT';
+    }
+
+    if (url.startsWith('/incidents/') && url !== '/incidents') {
+      return 'INCIDENT DETAILS';
+    }
+
+    if (url.startsWith('/incidents')) {
+      return 'INCIDENTS';
+    }
+
+    if (url.startsWith('/settings')) {
+      return 'SETTINGS';
+    }
+
+    return 'CLASSIFICADOR-WEB';
+  }
+
+  private shouldShowSearch(url: string): boolean {
+    return url.startsWith('/dashboard') || url.startsWith('/incidents');
+  }
+}
