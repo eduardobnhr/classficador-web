@@ -1,0 +1,351 @@
+﻿title,description,category
+E-mail pedindo troca urgente de senha,Colaboradores receberam mensagem solicitando atualização imediata da senha corporativa por meio de um link externo.,phishing
+Mensagem falsa de recadastramento,Usuários relataram e-mail informando suposta expiração de conta e pedindo confirmação de credenciais.,phishing
+Link suspeito enviado ao financeiro,A equipe financeira recebeu mensagem com link para validar acesso ao sistema bancário.,phishing
+Campanha de e-mails imitando RH,Foi detectado envio de mensagens em nome do RH solicitando confirmação de dados de acesso.,phishing
+Aviso falso de bloqueio de conta,Mensagens afirmavam que a conta seria bloqueada caso o usuário não acessasse um portal informado no e-mail.,phishing
+E-mail simulando suporte técnico,Usuários receberam contato pedindo login em página externa para suposta correção de falha no sistema.,phishing
+Página clonada de webmail,Foi identificado redirecionamento para página semelhante ao webmail institucional pedindo usuário e senha.,phishing
+Mensagem com falso boleto corporativo,Funcionários receberam e-mail com anexo e orientação para abrir documento e confirmar credenciais.,phishing
+Pedido de atualização cadastral,Uma campanha de e-mails solicitou dados pessoais e senha para atualização cadastral interna.,phishing
+Ataque por mensagem de redefinição,Diversos usuários receberam aviso falso de redefinição de senha com link encurtado.,phishing
+E-mail em nome da diretoria,Foi enviada mensagem fraudulenta em nome da diretoria solicitando acesso rápido a um portal externo.,phishing
+Solicitação falsa de aprovação,Mensagem pedia autenticação em página externa para aprovar documento importante.,phishing
+Portal falso de folha de pagamento,Usuários relataram acesso a página falsa que imitava o sistema de folha de pagamento.,phishing
+E-mail de auditoria inexistente,Foi identificado envio de mensagens falsas alegando auditoria interna e pedindo credenciais.,phishing
+Notificação falsa de armazenamento cheio,Usuários receberam aviso de caixa postal cheia com link para liberar espaço mediante login.,phishing
+Ataque por falso compartilhamento,E-mails informavam compartilhamento de arquivo e pediam autenticação para visualização.,phishing
+Mensagem fraudulenta de VPN,Foi reportado e-mail solicitando revalidação do acesso VPN em página externa.,phishing
+Alerta falso de segurança,Usuários receberam mensagem com tom urgente pedindo confirmação da conta por motivo de segurança.,phishing
+Aviso falso de vencimento de senha,Foi enviada campanha com link para troca de senha em domínio não oficial.,phishing
+Imitação de sistema acadêmico,Mensagens simulavam o sistema institucional e pediam login para consulta de pendências.,phishing
+Convite falso para reunião urgente,E-mail solicita que o colaborador clique em link para confirmar presença em reunião extraordinária da diretoria,phishing
+Alerta de acesso suspeito detectado,Mensagem informa login realizado em outra cidade e pede verificação imediata de credenciais,phishing
+Atualização de política de home office,Comunicado falso pede que funcionários façam login para assinar novo termo de trabalho remoto,phishing
+Recibo de bônus de desempenho,E-mail informa sobre gratificação disponível e solicita acesso ao portal para conferir valores,phishing
+Tentativa de entrega de documento,Notificação falsa de transportadora pede autenticação para visualizar detalhes de remessa corporativa,phishing
+Erro na sincronização do OneDrive,Mensagem automática falsa solicita login para restaurar arquivos que falharam na nuvem,phishing
+Questionário de satisfação interna,RH falso solicita preenchimento de pesquisa via link externo exigindo senha de rede,phishing
+Aviso de manutenção programada,E-mail pede que o usuário valide sua conta antes da manutenção para evitar perda de dados,phishing
+Voucher de café cortesia,Empresa oferece brinde aos funcionários e pede login no portal de benefícios para resgatar,phishing
+Intimação judicial digital,Mensagem alega processo jurídico contra a empresa e pede abertura de anexo para defesa,phishing
+Novo portal de benefícios saúde,Informativo solicita cadastro em nova plataforma de convênio médico via link suspeito,phishing
+Alerta de conformidade de segurança,TI solicita que o colaborador execute um teste de segurança clicando em link externo,phishing
+Cancelamento de plano de saúde,Aviso urgente informa sobre suposto cancelamento por falta de dados e pede regularização,phishing
+Relatório de despesas pendentes,Financeiro falso solicita que o gestor clique em link para aprovar reembolsos urgentes,phishing
+Falha no envio de mensagens,Servidor de e-mail notifica que mensagens estão retidas e pede validação para liberar,phishing
+Alteração no horário de trabalho,Comunicado sobre novos turnos pede que o funcionário acesse o sistema para confirmar escala,phishing
+Convite para treinamento obrigatório,E-mail de Compliance exige login em plataforma externa para curso de ética,phishing
+Notificação de pagamento de fornecedor,Mensagem com link para baixar comprovante de transferência bancária inexistente,phishing
+Solicitação de suporte via chat,Pop-up ou e-mail simulando suporte técnico pedindo compartilhamento de credenciais,phishing
+Atualização de software de segurança,Aviso pede que o usuário baixe e instale um novo certificado de segurança via link,phishing
+Comprovante de agendamento PIX,E-mail informa sobre transação desconhecida e oferece link para contestação imediata,phishing
+Upgrade de conta Premium,Notificação informa que o usuário ganhou mais espaço em disco e pede ativação,phishing
+Erro de autenticação multifator,Mensagem pede que o usuário clique em link para ressincronizar o token de segurança,phishing
+Avaliação de desempenho 360,RH solicita que o colaborador avalie seus pares em formulário hospedado em domínio externo,phishing
+Comunicado de desligamento de colega,E-mail falso com anexo que supostamente contém a lista de demissões da semana,phishing
+Renovação de assinatura de software,Aviso de expiração de licença de ferramenta de design pede dados de pagamento,phishing
+Alerta de spam em excesso,Sistemas de segurança informam que a conta está disparando spam e pedem limpeza via link,phishing
+Fotos do evento da empresa,E-mail com link para álbum de fotos que exige login em rede social clonada,phishing
+Agendamento de exame admissional,Mensagem para novos contratados pedindo confirmação de dados sensíveis em portal falso,phishing
+Atualização de dados bancários para folha,Financeiro solicita que funcionários atualizem o IBAN/CPF em novo formulário,phishing
+Documento assinado no DocuSign,Notificação falsa de assinatura de contrato pedindo login para visualização,phishing
+Alerta de temperatura do servidor,TI envia aviso crítico sobre hardware e pede que administradores acessem o console,phishing
+Cupom de desconto em farmácia,Parceria falsa oferece descontos e pede CPF e senha para ativação do benefício,phishing
+Notificação de mensagem de voz,E-mail informa que há um correio de voz pendente e pede clique para ouvir,phishing
+Reclamação de cliente aberta,Suporte recebe e-mail com suposta reclamação de cliente e link para o ticket,phishing
+Atualização de firewall corporativo,Mensagem pede que o usuário valide a conexão para não ser desconectado da rede,phishing
+Pesquisa de clima organizacional,RH envia link externo para coleta de sugestões anônimas pedindo credenciais,phishing
+Erro de cobrança no cartão corporativo,Financeiro alerta sobre compra suspeita e pede verificação de faturas em link,phishing
+Mudança no regulamento interno,Diretoria envia PDF falso com link para aceite dos novos termos da empresa,phishing
+Solicitação de acesso a pasta compartilhada,E-mail imita o SharePoint informando que um arquivo confidencial foi liberado,phishing
+Convite para webinar exclusivo,Marketing convida para evento e pede cadastro com senha corporativa em site externo,phishing
+Alerta de expiração de certificado digital,Notificação pede renovação urgente de assinatura digital em página não oficial,phishing
+Bloqueio de acesso por inatividade,Mensagem informa que a conta será desativada em 24h caso não haja interação no link,phishing
+Comunicado de participação nos lucros,E-mail detalhando valores da PLR e pedindo acesso ao portal para consulta,phishing
+Verificação de dispositivo móvel,TI solicita que usuários de celular corporativo validem o aparelho via link,phishing
+Aviso de correio devolvido,Logística informa que uma encomenda não foi entregue e pede download do rótulo,phishing
+Solicitação de orçamento urgente,Vendas recebe e-mail de suposto cliente com link para lista de produtos,phishing
+Teste de phishing preventivo,E-mail simulando teste de segurança mas que na verdade coleta dados reais,phishing
+Convite de calendário compartilhado,Usuário recebe convite de agenda de desconhecido com link malicioso na descrição,phishing
+Revalidação de conta de e-mail,Mensagem de sistema informa que a conta expirará em breve devido à nova LGPD,phishing
+Anexo malicioso aberto por usuário,Um colaborador abriu um anexo de e-mail e o antivírus detectou comportamento malicioso na estação.,malware
+Executável suspeito após download,Foi identificado arquivo executável baixado da internet com indícios de código malicioso.,malware
+Instalação não autorizada em notebook,A máquina apresentou instalação automática de programa suspeito após clique em pop-up.,malware
+Detecção de trojan na estação,Ferramenta de segurança identificou trojan em diretório temporário após abertura de documento.,malware
+Script suspeito em pasta de usuário,Foi localizado script desconhecido sendo executado automaticamente no perfil do usuário.,malware
+Comportamento anômalo após pendrive,"Após conexão de mídia removível, o sistema passou a exibir processos desconhecidos.",malware
+Ransomware bloqueando arquivos,Usuários relataram arquivos renomeados e inacessíveis após execução de programa suspeito.,malware
+Download de falso instalador,Foi detectado instalador adulterado que implantou software malicioso no equipamento.,malware
+Arquivo infectado em compartilhamento,Um documento armazenado em pasta compartilhada acionou alertas de malware em múltiplas máquinas.,malware
+Macro maliciosa em planilha,Planilha recebida por e-mail executou macro suspeita e iniciou conexões não esperadas.,malware
+Backdoor identificado no servidor,Análise apontou presença de processo malicioso mantendo acesso remoto persistente.,malware
+Malware em atualização falsa,Uma suposta atualização de software instalou binários maliciosos na estação.,malware
+Código suspeito em diretório do sistema,Ferramenta EDR encontrou binários desconhecidos em caminho sensível do sistema operacional.,malware
+Infecção por anexo compactado,Usuário extraiu arquivo compactado e houve detecção imediata de malware.,malware
+Serviço desconhecido iniciado automaticamente,Foi observado novo serviço persistente sem autorização associado a arquivo malicioso.,malware
+Biblioteca adulterada em aplicação,A aplicação passou a carregar biblioteca não reconhecida com comportamento malicioso.,malware
+Bot identificado em equipamento,Máquina apresentou comunicação suspeita compatível com participação em botnet.,malware
+Comando malicioso via PowerShell,Logs mostraram execução de script PowerShell ofuscado após interação do usuário.,malware
+Arquivo malicioso em download de navegador,Navegador registrou download de arquivo que foi classificado como malware.,malware
+Infecção em host administrativo,Host administrativo apresentou alteração indevida de processos e arquivos compatível com malware.,malware
+Keylogger detectado em segundo plano,Monitoramento de segurança identificou processo capturando teclas digitadas pelo usuário,malware
+Spyware em extensão de navegador,Extensão instalada coletava dados de navegação e enviava para servidor externo,malware
+Execução de minerador de criptomoedas,Uso de CPU atingiu 100% devido a processo oculto minerando ativos sem consentimento,malware
+Worm identificado na rede local,Malware tentou se propagar automaticamente para outras máquinas via vulnerabilidade SMB,malware
+Arquivo PDF com exploit incorporado,Documento aparentemente inofensivo tentou explorar falha no leitor de PDF para injetar código,malware
+Rootkit ocultando processos de sistema,Ferramenta de varredura profunda encontrou artefatos que escondiam atividades maliciosas,malware
+Injeção de código em processo legítimo,Malware utilizou técnica de process hollowing para rodar código dentro do explorer.exe,malware
+Adware exibindo anúncios invasivos,Sistema passou a apresentar janelas pop-up constantes após instalação de software gratuito,malware
+Modificação indevida no arquivo Hosts,Script malicioso alterou mapeamentos de IP para redirecionar tráfego de sites bancários,malware
+Sequestro de DNS no roteador,Malware alterou as configurações de rede para utilizar servidores DNS comprometidos,malware
+Trojan bancário em aplicação mobile,Aplicativo clonado solicitou permissões excessivas para capturar dados financeiros,malware
+Ransomware em estágio de criptografia,Múltiplos alertas de gravação em disco foram disparados por processo de cifragem,malware
+Payload baixado via linha de comando,Utilitário de sistema foi usado para baixar binário malicioso de repositório externo,malware
+Exclusão de Shadow Copies pelo sistema,Comando suspeito tentou apagar pontos de restauração para impedir recuperação de dados,malware
+Persistência via chave de registro,Malware adicionou entrada na chave 'Run' do Windows para iniciar com o sistema,malware
+Esteganografia em imagem recebida,Arquivo de imagem continha código malicioso oculto em seus metadados,malware
+Infecção por Drive-by Download,Usuário visitou site comprometido e o malware foi instalado via vulnerabilidade do browser,malware
+Execução de binário em memória,Ataque 'fileless' executou shellcode diretamente na RAM sem salvar arquivo em disco,malware
+Dropper identificado em pasta temporária,Arquivo pequeno foi usado apenas para baixar e instalar o malware principal,malware
+Alteração de permissões em pastas de sistema,Processo desconhecido tentou obter privilégios de administrador para modificar arquivos,malware
+Comunicação com servidor C&C,Estação de trabalho tentou realizar check-in em servidor de comando e controle conhecido,malware
+Desativação de antivírus por malware,Código malicioso tentou encerrar processos do Windows Defender e outras defesas,malware
+Bloqueador de teclado e mouse,Ransomware de tela travou a interface do usuário exigindo pagamento para liberação,malware
+Malware em driver de dispositivo,Driver adulterado foi carregado no kernel para permitir controle total do hardware,malware
+Script VBScript em anexo de e-mail,Arquivo .vbs executou rotina de download de trojan após ser clicado,malware
+Infecção via atalho malicioso,Arquivo .lnk modificado apontava para script que baixava malware ao ser aberto,malware
+Captura de tela não autorizada,Processo de spyware realizava prints da área de trabalho em intervalos regulares,malware
+Roubo de cookies de sessão,Malware acessou pastas do navegador para extrair tokens de autenticação ativos,malware
+Sobrescrita de MBR detectada,Tentativa de modificação do Master Boot Record para impedir a inicialização do SO,malware
+Obfusticação de código em Batch,Script .bat com caracteres ilegíveis tentou desabilitar o firewall local,malware
+Trojan de acesso remoto (RAT) ativo,Foi detectada conexão reversa permitindo controle total da máquina por invasor,malware
+Vazamento de dados via exfiltração,Malware compactou pastas de documentos e iniciou upload para nuvem pública,malware
+Arquivo DLL injetado em navegador,Navegador carregou biblioteca externa que injetava anúncios em sites legítimos,malware
+Execução de código via macros de Word,Documento motivou o usuário a habilitar macros que instalaram um backdoor,malware
+Malware disfarçado de atualização de Java,Pop-up falso de sistema induziu o download de executável malicioso,malware
+Substituição de binários de sistema,Malware trocou arquivo executável legítimo por versão infectada (Locker),malware
+Escalonamento de privilégios via exploit,Malware aproveitou falha de kernel para subir de nível de usuário para System,malware
+Identificação de módulo de roubo de senhas,Módulo malicioso foi encontrado tentando ler a memória do processo LSASS,malware
+Malware de substituição de área de transferência,Código monitorava o copiar/colar para trocar endereços de carteiras cripto,malware
+Infeção por código JavaScript em PDF,Abertura de documento acionou script que tentou baixar malware de segundo estágio,malware
+Persistência via Tarefas Agendadas,Malware criou uma tarefa para rodar script malicioso a cada logon de usuário,malware
+Detecção de ferramentas de Pentest mal utilizadas,Presença de ferramentas como Mimikatz usadas para roubo de credenciais locais,malware
+Script Python compilado suspeito,Executável gerado por PyInstaller apresentou comportamento de roubo de informações,malware
+Malware propagado por compartilhamento P2P,Software pirata baixado continha infector de arquivos que corrompeu o sistema,malware
+Bypass de UAC detectado,Técnica usada por malware para ignorar o controle de conta de usuário do Windows,malware
+Identificação de Infostealer,Software especializado em coletar senhas salvas e preenchimento automático foi removido,malware
+Modificação de certificados de segurança,Malware instalou certificado raiz falso para interceptar tráfego HTTPS,malware
+Execução de comandos via WMI,Invasor utilizou o Windows Management Instrumentation para rodar malware remotamente,malware
+Infecção em ambiente de homologação,Servidor de teste apresentou arquivos criptografados por variante de ransomware,malware
+Backup comprometido por malware,Rotina de backup salvou arquivos infectados que se propagaram na restauração,malware
+Múltiplas tentativas de login,O sistema registrou dezenas de falhas consecutivas de autenticação para a mesma conta em poucos minutos.,brute_force
+Ataque contra conta administrativa,Foram detectadas tentativas repetidas de acesso à conta admin a partir do mesmo endereço IP.,brute_force
+Falhas massivas no portal interno,Houve grande volume de logins inválidos tentando combinações de senha para usuários conhecidos.,brute_force
+Tentativas automatizadas em VPN,A VPN registrou diversas tentativas sequenciais de autenticação sem sucesso.,brute_force
+Pico de erros de senha,Serviço de autenticação apresentou aumento abrupto de senhas incorretas para múltiplos usuários.,brute_force
+Ataque de força bruta via web,Aplicação web recebeu sucessivas requisições de login para o mesmo perfil com credenciais diferentes.,brute_force
+Tentativas repetidas no e-mail corporativo,Conta de e-mail sofreu elevado número de tentativas de acesso em curto intervalo.,brute_force
+Autenticação falha em massa,Logs indicaram padrão automatizado de tentativa de login com combinações variadas.,brute_force
+Insistência de acesso a painel,Painel administrativo registrou centenas de autenticações inválidas em sequência.,brute_force
+Acessos falhos em servidor SSH,O servidor recebeu inúmeras tentativas de login SSH com usuários comuns do sistema.,brute_force
+Ataque contra portal acadêmico,Foi observado grande número de tentativas de acesso com senhas diferentes para a mesma matrícula.,brute_force
+Múltiplos logins negados por IP,Um mesmo IP gerou repetidas falhas de autenticação em várias contas.,brute_force
+Padrão automatizado de autenticação,Sequência acelerada de tentativas de login indicou uso de ferramenta automatizada.,brute_force
+Conta bloqueada por excesso de erros,Usuário teve conta bloqueada após muitas tentativas maliciosas de adivinhação de senha.,brute_force
+Tentativas sucessivas em console remoto,Interface de acesso remoto registrou várias combinações de senha para o mesmo usuário.,brute_force
+Ataque de dicionário em aplicação,Logs revelaram tentativa sistemática de senhas comuns contra contas válidas.,brute_force
+Concentração de falhas de login,Monitoramento apontou comportamento repetitivo de autenticação inválida no mesmo serviço.,brute_force
+Força bruta contra administrador,Conta com privilégios elevados foi alvo de várias tentativas de acesso malsucedidas.,brute_force
+Exploração de credenciais por repetição,Mecanismo de login recebeu diversas tentativas similares de autenticação para poucos usuários.,brute_force
+Ataque automatizado em portal VPN,Sistema VPN identificou padrão intenso de tentativa de senhas em sequência.,brute_force
+Tentativa de login com senhas comuns,Sistema detectou uso sequencial de senhas fracas como '123456' e 'senha123' em uma única conta,brute_force
+Ataque de Spraying de credenciais,Múltiplas contas receberam uma única tentativa de login com a mesma senha padrão simultaneamente,brute_force
+Bloqueio temporário de IP por força bruta,Endereço de origem foi banido após exceder o limite de 50 falhas de autenticação em 1 minuto,brute_force
+Tentativas de login via protocolo RDP,Servidor de desktop remoto registrou centenas de conexões negadas vindas de IP externo,brute_force
+Varredura de usuários em sistema legado,Atacante tentou autenticar-se em massa utilizando uma lista de nomes de colaboradores antigos,brute_force
+Ataque de força bruta contra FTP,Serviço de transferência de arquivos sofreu tentativas exaustivas de login com usuário 'anonymous' e 'root',brute_force
+Erros de autenticação em API corporativa,Chave de API sofreu milhares de requisições de validação com tokens gerados aleatoriamente,brute_force
+Tentativas de bypass de tela de login,Script automatizado tentou submeter formulário de acesso com variações infinitas de caracteres,brute_force
+Sequência de falhas em banco de dados,Logs do SQL Server apontaram tentativas persistentes de login com a conta 'sa',brute_force
+Ataque de dicionário contra SSH,O serviço OpenSSH bloqueou conexões após identificar padrão de troca rápida de senhas alfanuméricas,brute_force
+Tentativa de exaustão de conta,Atacante tentou sucessivamente senhas diferentes para causar o bloqueio proposital do usuário real,brute_force
+Autenticação persistente em Webmail,Portal de e-mail institucional recebeu rajadas de tentativas de login a cada 5 segundos,brute_force
+Uso de botnet para quebra de senha,Ataque distribuído de força bruta vindo de centenas de IPs diferentes contra o mesmo alvo,brute_force
+Falhas de login em horários não comerciais,Sistema de monitoramento alertou para pico de erros de senha durante a madrugada,brute_force
+Ataque de força bruta em painel CMS,Site institucional registrou tentativas de acesso ao diretório /admin com usuários genéricos,brute_force
+Tentativas de credenciais padrão de fábrica,Acesso ao roteador interno sofreu tentativas com usuários 'admin' e 'guest' e 'support',brute_force
+Erros de login em aplicação mobile,Backend da aplicação reportou milhares de falhas de autenticação para um único ID de dispositivo,brute_force
+Teste de combinações de caracteres especiais,Ataque automatizado tentou inserir senhas com símbolos variados para testar complexidade,brute_force
+Tentativa de login com nomes de diretoria,Contas de altos executivos foram alvo de tentativas de adivinhação de senha baseadas em nomes,brute_force
+Ataque contra sistema de ponto eletrônico,Logs indicaram tentativas de login sequenciais usando números de matrículas como usuário e senha,brute_force
+Força bruta em serviço de Cloud,Console de gerenciamento em nuvem detectou tentativas de login de locais geográficos incomuns,brute_force
+Pico de tráfego em endpoint de autenticação,Volume de requisições POST na página de login superou em 500% a média normal,brute_force
+Tentativas de login com e-mails vazados,Atacante utilizou base de dados externa para tentar acessar o sistema interno da empresa,brute_force
+Ataque de força bruta em diretório LDAP,Servidor de domínio registrou picos de falhas de autenticação em contas de serviço,brute_force
+Replay de credenciais em portal de RH,Houve tentativa sistemática de validar logins capturados anteriormente através de automação,brute_force
+Falhas de login via Telnet,Equipamento de rede antigo recebeu rajadas de tentativas de acesso via terminal remoto,brute_force
+Tentativas de login com variações de data,Script tentou acessar contas usando datas de nascimento comuns como combinação de senha,brute_force
+Bloqueio de sub-rede por ataque massivo,Toda uma faixa de IPs foi bloqueada após coordenar ataque de força bruta ao firewall,brute_force
+Tentativa de autenticação em Proxy corporativo,Logs do Proxy mostraram usuários tentando validar acesso com múltiplas senhas inválidas,brute_force
+Ataque de preenchimento de credenciais (Stuffing),Uso de bots para testar pares de usuário/senha obtidos em vazamentos de terceiros,brute_force
+Monitoramento de falhas de login em SaaS,Ferramenta de nuvem alertou para 200 erros de senha em menos de 10 segundos,brute_force
+Ataque contra módulo de autenticação Wi-Fi,Servidor RADIUS detectou múltiplas tentativas de conexão falhas em curto período,brute_force
+Força bruta contra conta de suporte técnico,Conta 'suporte_ti' recebeu centenas de tentativas de acesso de origem externa,brute_force
+Uso de ferramentas de brute force conhecidas,Logs de servidor web apresentaram User-Agents típicos de softwares de ataque como Hydra,brute_force
+Tentativa de login por permutação de nomes,Script gerou automaticamente logins como 'j.silva' e 'silva.j' e 'joao.silva' com senhas padrão,brute_force
+Falhas repetidas em portal de compras,Área de fornecedores sofreu ataque de dicionário focado em CNPJs e senhas simples,brute_force
+Ataque de força bruta em gateway de VoIP,Central telefônica registrou tentativas de registro de ramal com senhas numéricas curtas,brute_force
+Tentativas de acesso a ambiente de homologação,Ambiente de testes foi alvo de força bruta visando encontrar credenciais fracas,brute_force
+Erros de login em cascata,Ataque distribuído tentou um login por conta em toda a base de usuários para evitar bloqueio,brute_force
+Inserção massiva de PINs,Sistema de segurança física detectou tentativa de adivinhação de código numérico no teclado de acesso,brute_force
+Tentativas de login via PowerShell remoto,WinRM registrou sucessivas falhas de autenticação vindas de estação não autorizada,brute_force
+Ataque contra formulário de recuperação de senha,Atacante tentou adivinhar respostas de perguntas de segurança de forma automatizada,brute_force
+Bloqueio de conta de administrador de rede,Conta de privilégio elevado indisponível após 15 tentativas de login inválidas,brute_force
+Atividade de bot de força bruta em WordPress,Tentativas incessantes de login no arquivo wp-login.php com usuário 'admin',brute_force
+Verificação de credenciais em massa no CRM,Logs do sistema de vendas mostraram padrão de tentativa e erro em contas de vendedores,brute_force
+Ataque de dicionário em VPN SSL,Gateway de VPN identificou milhares de requisições de túnel com credenciais inválidas,brute_force
+Tentativas de login com variações de teclado,Uso de senhas baseadas em padrões geométricos no teclado ex: 'qwerty' e 'asdfgh',brute_force
+Captura de falha de autenticação no Firewall,Regras de segurança dispararam alerta após detectar brute force em porta não padrão,brute_force
+Ataque de força bruta reversa,Tentativa de usar uma única senha comum contra uma lista enorme de usuários,brute_force
+Tentativas de acesso a banco de dados NoSQL,Instância de banco de dados exposta sofreu milhares de tentativas de conexão sem senha,brute_force
+Pico anormal de tráfego no portal,O serviço ficou indisponível após receber grande volume de requisições simultâneas de múltiplas origens.,ddos
+Indisponibilidade por excesso de conexões,Servidor apresentou saturação de recursos devido a inúmeras conexões concorrentes.,ddos
+Ataque volumétrico contra site institucional,"O site recebeu tráfego muito acima do normal, comprometendo a disponibilidade.",ddos
+Sobrecarga em API pública,A API passou a responder lentamente após enxurrada de requisições em curto período.,ddos
+Serviço fora do ar por flood,Foi identificado padrão de requisições massivas causando negação de serviço.,ddos
+Latência elevada em portal externo,O portal apresentou lentidão severa associada a volume anormal de acessos simultâneos.,ddos
+Conexões massivas ao balanceador,O balanceador recebeu muitas conexões concorrentes e deixou aplicações indisponíveis.,ddos
+Tráfego distribuído contra aplicação,Diversos endereços de origem enviaram grande quantidade de requisições ao mesmo recurso.,ddos
+Exaustão de recursos do servidor,CPU e memória chegaram ao limite durante alto volume de tráfego malicioso.,ddos
+Ataque de negação de serviço na rede,Equipamentos registraram aumento abrupto de pacotes comprometendo a disponibilidade do serviço.,ddos
+Queda de serviço por volume externo,Aplicação ficou instável após recebimento de número excessivo de acessos por segundo.,ddos
+Flood HTTP em sistema corporativo,Logs mostram milhares de requisições HTTP em intervalo muito curto.,ddos
+Indisponibilidade em plataforma web,A plataforma saiu do ar diante de tráfego excessivo vindo de múltiplas origens.,ddos
+Pressão de tráfego na infraestrutura,Servidores frontais apresentaram saturação de conexões e lentidão generalizada.,ddos
+Excesso de requisições em endpoint,Um único endpoint foi alvo de volume extremo de chamadas simultâneas.,ddos
+Ataque distribuído em página principal,A página inicial tornou-se indisponível após milhares de acessos coordenados.,ddos
+Sobrecarga em serviço exposto,O serviço público apresentou comportamento compatível com ataque DDoS.,ddos
+Picos de pacotes comprometendo disponibilidade,A rede registrou tráfego muito acima da capacidade operacional prevista.,ddos
+Negação de serviço em aplicação crítica,Aplicação crítica sofreu interrupção após grande volume de solicitações externas.,ddos
+Tráfego malicioso distribuído,Fontes diversas geraram excesso de acessos simultâneos e degradaram o serviço.,ddos
+Ataque de reflexão DNS detectado,Servidores DNS da empresa receberam volume massivo de consultas forjadas saturando o link,ddos
+Inundação de pacotes SYN no firewall,Equipamento de borda registrou milhares de conexões semiabertas esgotando a tabela de estados,ddos
+Ataque de negação de serviço via UDP flood,Tráfego UDP aleatório inundou as portas de rede impedindo o tráfego legítimo,ddos
+Sobrecarga por amplificação de NTP,Serviço ficou instável após receber respostas gigantescas de servidores NTP externos,ddos
+Ataque HTTP Slowloris em servidor web,Múltiplas conexões mantidas abertas por longo tempo exauriram os threads do servidor,ddos
+Saturação de largura de banda internacional,Link de internet atingiu 100% de uso devido a tráfego vindo de botnets globais,ddos
+Flood de pacotes ICMP (Ping Flood),Rede interna apresentou latência crítica após enxurrada de requisições de eco,ddos
+Ataque de fragmentação de IP,Recebimento de pacotes fragmentados malformados causou travamento na pilha de rede do host,ddos
+Exaustão de conexões no banco de dados,Aplicação parou de responder pois todas as conexões do pool foram ocupadas por bots,ddos
+Ataque distribuído de aplicação (Camada 7),Milhares de máquinas reais solicitaram downloads pesados simultaneamente para derrubar o site,ddos
+Queda de serviço por DNS Query Flood,Servidor de nomes parou de responder devido ao volume extremo de resoluções de domínio,ddos
+Sobrecarga no gateway de VPN,Acesso remoto ficou indisponível após tentativa massiva de negociação de túneis IPsec,ddos
+Ataque de reflexão Memcached,Infraestrutura recebeu picos de tráfego de Terabits por segundo vindos de servidores expostos,ddos
+Flood de requisições POST em formulário,Página de busca ficou lenta após bots submeterem milhares de consultas complexas por segundo,ddos
+Instabilidade por ataque de renovação de DHCP,Servidor de rede foi inundado por pedidos de IP causando queda na conectividade,ddos
+Ataque de negação de serviço persistente,Serviços web sofreram quedas intermitentes durante ataque coordenado de 48 horas,ddos
+Saturação de CPU por flood de SSL/TLS,Servidor gastou todos os recursos tentando processar milhares de handshakes de criptografia,ddos
+Tráfego de botnet IoT detectado,Câmeras e dispositivos inteligentes infectados geraram tráfego massivo contra o IP da empresa,ddos
+Negação de serviço por exaustão de disco,Logs de erro gerados por ataque de flood preencheram todo o armazenamento do servidor,ddos
+Ataque de negação de serviço via SSDP,Protocolo de descoberta de dispositivos foi usado para amplificar ataque contra a rede,ddos
+Degradação de serviço por tráfego zumbi,Estações de trabalho infectadas na internet focaram requisições no portal financeiro,ddos
+Bloqueio de acesso por inundação de requisições GET,Script automatizado solicitou repetidamente imagens pesadas para saturar a saída,ddos
+Ataque de inundação ACK (ACK Flood),Firewall passou a descartar pacotes legítimos por excesso de pacotes ACK sem conexão prévia,ddos
+Indisponibilidade de API por XML Bomb,Envio de arquivos XML malformados causou estouro de memória no processamento da API,ddos
+Ataque de negação de serviço via SNMP,Consultas de rede foram usadas para gerar tráfego de resposta massivo contra o alvo,ddos
+Saturação de recursos por ataque de busca,Bots realizaram milhares de pesquisas no banco de dados esgotando o processamento,ddos
+Ataque distribuído contra servidor de jogos,Latência subiu para níveis injogáveis após flood de pacotes em portas específicas,ddos
+Inundação de pacotes malformados na borda,Roteador descartou tráfego após receber pacotes com flags TCP inválidas em massa,ddos
+Queda de link por ataque volumétrico GRE,Túneis de rede foram inundados por tráfego encapsulado saturando a interface,ddos
+Ataque de amplificação CharGen,Serviço de geração de caracteres antigo foi usado para inundar a rede da vítima,ddos
+Negação de inventário via DDoS,Bots adicionaram milhares de itens ao carrinho de compras para travar o sistema de estoque,ddos
+Ataque coordenado de negação de serviço móvel,Grande volume de tráfego vindo de redes 4G/5G simulando usuários reais,ddos
+Saturação de firewall de aplicação (WAF),O excesso de regras processadas por segundo causou gargalo na inspeção de tráfego,ddos
+Ataque de exaustão de tabela ARP,Switch central apresentou comportamento anômalo após flood de requisições ARP,ddos
+Queda de e-commerce em data promocional,Ataque DDoS disfarçado de tráfego legítimo derrubou o checkout da loja,ddos
+Flood de pacotes RST (Reset),Conexões legítimas de usuários foram derrubadas por injeção de pacotes de reset em massa,ddos
+Ataque de negação de serviço via SIP,Servidor de telefonia IP parou de completar chamadas após flood de convites (INVITE),ddos
+Instabilidade em cluster de Kubernetes,Volume de tráfego externo causou reinicialização constante de pods por falta de recursos,ddos
+Ataque de amplificação via portas mal configuradas,Servidores mal configurados na web refletiram tráfego para o IP da organização,ddos
+Negação de serviço por Push Flood,Envio excessivo de pacotes com flag PSH forçou o sistema a processar dados imediatamente,ddos
+Sobrecarga em microserviço de autenticação,Ataque focado no serviço de login impediu o acesso a todos os outros sistemas,ddos
+Latência extrema por tráfego de inundação BGP,Instabilidade nas rotas de rede causou perda de pacotes e lentidão global,ddos
+Ataque de negação de serviço em nuvem híbrida,Tráfego excessivo consumiu toda a cota de transferência de dados da conta Cloud,ddos
+Flood de ping da morte moderno,Pacotes ICMP de tamanho excessivo tentaram travar a interface de rede do servidor,ddos
+Saturação de backend por requisições recursivas,Ataque forçou o sistema a realizar cálculos complexos repetidamente,ddos
+Ataque de negação de serviço via WebSocket,Milhares de conexões bidirecionais abertas simultaneamente derrubaram o socket,ddos
+Inundação de pacotes por spoofing de IP,Ataque com endereços de origem falsificados dificultou o bloqueio por geolocalização,ddos
+Queda de portal por ataque "YoYo",Ataque que liga e desliga intermitentemente para confundir sistemas de mitigação,ddos
+Exaustão de memória por Buffer Overflow remoto,Tentativa de DDoS enviando strings gigantescas para campos de entrada da web,ddos
+Ataque de negação de serviço por amplificação CLDAP,Uso do protocolo LDAP sem conexão para gerar ataques volumétricos de larga escala,ddos
+Planilha enviada ao destinatário errado,Arquivo contendo dados de clientes foi compartilhado por engano com pessoa não autorizada.,vazamento_de_dados
+Exposição indevida de base interna,Foi identificada pasta com informações sensíveis acessível a usuários sem permissão.,vazamento_de_dados
+Dados pessoais em e-mail externo,Colaborador encaminhou planilha com dados pessoais para endereço externo indevido.,vazamento_de_dados
+Compartilhamento indevido de relatório,Relatório com informações confidenciais ficou disponível em link público.,vazamento_de_dados
+Base de usuários exposta,Arquivo contendo dados cadastrais foi armazenado sem proteção em diretório acessível.,vazamento_de_dados
+Documento sigiloso compartilhado sem controle,Um documento interno com informações sensíveis foi enviado a terceiros sem autorização.,vazamento_de_dados
+Planilha de colaboradores exposta,Lista com dados de colaboradores ficou disponível em pasta compartilhada aberta.,vazamento_de_dados
+Link público para arquivo sensível,Foi detectado compartilhamento por URL pública de documento contendo dados restritos.,vazamento_de_dados
+Anexo com dados financeiros enviado incorretamente,Mensagem foi encaminhada com informações financeiras para destinatário inadequado.,vazamento_de_dados
+Exportação indevida de registros,Usuário realizou exportação de dados sensíveis sem seguir o procedimento autorizado.,vazamento_de_dados
+Informações pessoais em canal impróprio,Dados de clientes foram postados em canal sem controle de acesso.,vazamento_de_dados
+Arquivo de backup acessível indevidamente,Cópia de segurança contendo registros sensíveis ficou sem proteção adequada.,vazamento_de_dados
+Documento com CPF exposto,Material contendo identificadores pessoais foi compartilhado fora do ambiente controlado.,vazamento_de_dados
+Relatório confidencial em armazenamento aberto,Foi encontrado relatório com dados internos em repositório acessível publicamente.,vazamento_de_dados
+Dados acadêmicos enviados a terceiros,Planilha com informações institucionais foi enviada a pessoa não autorizada.,vazamento_de_dados
+Acesso indevido a documento de clientes,Arquivo com histórico de clientes foi acessado por usuários sem necessidade operacional.,vazamento_de_dados
+Compartilhamento externo não autorizado,Documento com dados sensíveis foi compartilhado com domínio externo sem aprovação.,vazamento_de_dados
+Informações restritas em pasta pública,Dados internos ficaram disponíveis em local acessível a qualquer colaborador.,vazamento_de_dados
+Lista de contatos exposta,Foi identificada exposição de lista de contatos com informações pessoais em ambiente aberto.,vazamento_de_dados
+Vazamento por erro operacional,Um colaborador anexou arquivo sigiloso em mensagem enviada para grupo incorreto.,vazamento_de_dados
+Bucket S3 configurado como público,Base de dados de produção na nuvem foi encontrada sem autenticação e acessível via navegador,vazamento_de_dados
+Exfiltração de dados via nuvem pessoal,Colaborador realizou upload de código-fonte proprietário para conta pessoal do Dropbox,vazamento_de_dados
+Credenciais expostas em repositório público,Chaves de API e senhas de banco de dados foram encontradas em commit no GitHub,vazamento_de_dados
+Impressão de documentos sensíveis esquecida,Relatório de salários foi deixado em impressora de área comum sem supervisão,vazamento_de_dados
+Captura de tela de sistema restrito,Usuário fotografou dados sigilosos com celular e compartilhou em grupo de mensagens,vazamento_de_dados
+Base de marketing exposta em servidor ElasticSearch,Logs contendo e-mails e nomes de clientes ficaram indexados publicamente na web,vazamento_de_dados
+Envio de dados via chat corporativo aberto,Informações de pagamento foram postadas em canal público do Slack por engano,vazamento_de_dados
+Perda de dispositivo móvel corporativo,Notebook sem criptografia de disco foi extraviado contendo documentos estratégicos,vazamento_de_dados
+Dados de saúde compartilhados via WhatsApp,Exames de colaboradores foram enviados a grupo de gestores sem consentimento,vazamento_de_dados
+Erro de permissão em pasta do SharePoint,Toda a empresa ganhou acesso a pasta com termos de rescisão e bônus,vazamento_de_dados
+Exposição de registros de log,Arquivos de log contendo senhas em texto claro foram armazenados em servidor web,vazamento_de_dados
+Venda de base de dados em fórum cibernético,Identificado anúncio de venda de lista de e-mails corporativos em site da Dark Web,vazamento_de_dados
+Documento descartado em lixo comum,Contratos com assinaturas e dados pessoais foram descartados sem trituração,vazamento_de_dados
+Acesso de ex-funcionário a sistemas,Colaborador desligado manteve acesso a pastas de clientes e realizou download em massa,vazamento_de_dados
+Dados de cartões em ambiente de teste,Base de dados real foi usada em homologação sem processo de anonimização,vazamento_de_dados
+Transferência de dados via FTP sem criptografia,Tráfego contendo dados cadastrais foi interceptado por ser transmitido em texto claro,vazamento_de_dados
+Vazamento de chaves de criptografia,Chave privada de certificado digital foi armazenada em local de acesso público,vazamento_de_dados
+Respostas de formulário Google abertas,Pesquisa interna de satisfação permitiu visualização de respostas por qualquer pessoa com o link,vazamento_de_dados
+Relatório de auditoria enviado para domínio concorrente,Erro de preenchimento automático de e-mail causou envio de documento estratégico a terceiro,vazamento_de_dados
+Exposição de metadados em arquivos oficiais,Documento público continha comentários internos e histórico de alterações sensíveis,vazamento_de_dados
+Cópia de banco de dados em pendrive não autorizado,Funcionário copiou dump de banco de dados para dispositivo pessoal sem criptografia,vazamento_de_dados
+Dados de geolocalização expostos em app,Aplicativo da empresa vazou coordenadas de funcionários através de API insegura,vazamento_de_dados
+Vazamento de lista de senhas (Hash),Arquivo com hashes de senhas de usuários foi extraído após invasão de servidor,vazamento_de_dados
+Visualização de dados por ID sequencial (IDOR),Falha em portal permitiu que usuários vissem faturas de outros mudando o ID na URL,vazamento_de_dados
+Exposição de prontuários em sistema de RH,Falha de permissão permitiu que estagiários visualizassem atestados médicos,vazamento_de_dados
+Compartilhamento de tela com informações confidenciais,Durante reunião remota colaborador exibiu aba com dados de faturamento e lucros,vazamento_de_dados
+Base de leads exportada para e-mail privado,Vendedor enviou lista de contatos comerciais para si mesmo antes de pedir demissão,vazamento_de_dados
+Falha de privacidade em API de busca,Funcionalidade de busca permitiu extrair nomes e CPFs através de consultas automatizadas,vazamento_de_dados
+Backup de celular em nuvem pública insegura,Mensagens corporativas sensíveis foram sincronizadas com conta pessoal sem proteção,vazamento_de_dados
+Armazenamento de tokens de acesso em LocalStorage,Navegador expôs tokens de autenticação que poderiam ser lidos por scripts maliciosos,vazamento_de_dados
+Exposição de currículos em site de recrutamento,Pasta com documentos de candidatos ficou aberta para indexação no Google,vazamento_de_dados
+Vazamento de informações via clipboard (copiar/colar),Ferramenta de suporte capturou acidentalmente dados bancários da área de transferência,vazamento_de_dados
+Documentos sigilosos em anexo de ticket de suporte,Usuário anexou planilha com dados de clientes em chamado aberto para fornecedor externo,vazamento_de_dados
+Revelação de segredo industrial em rede social,Colaborador postou foto de protótipo ainda não lançado em perfil pessoal,vazamento_de_dados
+Exposição de endereços IP internos,Diagrama de rede detalhado foi compartilhado em fórum técnico para tirar dúvida,vazamento_de_dados
+Dados de menores de idade expostos,Base de dados de dependentes de funcionários ficou acessível via intranet,vazamento_de_dados
+Vazamento de informações por engenharia social,Atendente de suporte forneceu dados de conta por telefone para pessoa não autenticada,vazamento_de_dados
+Repositório de código legado aberto,Código antigo com lógicas de segurança e chaves hardcoded foi esquecido online,vazamento_de_dados
+Relatório de vendas em pasta de downloads compartilhada,Arquivo foi salvo em computador de uso comum e acessado por outros usuários,vazamento_de_dados
+Injeção de dados sensíveis em URL,Sistema passou a exibir tokens de sessão e e-mails diretamente nos parâmetros da URL,vazamento_de_dados
+Vazamento de histórico de navegação,Proxy da empresa expôs logs de sites acessados associados aos nomes dos funcionários,vazamento_de_dados
+Falha de segurança em impressora Wi-Fi,Documentos escaneados ficaram salvos no armazenamento interno da impressora sem senha,vazamento_de_dados
+Exposição de dados de biometria,Base de dados com templates faciais para acesso físico foi encontrada sem proteção,vazamento_de_dados
+Compartilhamento de credenciais de grupo,Senha de sistema crítico foi compartilhada em arquivo de texto na rede interna,vazamento_de_dados
+Vazamento de planos de expansão estratégica,Apresentação confidencial foi anexada a convite de calendário com convidados externos,vazamento_de_dados
+Erro de configuração em servidor Jenkins,Painel de automação permitiu acesso anônimo a logs de build com dados sensíveis,vazamento_de_dados
+Exposição de endereços de e-mail via "Cco" ignorado,E-mail em massa foi enviado com todos os destinatários no campo "Para",vazamento_de_dados
+Captura de pacotes (Sniffing) em rede Wi-Fi aberta,Dados de login foram capturados em rede de visitantes sem criptografia,vazamento_de_dados
+Revelação de vulnerabilidades não corrigidas,Relatório de pentest foi compartilhado com equipe de vendas por engano,vazamento_de_dados
+Dados pessoais em cache de servidor,Aplicações de cache armazenaram páginas com dados de perfil de usuários e os serviram a outros,vazamento_de_dados
