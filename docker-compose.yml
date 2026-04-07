@@ -1,0 +1,21 @@
+version: '3.8'
+
+services:
+  db_classificador:
+    image: postgres:15-alpine
+    container_name: db_classificador
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: classificador
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./postgres_data:/var/lib/postgresql/data
+    networks:
+      - net_classificador
+
+networks:
+  net_classificador:
+    driver: bridge

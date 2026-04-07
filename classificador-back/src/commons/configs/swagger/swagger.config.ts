@@ -11,13 +11,10 @@ export class Swagger {
       .setDescription('Api voltada para a Aplicação Classificador Web.')
       .setVersion('1.0')
       .addTag('Aqui vamos gerenciar as rotas da aplicação.')
-      .addBearerAuth(
-        {
-          type: 'http',
-          scheme: 'bearer',
-          bearerFormat: 'JWT',
-        },
-        'access-token',
+      .addCookieAuth('access_token')
+      .addApiKey(
+        { type: 'apiKey', name: 'x-csrf-token', in: 'header' },
+        'x-csrf-token',
       )
       .build();
 

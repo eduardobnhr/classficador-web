@@ -8,12 +8,15 @@ import {
   ApiNotFoundResponse,
   ApiResponse,
   ApiUnauthorizedResponse,
+  ApiCookieAuth,
+  ApiSecurity,
 } from '@nestjs/swagger';
 
 export class Documentation {
   static create(apiBodyDto: any, ApiResponseEntity: any): MethodDecorator {
     const decorators = [
-      ApiBearerAuth('access-token'),
+      ApiCookieAuth('access_token'),
+      ApiSecurity('x-csrf-token'),
       ApiBody({ type: apiBodyDto }),
       ApiResponse({ type: ApiResponseEntity, status: HttpStatus.CREATED }),
       ApiUnauthorizedResponse(this.createErrorResponseSchema('Unauthorized')),
@@ -27,7 +30,8 @@ export class Documentation {
 
   static list(ApiResponseEntity: any): MethodDecorator {
     const decorators = [
-      ApiBearerAuth('access-token'),
+      ApiCookieAuth('access_token'),
+      ApiSecurity('x-csrf-token'),
       ApiResponse({ type: ApiResponseEntity, isArray: true, status: HttpStatus.OK }),
       ApiUnauthorizedResponse(this.createErrorResponseSchema('Unauthorized')),
       ApiInternalServerErrorResponse(this.createErrorResponseSchema('Internal Server Error')),
@@ -38,7 +42,8 @@ export class Documentation {
 
   static findOne(ApiResponseEntity: any): MethodDecorator {
     const decorators = [
-      ApiBearerAuth('access-token'),
+      ApiCookieAuth('access_token'),
+      ApiSecurity('x-csrf-token'),
       ApiResponse({ type: ApiResponseEntity, status: HttpStatus.OK }),
       ApiNotFoundResponse(this.createErrorResponseSchema('Not Found')),
       ApiUnauthorizedResponse(this.createErrorResponseSchema('Unauthorized')),
@@ -50,7 +55,8 @@ export class Documentation {
 
   static update(apiBodyDto: any, ApiResponseEntity: any): MethodDecorator {
     const decorators = [
-      ApiBearerAuth('access-token'),
+      ApiCookieAuth('access_token'),
+      ApiSecurity('x-csrf-token'),
       ApiBody({ type: apiBodyDto }),
       ApiResponse({ type: ApiResponseEntity, status: HttpStatus.OK }),
       ApiBadRequestResponse(this.createErrorResponseSchema('Bad Request')),
@@ -64,7 +70,8 @@ export class Documentation {
 
   static delete(): MethodDecorator {
     const decorators = [
-      ApiBearerAuth('access-token'),
+      ApiCookieAuth('access_token'),
+      ApiSecurity('x-csrf-token'),
       ApiResponse({ status: HttpStatus.NO_CONTENT }),
       ApiBadRequestResponse(this.createErrorResponseSchema('Bad Request')),
       ApiUnauthorizedResponse(this.createErrorResponseSchema('Unauthorized')),

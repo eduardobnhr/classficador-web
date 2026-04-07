@@ -4,6 +4,8 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app/app.module';
 import { Swagger } from './commons/configs/swagger/swagger.config';
 import { ServicesUtils } from './commons/utils/services';
+import cookieParser from 'cookie-parser';
+import { CsrfConfig } from './commons/configs/csrf/csrf.config';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
@@ -27,6 +29,7 @@ async function bootstrap() {
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     preflightContinue: false,
     optionsSuccessStatus: 204,
+    credentials: true,
   });
 
   app.useGlobalPipes(
@@ -36,6 +39,11 @@ async function bootstrap() {
       transform: true,
     }),
   );
+
+  CsrfConfig.initialize(configService);
+
+  app.use(cookieParser());
+  app.use(CsrfConfig.doubleCsrfProtection);
 
   await app.listen(configsMain.port, async () => {
     Logger.debug(`API disponível em: ${ServicesUtils.getLocalIp()}:${configsMain.port}`);
