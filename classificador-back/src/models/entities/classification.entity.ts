@@ -26,14 +26,6 @@ export class Classification {
     confidence_score: number;
 
     @ApiProperty({ required: false })
-    @Column({ type: 'text', nullable: true })
-    explanation: string;
-
-    @ApiProperty({ required: false })
-    @Column({ type: 'text', nullable: true })
-    recommended_actions: string;
-
-    @ApiProperty({ required: false })
     @Column({ type: 'varchar', length: 50, nullable: true })
     model_version: string;
 

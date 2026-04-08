@@ -15,12 +15,6 @@ export class CreateIncidentDto {
 
     @ApiProperty({ required: false })
     @IsOptional()
-    @IsString()
-    @MaxLength(255)
-    affected_asset?: string;
-
-    @ApiProperty({ required: false })
-    @IsOptional()
     @IsDateString()
     occurred_at?: string;
 }
