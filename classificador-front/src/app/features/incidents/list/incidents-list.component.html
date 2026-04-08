@@ -1,4 +1,6 @@
 <section class="incidents-page">
+  <p-confirmDialog key="delete-incident-list" styleClass="sentinel-confirm-dialog" [dismissableMask]="true" />
+
   <header class="incidents-header">
     <div>
       <h1>Incidentes</h1>
@@ -6,10 +8,6 @@
     </div>
 
     <div class="incidents-header__actions">
-      <button class="incidents-button incidents-button--ghost" type="button">
-        <i class="pi pi-download" aria-hidden="true"></i>
-        Exportar Relatório
-      </button>
 
       <a class="incidents-button incidents-button--primary" routerLink="/incidents/new">
         <i class="pi pi-plus" aria-hidden="true"></i>
@@ -20,7 +18,7 @@
 
   <form class="incidents-filters" aria-label="Filtros de incidentes">
     <label class="filter-field filter-field--search">
-      <span>BUSCA POR ID/TÍTULO</span>
+      <span>BUSCA POR ID/TITULO</span>
       <span class="filter-field__search">
         <i class="pi pi-search" aria-hidden="true"></i>
         <input
@@ -29,7 +27,7 @@
           name="search"
           [(ngModel)]="searchTerm"
           (ngModelChange)="loadIncidents()"
-          placeholder="#INC-2023..."
+          placeholder="Buscar incidente..."
         />
       </span>
     </label>
@@ -72,8 +70,6 @@
   </form>
 
   <article class="incidents-table-card">
-    <p-menu #actionsMenu [model]="actionItems" [popup]="true" appendTo="body" />
-
     <p-table
       [value]="incidents"
       [paginator]="true"
@@ -85,12 +81,12 @@
       <ng-template pTemplate="header">
         <tr>
           <th>ID</th>
-          <th>TÍTULO</th>
+          <th>TITULO</th>
           <th>CATEGORIA</th>
           <th>SEVERIDADE</th>
           <th>DATA</th>
           <th>STATUS</th>
-          <th>AÇÕES</th>
+          <th>ACOES</th>
         </tr>
       </ng-template>
 
@@ -104,7 +100,7 @@
           <td>
             <div class="incident-title">
               <strong>{{ incident.title }}</strong>
-              <span>Node: {{ incident.asset }}</span>
+              <span>Ativo: {{ incident.asset }}</span>
             </div>
           </td>
           <td>
@@ -117,19 +113,25 @@
           </td>
           <td>{{ formatDate(incident.createdAt) }}</td>
           <td>
-            <span class="status-badge status-badge--{{ incident.status.toLowerCase().replace(' ', '-') }}">
+            <span class="status-badge status-badge--{{ incident.status.toLowerCase() }}">
               {{ displayStatus(incident) }}
             </span>
           </td>
           <td>
-            <button
-              class="row-action"
-              type="button"
-              aria-label="Abrir menu de ações"
-              (click)="actionsMenu.toggle($event)"
-            >
-              ⋮
-            </button>
+            <div class="row-actions">
+              <a class="row-action row-action--link" [routerLink]="['/incidents', incident.id]" aria-label="Abrir incidente">
+                <i class="pi pi-eye" aria-hidden="true"></i>
+              </a>
+              <button
+                class="row-action row-action--danger"
+                type="button"
+                aria-label="Excluir incidente"
+                [disabled]="deletingIncidentId === incident.id"
+                (click)="deleteIncident(incident)"
+              >
+                <i class="pi pi-trash" aria-hidden="true"></i>
+              </button>
+            </div>
           </td>
         </tr>
       </ng-template>
@@ -139,28 +141,18 @@
   <footer class="incidents-footer">
     <article class="insight-card">
       <div>
-        <p>MÉDIA DE RESOLUÇÃO</p>
-        <strong>42m <span>↓12%</span></strong>
+        <p>MEDIA DE RESOLUCAO</p>
+        <strong>N/D <span>Sem dados</span></strong>
       </div>
-      <div class="sparkline" aria-hidden="true">
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-      </div>
+      <div class="insight-card__empty">Aguardando metricas do backend</div>
     </article>
 
     <article class="insight-card">
       <div>
         <p>STATUS DA REDE</p>
-        <strong>12 Críticos · 45 Alertas · 1,024 Estáveis</strong>
+        <strong>Sem dados disponiveis</strong>
       </div>
-      <div class="mini-bars" aria-hidden="true">
-        <span class="mini-bars__critical"></span>
-        <span class="mini-bars__warning"></span>
-        <span class="mini-bars__stable"></span>
-      </div>
+      <div class="insight-card__empty">Nenhum resumo operacional recebido</div>
     </article>
   </footer>
 </section>

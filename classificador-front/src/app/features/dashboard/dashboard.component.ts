@@ -11,7 +11,6 @@ interface MetricCard {
   value: string;
   meta: string;
   tone: 'primary' | 'error' | 'muted';
-  icon?: string;
 }
 
 interface ThreatDistribution {
@@ -23,8 +22,8 @@ interface ThreatDistribution {
 interface Ticket {
   id: string;
   subject: string;
-  category: 'SERVER' | 'NETWORK' | 'AUTH' | 'DB' | 'OPS';
-  status: 'OPEN' | 'IN PROGRESS' | 'CLASSIFIED';
+  category: 'SERVIDOR' | 'REDE' | 'AUTENTICACAO' | 'BANCO' | 'OPERACOES';
+  status: 'ABERTO' | 'EM ANALISE' | 'CLASSIFICADO';
   createdAt: string;
 }
 
@@ -38,27 +37,21 @@ interface Ticket {
 export class DashboardComponent implements OnInit {
   private readonly incidentService = inject(IncidentService);
 
+  protected readonly telemetryWindowOptions = [7, 30] as const;
+  protected selectedTelemetryWindow = 7;
   protected metrics: MetricCard[] = [
-    { title: 'TOTAL DE INCIDENTES', value: '1,284', meta: '+12%', tone: 'primary' },
-    { title: 'CRÍTICOS', value: '42', meta: 'High Risk', tone: 'error' },
-    { title: 'PENDENTES', value: '156', meta: 'Awaiting action', tone: 'muted', icon: '···' },
-    { title: 'CLASSIFICADOS', value: '1,086', meta: '84% Resolved', tone: 'primary', icon: '✓' }
+    { title: 'TOTAL DE INCIDENTES', value: '0', meta: 'Sem dados', tone: 'muted' },
+    { title: 'CRITICOS', value: '0', meta: 'Sem dados', tone: 'muted' },
+    { title: 'PENDENTES', value: '0', meta: 'Sem dados', tone: 'muted' },
+    { title: 'CLASSIFICADOS', value: '0', meta: 'Sem dados', tone: 'muted' }
   ];
 
-  protected readonly chartData = {
-    labels: ['MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT', 'SUN'],
+  protected chartData = {
+    labels: [] as string[],
     datasets: [
       {
-        data: [42, 57, 48, 76, 63, 91, 84],
-        backgroundColor: [
-          'rgb(123 208 255 / 0.35)',
-          'rgb(123 208 255 / 0.5)',
-          'rgb(123 208 255 / 0.42)',
-          'rgb(123 208 255 / 0.7)',
-          'rgb(123 208 255 / 0.55)',
-          'rgb(123 208 255 / 0.9)',
-          'rgb(123 208 255 / 0.78)'
-        ],
+        data: [] as number[],
+        backgroundColor: [] as string[],
         borderRadius: 6,
         borderSkipped: false,
         barThickness: 22
@@ -97,6 +90,7 @@ export class DashboardComponent implements OnInit {
         }
       },
       y: {
+        beginAtZero: true,
         border: {
           display: false
         },
@@ -105,6 +99,7 @@ export class DashboardComponent implements OnInit {
           drawTicks: false
         },
         ticks: {
+          precision: 0,
           color: '#c1c6d7',
           font: {
             family: 'Inter',
@@ -115,67 +110,96 @@ export class DashboardComponent implements OnInit {
     }
   };
 
-  protected threats: ThreatDistribution[] = [
-    { label: 'NETWORK BREACH', value: 32, tone: 'error' },
-    { label: 'UNAUTHORIZED ACCESS', value: 48, tone: 'primary' },
-    { label: 'DATA LEAKAGE', value: 20, tone: 'tertiary' }
-  ];
-
-  protected tickets: Ticket[] = [
-    {
-      id: '#INC-1048',
-      subject: 'Suspicious lateral movement detected',
-      category: 'NETWORK',
-      status: 'IN PROGRESS',
-      createdAt: 'APR 07, 2026'
-    },
-    {
-      id: '#INC-1047',
-      subject: 'Privileged login outside policy window',
-      category: 'AUTH',
-      status: 'OPEN',
-      createdAt: 'APR 07, 2026'
-    },
-    {
-      id: '#INC-1046',
-      subject: 'Database exfiltration signature matched',
-      category: 'DB',
-      status: 'CLASSIFIED',
-      createdAt: 'APR 06, 2026'
-    },
-    {
-      id: '#INC-1045',
-      subject: 'Server telemetry degraded in cluster 04',
-      category: 'SERVER',
-      status: 'OPEN',
-      createdAt: 'APR 06, 2026'
-    },
-    {
-      id: '#INC-1044',
-      subject: 'Operations alert threshold exceeded',
-      category: 'OPS',
-      status: 'CLASSIFIED',
-      createdAt: 'APR 05, 2026'
-    }
-  ];
+  protected threats: ThreatDistribution[] = [];
+  protected tickets: Ticket[] = [];
 
   ngOnInit(): void {
-    this.incidentService.getDashboardStats().subscribe({
+    this.loadDashboardStats(this.selectedTelemetryWindow);
+  }
+
+  protected selectTelemetryWindow(days: 7 | 30): void {
+    if (days === this.selectedTelemetryWindow) {
+      return;
+    }
+
+    this.selectedTelemetryWindow = days;
+    this.loadDashboardStats(days);
+  }
+
+  private loadDashboardStats(days: number): void {
+    this.incidentService.getDashboardStats(days).subscribe({
       next: (stats) => {
         this.metrics = [
-          { title: 'TOTAL DE INCIDENTES', value: String(stats.totalIncidents), meta: '+12%', tone: 'primary' },
-          { title: 'CRÍTICOS', value: String(stats.critical), meta: 'High Risk', tone: 'error' },
-          { title: 'PENDENTES', value: String(stats.pending), meta: 'Awaiting action', tone: 'muted', icon: '···' },
-          { title: 'CLASSIFICADOS', value: String(stats.classified), meta: '84% Resolved', tone: 'primary', icon: '✓' }
+          {
+            title: 'TOTAL DE INCIDENTES',
+            value: String(stats.totalIncidents),
+            meta: stats.totalIncidents > 0 ? `${stats.totalIncidents} registrados` : 'Sem dados',
+            tone: stats.totalIncidents > 0 ? 'primary' : 'muted'
+          },
+          {
+            title: 'CRITICOS',
+            value: String(stats.critical),
+            meta: stats.critical > 0 ? 'Risco elevado' : 'Sem criticos',
+            tone: stats.critical > 0 ? 'error' : 'muted'
+          },
+          {
+            title: 'PENDENTES',
+            value: String(stats.pending),
+            meta: stats.pending > 0 ? 'Aguardando acao' : 'Sem pendencias',
+            tone: 'muted'
+          },
+          {
+            title: 'CLASSIFICADOS',
+            value: String(stats.classified),
+            meta: stats.totalIncidents > 0 ? `${Math.round((stats.classified / stats.totalIncidents) * 100)}% concluidos` : 'Sem dados',
+            tone: stats.classified > 0 ? 'primary' : 'muted'
+          }
         ];
+
+        this.chartData = {
+          ...this.chartData,
+          labels: stats.telemetry.map((item) => item.label),
+          datasets: [
+            {
+              ...this.chartData.datasets[0],
+              data: stats.telemetry.map((item) => item.value),
+              backgroundColor: stats.telemetry.map((_, index, items) => this.buildBarColor(index, items.length))
+            }
+          ]
+        };
+
         this.threats = stats.threatDistribution.map((item, index) => ({
-          label: item.label,
+          label: this.mapThreatLabel(item.label),
           value: item.value,
           tone: index === 0 ? 'error' : index === 1 ? 'primary' : 'tertiary'
         }));
         this.tickets = stats.recentTickets.map((incident) => this.mapTicket(incident));
+      },
+      error: () => {
+        this.threats = [];
+        this.tickets = [];
+        this.chartData = {
+          ...this.chartData,
+          labels: [],
+          datasets: [
+            {
+              ...this.chartData.datasets[0],
+              data: [],
+              backgroundColor: []
+            }
+          ]
+        };
       }
     });
+  }
+
+  private buildBarColor(index: number, total: number): string {
+    if (total <= 1) {
+      return 'rgb(123 208 255 / 0.92)';
+    }
+
+    const opacity = 0.45 + (index / (total - 1)) * 0.45;
+    return `rgb(123 208 255 / ${opacity.toFixed(2)})`;
   }
 
   private mapTicket(incident: Incident): Ticket {
@@ -192,35 +216,51 @@ export class DashboardComponent implements OnInit {
     };
   }
 
-  private mapCategory(category: Incident['category']): Ticket['category'] {
-    if (category === 'DB' || category === 'DATA_LEAK') {
-      return 'DB';
+  private mapThreatLabel(label: string): string {
+    if (label === 'NETWORK BREACH') {
+      return 'VIOLACAO DE REDE';
     }
 
-    if (category === 'AUTH' || category === 'SEGURANÇA') {
-      return 'AUTH';
+    if (label === 'UNAUTHORIZED ACCESS') {
+      return 'ACESSO NAO AUTORIZADO';
+    }
+
+    if (label === 'DATA LEAKAGE') {
+      return 'VAZAMENTO DE DADOS';
+    }
+
+    return label;
+  }
+
+  private mapCategory(category: Incident['category']): Ticket['category'] {
+    if (category === 'DB' || category === 'DATA_LEAK') {
+      return 'BANCO';
+    }
+
+    if (category === 'AUTH' || category === 'SEGURANCA') {
+      return 'AUTENTICACAO';
     }
 
     if (category === 'SERVER' || category === 'RECURSOS') {
-      return 'SERVER';
+      return 'SERVIDOR';
     }
 
     if (category === 'OPS') {
-      return 'OPS';
+      return 'OPERACOES';
     }
 
-    return 'NETWORK';
+    return 'REDE';
   }
 
   private mapStatus(status: Incident['status']): Ticket['status'] {
     if (status === 'CLASSIFICADO' || status === 'RESOLVIDO') {
-      return 'CLASSIFIED';
+      return 'CLASSIFICADO';
     }
 
     if (status === 'EM_ANALISE') {
-      return 'IN PROGRESS';
+      return 'EM ANALISE';
     }
 
-    return 'OPEN';
+    return 'ABERTO';
   }
 }

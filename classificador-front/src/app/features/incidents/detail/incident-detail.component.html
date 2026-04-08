@@ -1,5 +1,7 @@
 @if (incident) {
   <section class="incident-detail">
+    <p-confirmDialog key="delete-incident-detail" styleClass="sentinel-confirm-dialog" [dismissableMask]="true" />
+
     <header class="detail-header">
       <div class="detail-header__content">
         <a class="detail-header__back" routerLink="/incidents" aria-label="Voltar para lista de incidentes">
@@ -15,8 +17,10 @@
       </div>
 
       <div class="detail-header__actions">
-        <button class="detail-button detail-button--ghost" type="button">EXPORTAR RELATÓRIO</button>
-        <button class="detail-button detail-button--primary" type="button">INICIAR MITIGAÇÃO</button>
+        <button class="detail-button detail-button--primary" type="button">INICIAR MITIGACAO</button>
+        <button class="detail-button detail-button--danger" type="button" [disabled]="deleting" (click)="deleteIncident()">
+          {{ deleting ? 'EXCLUINDO...' : 'EXCLUIR INCIDENTE' }}
+        </button>
       </div>
     </header>
 
@@ -25,39 +29,43 @@
         <article class="detail-card">
           <header class="detail-card__header">
             <i class="pi pi-align-left" aria-hidden="true"></i>
-            <span>DESCRIÇÃO COMPLETA</span>
+            <span>DESCRICAO COMPLETA</span>
           </header>
 
           <div class="detail-card__body">
             <p>{{ incident.description }}</p>
-            <pre class="detail-code"><code>Asset: {{ incident.asset }} | Occurred: {{ formatDate(incident.occurredAt) }}</code></pre>
+            <pre class="detail-code"><code>Ativo: {{ incident.asset }} | Ocorrido em: {{ formatDate(incident.occurredAt) }}</code></pre>
           </div>
         </article>
 
         <article class="detail-card">
           <header class="detail-card__header">
             <i class="pi pi-shield" aria-hidden="true"></i>
-            <span>AÇÕES RECOMENDADAS</span>
+            <span>ACOES RECOMENDADAS</span>
           </header>
 
-          <div class="action-grid">
-            @for (action of recommendedActions; track action.title) {
-              <button class="action-card" type="button">
-                <i [class]="action.icon" aria-hidden="true"></i>
-                <span>{{ action.title }}</span>
-              </button>
-            }
-          </div>
+          @if (recommendedActions.length > 0) {
+            <div class="action-grid">
+              @for (action of recommendedActions; track action.title) {
+                <button class="action-card" type="button">
+                  <i [class]="action.icon" aria-hidden="true"></i>
+                  <span>{{ action.title }}</span>
+                </button>
+              }
+            </div>
+          } @else {
+            <p class="detail-card__empty">Nenhuma acao recomendada foi retornada pela API.</p>
+          }
         </article>
       </div>
 
       <aside class="detail-grid__right">
         <article class="detail-card classification-card">
           <header class="detail-card__header">
-            <span>IA CLASSIFICATION</span>
+            <span>CLASSIFICACAO DA IA</span>
           </header>
 
-          <div class="confidence" [attr.aria-label]="'Confiança ' + confidence + '%'">
+          <div class="confidence" [attr.aria-label]="'Confianca ' + confidence + '%'">
             <svg viewBox="0 0 120 120" role="img">
               <circle class="confidence__track" cx="60" cy="60" r="48"></circle>
               <circle
@@ -72,7 +80,7 @@
             </svg>
             <div class="confidence__value">
               <strong>{{ confidence | number: '1.0-1' }}%</strong>
-              <span>CONFIANÇA</span>
+              <span>CONFIANCA</span>
             </div>
           </div>
 
@@ -94,7 +102,7 @@
 
         <article class="detail-card metadata-card">
           <header class="detail-card__header">
-            <span>METADADOS DA CLASSIFICAÇÃO</span>
+            <span>METADADOS DA CLASSIFICACAO</span>
           </header>
 
           <div class="metadata-list">

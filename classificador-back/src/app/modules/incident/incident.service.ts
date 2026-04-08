@@ -73,4 +73,20 @@ export class IncidentService {
       GenerateException(error)
     }
   }
+
+  async remove(id: string, userId: string): Promise<void> {
+    try {
+      const incident = await this.incidentRepository.findOne({
+        where: { id, user_id: userId },
+      });
+
+      if (!incident) {
+        throw new NotFoundException(`Incidente com ID ${id} nao encontrado.`);
+      }
+
+      await this.incidentRepository.remove(incident);
+    } catch (error) {
+      GenerateException(error)
+    }
+  }
 }

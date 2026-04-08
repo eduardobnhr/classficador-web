@@ -1,6 +1,6 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
-import { Observable, catchError, delay, map, of, switchMap } from 'rxjs';
+import { Observable, map, switchMap } from 'rxjs';
 
 import { environment } from '../../../environments/environment';
 import { AuthService } from './auth.service';
@@ -29,12 +29,33 @@ interface BackendIncident {
   classification?: BackendClassification | null;
 }
 
+interface BackendDashboardTelemetryItem {
+  label: string;
+  value: number;
+}
+
+interface BackendThreatDistributionItem {
+  label: string;
+  value: number;
+  category: string;
+}
+
+interface BackendDashboardStats {
+  totalIncidents: number;
+  critical: number;
+  pending: number;
+  classified: number;
+  threatDistribution: BackendThreatDistributionItem[];
+  recentTickets: BackendIncident[];
+  telemetry: BackendDashboardTelemetryItem[];
+}
+
 export type IncidentCategory =
   | 'REDE'
   | 'VULNERABILIDADE'
   | 'DATA_LEAK'
   | 'RECURSOS'
-  | 'SEGURANÇA'
+  | 'SEGURANCA'
   | 'AUTH'
   | 'SERVER'
   | 'DB'
@@ -94,6 +115,11 @@ export interface ThreatDistributionItem {
   category: IncidentCategory;
 }
 
+export interface DashboardTelemetryItem {
+  label: string;
+  value: number;
+}
+
 export interface DashboardStats {
   totalIncidents: number;
   critical: number;
@@ -101,6 +127,7 @@ export interface DashboardStats {
   classified: number;
   threatDistribution: ThreatDistributionItem[];
   recentTickets: Incident[];
+  telemetry: DashboardTelemetryItem[];
 }
 
 export interface CreateIncidentPayload {
@@ -119,54 +146,18 @@ export class IncidentService {
   private readonly http = inject(HttpClient);
   private readonly authService = inject(AuthService);
   private readonly apiUrl = environment.apiUrl;
-  private readonly mockIncidents: Incident[] = [
-    {
-      id: 'INC-2024-8842',
-      title: 'Suspicious Login Pattern via API Gateway',
-      description:
-        'Sequência anômala de autenticações detectada no gateway público com padrões compatíveis com phishing e tentativa de enumeração.',
-      asset: 'BR-SAO-01 · API Gateway',
-      occurredAt: '2024-05-24T14:32:00.000Z',
-      category: 'AUTH',
-      severity: 'CRITICA',
-      status: 'CLASSIFICADO',
-      createdAt: '2024-05-24T14:33:12.000Z',
-      aiClassification: {
-        confidence: 98.5,
-        category: 'PHISHING',
-        severity: 'CRITICA',
-        model: 'SENTINEL-V4.2-PRO',
-        processingTime: '12ms',
-        detectedAt: '24/05/2024 - 14:32'
-      },
-      recommendedActions: this.defaultRecommendedActions()
-    },
-    {
-      id: 'INC-2024-8841',
-      title: 'Anomalia de tráfego detectada no gateway primário',
-      description: 'Picos de tráfego não reconhecido foram identificados em portas não convencionais.',
-      asset: 'BR-SAO-01',
-      occurredAt: '2026-04-07T12:42:00.000Z',
-      category: 'REDE',
-      severity: 'CRITICA',
-      status: 'ATIVO',
-      createdAt: '2026-04-07T12:45:00.000Z'
-    }
-  ];
 
   getIncidents(filter: IncidentFilter = {}): Observable<PagedResult<Incident>> {
     return this.http.get<ApiResponse<BackendIncident[]>>(`${this.apiUrl}/incident`, { params: this.buildParams(filter) }).pipe(
       map((response) => response.data.map((incident) => this.mapBackendIncident(incident))),
-      map((incidents) => this.applyClientPaging(incidents, filter)),
-      catchError(() => this.getMockIncidents(filter))
+      map((incidents) => this.applyClientPaging(incidents, filter))
     );
   }
 
   getIncidentById(id: string): Observable<Incident> {
-    return this.http.get<ApiResponse<BackendIncident>>(`${this.apiUrl}/incident/${id}`).pipe(
-      map((response) => this.mapBackendIncident(response.data)),
-      catchError(() => this.getMockIncidentById(id))
-    );
+    return this.http
+      .get<ApiResponse<BackendIncident>>(`${this.apiUrl}/incident/${id}`)
+      .pipe(map((response) => this.mapBackendIncident(response.data)));
   }
 
   createIncident(payload: CreateIncidentPayload): Observable<Incident> {
@@ -179,22 +170,33 @@ export class IncidentService {
 
     return this.authService.ensureCsrfToken().pipe(
       switchMap(() => this.http.post<ApiResponse<BackendIncident>>(`${this.apiUrl}/incident`, backendPayload)),
-      map((response) => this.mapBackendIncident(response.data)),
-      catchError(() => this.createMockIncident(payload))
+      map((response) => this.mapBackendIncident(response.data))
     );
   }
 
-  getDashboardStats(): Observable<DashboardStats> {
-    return this.getIncidents({ page: 0, size: 100 }).pipe(
-      map(({ data }) => ({
-        totalIncidents: data.length,
-        critical: data.filter((incident) => incident.severity === 'CRITICA').length,
-        pending: data.filter((incident) => incident.status === 'ATIVO' || incident.status === 'EM_ANALISE').length,
-        classified: data.filter((incident) => incident.status === 'CLASSIFICADO').length,
-        threatDistribution: this.calculateThreatDistribution(data),
-        recentTickets: data.slice(0, 5)
-      })),
-      catchError(() => this.getMockDashboardStats())
+  deleteIncident(id: string): Observable<void> {
+    return this.authService.ensureCsrfToken().pipe(
+      switchMap(() => this.http.delete<void>(`${this.apiUrl}/incident/${id}`))
+    );
+  }
+
+  getDashboardStats(days = 7): Observable<DashboardStats> {
+    const params = new HttpParams().set('days', String(days));
+
+    return this.http.get<ApiResponse<BackendDashboardStats>>(`${this.apiUrl}/dashboard/stats`, { params }).pipe(
+      map((response) => ({
+        totalIncidents: response.data.totalIncidents,
+        critical: response.data.critical,
+        pending: response.data.pending,
+        classified: response.data.classified,
+        threatDistribution: response.data.threatDistribution.map((item) => ({
+          label: item.label,
+          value: item.value,
+          category: this.mapCategory(item.category)
+        })),
+        recentTickets: response.data.recentTickets.map((incident) => this.mapBackendIncident(incident)),
+        telemetry: response.data.telemetry
+      }))
     );
   }
 
@@ -217,7 +219,7 @@ export class IncidentService {
       id: incident.id,
       title: incident.title,
       description: incident.description,
-      asset: incident.affected_asset ?? 'Ativo não informado',
+      asset: incident.affected_asset ?? 'Ativo nao informado',
       occurredAt: incident.occurred_at ?? incident.created_at,
       category: this.mapCategory(classification?.category),
       severity: this.mapSeverity(classification?.severity),
@@ -228,12 +230,12 @@ export class IncidentService {
             confidence: confidence <= 1 ? confidence * 100 : confidence,
             category: classification.category,
             severity: classification.severity,
-            model: classification.model_version ?? 'SENTINEL-V4.2-PRO',
-            processingTime: '12ms',
+            model: classification.model_version ?? 'N/D',
+            processingTime: 'N/D',
             detectedAt: new Date(classification.classified_at).toLocaleString('pt-BR')
           }
         : undefined,
-      recommendedActions: recommendedActions.length > 0 ? recommendedActions : this.defaultRecommendedActions()
+      recommendedActions: recommendedActions.length > 0 ? recommendedActions : undefined
     };
   }
 
@@ -249,65 +251,6 @@ export class IncidentService {
       page,
       size
     };
-  }
-
-  private getMockIncidents(filter: IncidentFilter): Observable<PagedResult<Incident>> {
-    return of(this.applyClientPaging(this.mockIncidents, filter)).pipe(delay(300));
-  }
-
-  private getMockIncidentById(id: string): Observable<Incident> {
-    const incident = this.mockIncidents.find((item) => item.id === id) ?? this.mockIncidents[0];
-
-    return of(incident).pipe(delay(300));
-  }
-
-  private createMockIncident(payload: CreateIncidentPayload): Observable<Incident> {
-    const incident: Incident = {
-      id: `INC-${new Date().getFullYear()}-${Math.floor(1000 + Math.random() * 9000)}`,
-      title: payload.title,
-      description: payload.description,
-      asset: payload.asset,
-      occurredAt: payload.occurredAt,
-      category: payload.category ?? 'SEGURANÇA',
-      severity: payload.severity ?? 'MEDIA',
-      status: 'EM_ANALISE',
-      createdAt: new Date().toISOString(),
-      recommendedActions: this.defaultRecommendedActions()
-    };
-
-    this.mockIncidents.unshift(incident);
-
-    return of(incident).pipe(delay(300));
-  }
-
-  private getMockDashboardStats(): Observable<DashboardStats> {
-    const stats: DashboardStats = {
-      totalIncidents: 1284,
-      critical: 42,
-      pending: 156,
-      classified: 1086,
-      threatDistribution: [
-        { label: 'NETWORK BREACH', value: 32, category: 'REDE' },
-        { label: 'UNAUTHORIZED ACCESS', value: 48, category: 'AUTH' },
-        { label: 'DATA LEAKAGE', value: 20, category: 'DATA_LEAK' }
-      ],
-      recentTickets: this.mockIncidents.slice(0, 5)
-    };
-
-    return of(stats).pipe(delay(300));
-  }
-
-  private calculateThreatDistribution(incidents: Incident[]): ThreatDistributionItem[] {
-    const total = incidents.length || 1;
-    const auth = incidents.filter((incident) => incident.category === 'AUTH' || incident.category === 'SEGURANÇA').length;
-    const network = incidents.filter((incident) => incident.category === 'REDE').length;
-    const dataLeak = incidents.filter((incident) => incident.category === 'DATA_LEAK').length;
-
-    return [
-      { label: 'NETWORK BREACH', value: Math.round((network / total) * 100), category: 'REDE' },
-      { label: 'UNAUTHORIZED ACCESS', value: Math.round((auth / total) * 100), category: 'AUTH' },
-      { label: 'DATA LEAKAGE', value: Math.round((dataLeak / total) * 100), category: 'DATA_LEAK' }
-    ];
   }
 
   private matchesFilter(incident: Incident, filter: IncidentFilter): boolean {
@@ -391,7 +334,15 @@ export class IncidentService {
       return 'DB';
     }
 
-    return 'SEGURANÇA';
+    if (normalizedCategory?.includes('resource') || normalizedCategory?.includes('recurso')) {
+      return 'RECURSOS';
+    }
+
+    if (normalizedCategory?.includes('ops') || normalizedCategory?.includes('oper')) {
+      return 'OPS';
+    }
+
+    return 'SEGURANCA';
   }
 
   private parseRecommendedActions(actions?: string | null): RecommendedAction[] {
@@ -404,34 +355,5 @@ export class IncidentService {
     } catch {
       return [];
     }
-  }
-
-  private defaultRecommendedActions(): RecommendedAction[] {
-    return [
-      {
-        id: 'block-origin-ips',
-        title: 'Bloquear IPs de Origem',
-        description: 'Bloqueie temporariamente os IPs associados ao padrão suspeito.',
-        icon: 'pi pi-ban'
-      },
-      {
-        id: 'reset-credentials',
-        title: 'Reset de Credenciais',
-        description: 'Reinicie credenciais de contas administrativas relacionadas.',
-        icon: 'pi pi-key'
-      },
-      {
-        id: 'forensic-analysis',
-        title: 'Análise Forense',
-        description: 'Colete evidências e preserve logs técnicos.',
-        icon: 'pi pi-file'
-      },
-      {
-        id: 'network-isolation',
-        title: 'Isolamento de Rede',
-        description: 'Isole segmentos afetados até a mitigação ser validada.',
-        icon: 'pi pi-share-alt'
-      }
-    ];
   }
 }

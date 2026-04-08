@@ -1,4 +1,4 @@
-import { Body, Controller, Get, HttpCode, HttpStatus, Param, ParseUUIDPipe, Post, Request } from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, ParseUUIDPipe, Post, Request } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { Documentation } from 'src/commons/configs/swagger/documentation';
 import { Incident } from 'src/models/entities/incident.entity';
@@ -35,5 +35,13 @@ export class IncidentController {
   async findOne(@Param('id', new ParseUUIDPipe()) id: string, @Request() req) {
     const userId = req.user.id;
     return this.incidentService.findOne(id, userId);
+  }
+
+  @Documentation.delete()
+  @HttpCode(HttpStatus.NO_CONTENT)
+  @Delete(':id')
+  async remove(@Param('id', new ParseUUIDPipe()) id: string, @Request() req) {
+    const userId = req.user.id;
+    return this.incidentService.remove(id, userId);
   }
 }

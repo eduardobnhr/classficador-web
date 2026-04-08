@@ -133,6 +133,15 @@
   height: 18rem;
 }
 
+.dashboard-empty {
+  display: grid;
+  min-height: 100%;
+  place-items: center;
+  color: var(--on-surface-variant);
+  font-size: 0.875rem;
+  text-align: center;
+}
+
 .threat-panel {
   min-height: 100%;
 }

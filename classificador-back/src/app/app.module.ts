@@ -10,6 +10,7 @@ import { ResponseInterceptor } from 'src/commons/interceptors/response.intercept
 import { ExternalsModule } from 'src/externals/externals.module';
 import { AuthModule } from './auth/auth.module';
 import { ClassificationModule } from './modules/classification/classification.module';
+import { DashboardModule } from './modules/dashboard/dashboard.module';
 import { IncidentModule } from './modules/incident/incident.module';
 import { UsersModule } from './modules/users/users.module';
 
@@ -24,6 +25,7 @@ import { UsersModule } from './modules/users/users.module';
     DatabaseModule,
     AuthModule,
     UsersModule,
+    DashboardModule,
     IncidentModule,
     ClassificationModule,
     ExternalsModule,

@@ -3,6 +3,8 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { NavigationEnd, Router } from '@angular/router';
 import { filter } from 'rxjs';
 
+import { AuthService } from '../../../core/services/auth.service';
+
 @Component({
   selector: 'app-topbar',
   standalone: true,
@@ -12,9 +14,11 @@ import { filter } from 'rxjs';
 export class TopbarComponent {
   private readonly router = inject(Router);
   private readonly destroyRef = inject(DestroyRef);
+  private readonly authService = inject(AuthService);
 
   protected pageTitle = this.getTitle(this.router.url);
   protected showSearch = this.shouldShowSearch(this.router.url);
+  protected operatorName = this.authService.getCurrentUser()?.name ?? 'Operador';
 
   constructor() {
     this.router.events
@@ -26,27 +30,33 @@ export class TopbarComponent {
         this.pageTitle = this.getTitle(event.urlAfterRedirects);
         this.showSearch = this.shouldShowSearch(event.urlAfterRedirects);
       });
+
+    this.authService.currentUser$
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((user) => {
+        this.operatorName = user?.name ?? 'Operador';
+      });
   }
 
   private getTitle(url: string): string {
     if (url.startsWith('/dashboard')) {
-      return 'DASHBOARD';
+      return 'PAINEL';
     }
 
     if (url.startsWith('/incidents/new')) {
-      return 'CREATE INCIDENT';
+      return 'NOVO INCIDENTE';
     }
 
     if (url.startsWith('/incidents/') && url !== '/incidents') {
-      return 'INCIDENT DETAILS';
+      return 'DETALHES DO INCIDENTE';
     }
 
     if (url.startsWith('/incidents')) {
-      return 'INCIDENTS';
+      return 'INCIDENTES';
     }
 
     if (url.startsWith('/settings')) {
-      return 'SETTINGS';
+      return 'CONFIGURACOES';
     }
 
     return 'CLASSIFICADOR-WEB';

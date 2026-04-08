@@ -15,10 +15,10 @@ export class SidebarComponent {
   private readonly router = inject(Router);
 
   protected readonly navigationItems = [
-    { label: 'Dashboard', icon: 'pi pi-th-large', route: '/dashboard' },
-    { label: 'Incidents', icon: 'pi pi-shield', route: '/incidents' },
-    { label: 'Create Incident', icon: 'pi pi-bell', route: '/incidents/new' },
-    { label: 'Settings', icon: 'pi pi-cog', route: '/settings' }
+    { label: 'Painel', icon: 'pi pi-th-large', route: '/dashboard', exact: true },
+    { label: 'Incidentes', icon: 'pi pi-shield', route: '/incidents', exact: true },
+    { label: 'Novo Incidente', icon: 'pi pi-bell', route: '/incidents/new', exact: true },
+    { label: 'Configuracoes', icon: 'pi pi-cog', route: '/settings', exact: true }
   ];
 
   protected logout(): void {
