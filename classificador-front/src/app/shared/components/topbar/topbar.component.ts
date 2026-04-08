@@ -40,23 +40,23 @@ export class TopbarComponent {
 
   private getTitle(url: string): string {
     if (url.startsWith('/dashboard')) {
-      return 'DASHBOARD';
+      return 'PAINEL';
     }
 
     if (url.startsWith('/incidents/new')) {
-      return 'CREATE INCIDENT';
+      return 'NOVO INCIDENTE';
     }
 
     if (url.startsWith('/incidents/') && url !== '/incidents') {
-      return 'INCIDENT DETAILS';
+      return 'DETALHES DO INCIDENTE';
     }
 
     if (url.startsWith('/incidents')) {
-      return 'INCIDENTS';
+      return 'INCIDENTES';
     }
 
     if (url.startsWith('/settings')) {
-      return 'SETTINGS';
+      return 'CONFIGURACOES';
     }
 
     return 'CLASSIFICADOR-WEB';

@@ -7,6 +7,7 @@
 .p-card,
 .p-panel,
 .p-dialog,
+.p-confirm-dialog,
 .p-sidebar,
 .p-menu,
 .p-menubar,
@@ -20,13 +21,17 @@
 
 .p-card,
 .p-panel,
-.p-dialog {
+.p-dialog,
+.p-confirm-dialog {
   box-shadow: none;
 }
 
 .p-dialog .p-dialog-header,
 .p-dialog .p-dialog-content,
 .p-dialog .p-dialog-footer,
+.p-confirm-dialog .p-dialog-header,
+.p-confirm-dialog .p-dialog-content,
+.p-confirm-dialog .p-dialog-footer,
 .p-panel .p-panel-header,
 .p-panel .p-panel-content,
 .p-datatable .p-datatable-header,
@@ -96,6 +101,11 @@
   border: 0;
   background: transparent;
   color: var(--primary);
+}
+
+.p-button.p-button-danger {
+  background: rgb(147 0 10 / 0.34);
+  color: var(--error);
 }
 
 .p-button.p-button-outlined {
@@ -264,5 +274,82 @@
 .p-message.p-message-error,
 .p-inline-message.p-inline-message-error {
   background: var(--error-container);
+  color: var(--error);
+}
+
+.p-dialog-mask {
+  background: rgb(6 14 32 / 0.72);
+  backdrop-filter: blur(8px);
+}
+
+.sentinel-confirm-dialog {
+  width: min(30rem, calc(100vw - 2rem));
+}
+
+.sentinel-confirm-dialog .p-dialog-header {
+  padding: 1.5rem 1.5rem 0.75rem;
+}
+
+.sentinel-confirm-dialog .p-dialog-title {
+  color: var(--on-surface);
+  font-family: var(--font-family-heading);
+  font-weight: 700;
+}
+
+.sentinel-confirm-dialog .p-dialog-content {
+  padding: 0.25rem 1.5rem 1rem;
+  color: var(--on-surface);
+}
+
+.sentinel-confirm-dialog .p-confirm-dialog-icon {
+  color: var(--error);
+  font-size: 1.5rem;
+}
+
+.sentinel-confirm-dialog .p-confirm-dialog-message {
+  color: var(--on-surface);
+  line-height: 1.7;
+}
+
+.sentinel-confirm-dialog .p-dialog-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.75rem;
+  padding: 0 1.5rem 1.5rem;
+}
+
+.sentinel-toast .p-toast-message {
+  box-shadow: none;
+}
+
+.sentinel-toast .p-toast-message-content {
+  gap: 0.875rem;
+  align-items: flex-start;
+  padding: 1rem 1.125rem;
+}
+
+.sentinel-toast .p-toast-message-icon,
+.sentinel-toast .p-toast-icon-close {
+  color: inherit;
+}
+
+.sentinel-toast .p-toast-summary {
+  color: var(--on-surface);
+  font-family: var(--font-family-heading);
+  font-weight: 700;
+}
+
+.sentinel-toast .p-toast-detail {
+  color: var(--on-surface-variant);
+  line-height: 1.6;
+}
+
+.sentinel-toast .p-toast-message-success {
+  background: rgb(18 129 74 / 0.24);
+  color: #8df0b3;
+}
+
+.sentinel-toast .p-toast-message-error {
+  background: rgb(147 0 10 / 0.28);
   color: var(--error);
 }

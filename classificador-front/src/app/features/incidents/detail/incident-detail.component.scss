@@ -98,6 +98,17 @@
   color: var(--on-primary-fixed);
 }
 
+.detail-button--danger {
+  padding: 0 1.125rem;
+  background: rgb(147 0 10 / 0.32);
+  color: var(--error);
+}
+
+.detail-button:disabled {
+  cursor: wait;
+  opacity: 0.7;
+}
+
 .detail-grid {
   display: grid;
   grid-template-columns: minmax(0, 3fr) minmax(20rem, 2fr);

@@ -1,14 +1,11 @@
 <section class="dashboard">
   <div class="dashboard__primary">
-    <div class="metrics-grid" aria-label="Métricas principais">
+    <div class="metrics-grid" aria-label="Metricas principais">
       @for (metric of metrics; track metric.title) {
         <article class="metric-card">
           <p class="metric-card__title">{{ metric.title }}</p>
           <strong class="metric-card__value">{{ metric.value }}</strong>
           <span class="metric-card__meta metric-card__meta--{{ metric.tone }}">
-            @if (metric.icon) {
-              <span class="metric-card__icon" aria-hidden="true">{{ metric.icon }}</span>
-            }
             {{ metric.meta }}
           </span>
         </article>
@@ -18,13 +15,21 @@
     <article class="dashboard-panel chart-panel">
       <header class="panel-header">
         <div>
-          <p class="panel-header__label">INCIDENT ACTIVITY OVER TIME</p>
-          <h2>Volume Telemetry</h2>
+          <p class="panel-header__label">ATIVIDADE DE INCIDENTES NO TEMPO</p>
+          <h2>Volume de Telemetria</h2>
         </div>
 
-        <div class="chart-panel__toggles" aria-label="Período do gráfico">
-          <button type="button" class="chart-panel__toggle chart-panel__toggle--active">7 DAYS</button>
-          <button type="button" class="chart-panel__toggle">30 DAYS</button>
+        <div class="chart-panel__toggles" aria-label="Periodo do grafico">
+          @for (window of telemetryWindowOptions; track window) {
+            <button
+              type="button"
+              class="chart-panel__toggle"
+              [class.chart-panel__toggle--active]="selectedTelemetryWindow === window"
+              (click)="selectTelemetryWindow(window)"
+            >
+              {{ window }} DIAS
+            </button>
+          }
         </div>
       </header>
 
@@ -32,7 +37,7 @@
         @if (chartData.labels.length > 0) {
           <p-chart type="bar" [data]="chartData" [options]="chartOptions" />
         } @else {
-          <div class="dashboard-empty">Sem telemetria disponível.</div>
+          <div class="dashboard-empty">Sem telemetria disponivel.</div>
         }
       </div>
     </article>
@@ -42,8 +47,8 @@
     <article class="dashboard-panel threat-panel">
       <header class="panel-header">
         <div>
-          <p class="panel-header__label">RISK VECTOR ANALYSIS</p>
-          <h2>Threat Distribution</h2>
+          <p class="panel-header__label">ANALISE DE VETORES DE RISCO</p>
+          <h2>Distribuicao de Ameacas</h2>
         </div>
       </header>
 
@@ -57,14 +62,21 @@
             <p-progressBar [value]="threat.value" [showValue]="false" />
           </div>
         }
+
         @if (threats.length === 0) {
-          <div class="dashboard-empty">Sem distribuição de ameaças disponível.</div>
+          <div class="dashboard-empty">Sem distribuicao de ameacas disponivel.</div>
         }
       </div>
 
       <div class="threat-panel__status">
         <i class="pi pi-shield" aria-hidden="true"></i>
-        <p>Aguardando dados operacionais do backend.</p>
+        <p>
+          @if (metrics[3].value !== '0') {
+            Os protocolos de protecao estao operando com telemetria classificada disponivel.
+          } @else {
+            Aguardando dados operacionais do backend.
+          }
+        </p>
       </div>
     </article>
   </aside>
@@ -72,22 +84,22 @@
   <article class="dashboard-panel tickets-panel">
     <header class="panel-header tickets-panel__header">
       <div>
-        <p class="panel-header__label">LATEST INCIDENT ENTRIES</p>
-        <h2>Recent Tickets</h2>
+        <p class="panel-header__label">REGISTROS MAIS RECENTES</p>
+        <h2>Tickets Recentes</h2>
       </div>
 
-      <a routerLink="/incidents">View All Tickets</a>
+      <a routerLink="/incidents">Ver Todos os Tickets</a>
     </header>
 
     <p-table [value]="tickets" styleClass="tickets-table" responsiveLayout="scroll">
       <ng-template pTemplate="header">
         <tr>
           <th>ID</th>
-          <th>SUBJECT</th>
-          <th>CATEGORY</th>
+          <th>ASSUNTO</th>
+          <th>CATEGORIA</th>
           <th>STATUS</th>
-          <th>CREATED AT</th>
-          <th>ACTIONS</th>
+          <th>CRIADO EM</th>
+          <th>ACOES</th>
         </tr>
       </ng-template>
 
@@ -107,11 +119,12 @@
           </td>
           <td>{{ ticket.createdAt }}</td>
           <td>
-            <a class="tickets-table__action" routerLink="/incidents">Inspect</a>
+            <a class="tickets-table__action" routerLink="/incidents">Abrir</a>
           </td>
         </tr>
       </ng-template>
     </p-table>
+
     @if (tickets.length === 0) {
       <div class="dashboard-empty">Nenhum ticket recente encontrado.</div>
     }

@@ -11,7 +11,6 @@ interface MetricCard {
   value: string;
   meta: string;
   tone: 'primary' | 'error' | 'muted';
-  icon?: string;
 }
 
 interface ThreatDistribution {
@@ -23,8 +22,8 @@ interface ThreatDistribution {
 interface Ticket {
   id: string;
   subject: string;
-  category: 'SERVER' | 'NETWORK' | 'AUTH' | 'DB' | 'OPS';
-  status: 'OPEN' | 'IN PROGRESS' | 'CLASSIFIED';
+  category: 'SERVIDOR' | 'REDE' | 'AUTENTICACAO' | 'BANCO' | 'OPERACOES';
+  status: 'ABERTO' | 'EM ANALISE' | 'CLASSIFICADO';
   createdAt: string;
 }
 
@@ -38,14 +37,16 @@ interface Ticket {
 export class DashboardComponent implements OnInit {
   private readonly incidentService = inject(IncidentService);
 
+  protected readonly telemetryWindowOptions = [7, 30] as const;
+  protected selectedTelemetryWindow = 7;
   protected metrics: MetricCard[] = [
     { title: 'TOTAL DE INCIDENTES', value: '0', meta: 'Sem dados', tone: 'muted' },
-    { title: 'CRÍTICOS', value: '0', meta: 'Sem dados', tone: 'muted' },
+    { title: 'CRITICOS', value: '0', meta: 'Sem dados', tone: 'muted' },
     { title: 'PENDENTES', value: '0', meta: 'Sem dados', tone: 'muted' },
     { title: 'CLASSIFICADOS', value: '0', meta: 'Sem dados', tone: 'muted' }
   ];
 
-  protected readonly chartData = {
+  protected chartData = {
     labels: [] as string[],
     datasets: [
       {
@@ -89,6 +90,7 @@ export class DashboardComponent implements OnInit {
         }
       },
       y: {
+        beginAtZero: true,
         border: {
           display: false
         },
@@ -97,6 +99,7 @@ export class DashboardComponent implements OnInit {
           drawTicks: false
         },
         ticks: {
+          precision: 0,
           color: '#c1c6d7',
           font: {
             family: 'Inter',
@@ -111,7 +114,20 @@ export class DashboardComponent implements OnInit {
   protected tickets: Ticket[] = [];
 
   ngOnInit(): void {
-    this.incidentService.getDashboardStats().subscribe({
+    this.loadDashboardStats(this.selectedTelemetryWindow);
+  }
+
+  protected selectTelemetryWindow(days: 7 | 30): void {
+    if (days === this.selectedTelemetryWindow) {
+      return;
+    }
+
+    this.selectedTelemetryWindow = days;
+    this.loadDashboardStats(days);
+  }
+
+  private loadDashboardStats(days: number): void {
+    this.incidentService.getDashboardStats(days).subscribe({
       next: (stats) => {
         this.metrics = [
           {
@@ -121,26 +137,39 @@ export class DashboardComponent implements OnInit {
             tone: stats.totalIncidents > 0 ? 'primary' : 'muted'
           },
           {
-            title: 'CRÍTICOS',
+            title: 'CRITICOS',
             value: String(stats.critical),
-            meta: stats.critical > 0 ? 'High Risk' : 'Sem críticos',
+            meta: stats.critical > 0 ? 'Risco elevado' : 'Sem criticos',
             tone: stats.critical > 0 ? 'error' : 'muted'
           },
           {
             title: 'PENDENTES',
             value: String(stats.pending),
-            meta: stats.pending > 0 ? 'Awaiting action' : 'Sem pendências',
+            meta: stats.pending > 0 ? 'Aguardando acao' : 'Sem pendencias',
             tone: 'muted'
           },
           {
             title: 'CLASSIFICADOS',
             value: String(stats.classified),
-            meta: stats.totalIncidents > 0 ? `${Math.round((stats.classified / stats.totalIncidents) * 100)}% Resolved` : 'Sem dados',
+            meta: stats.totalIncidents > 0 ? `${Math.round((stats.classified / stats.totalIncidents) * 100)}% concluidos` : 'Sem dados',
             tone: stats.classified > 0 ? 'primary' : 'muted'
           }
         ];
+
+        this.chartData = {
+          ...this.chartData,
+          labels: stats.telemetry.map((item) => item.label),
+          datasets: [
+            {
+              ...this.chartData.datasets[0],
+              data: stats.telemetry.map((item) => item.value),
+              backgroundColor: stats.telemetry.map((_, index, items) => this.buildBarColor(index, items.length))
+            }
+          ]
+        };
+
         this.threats = stats.threatDistribution.map((item, index) => ({
-          label: item.label,
+          label: this.mapThreatLabel(item.label),
           value: item.value,
           tone: index === 0 ? 'error' : index === 1 ? 'primary' : 'tertiary'
         }));
@@ -149,8 +178,28 @@ export class DashboardComponent implements OnInit {
       error: () => {
         this.threats = [];
         this.tickets = [];
+        this.chartData = {
+          ...this.chartData,
+          labels: [],
+          datasets: [
+            {
+              ...this.chartData.datasets[0],
+              data: [],
+              backgroundColor: []
+            }
+          ]
+        };
       }
     });
+  }
+
+  private buildBarColor(index: number, total: number): string {
+    if (total <= 1) {
+      return 'rgb(123 208 255 / 0.92)';
+    }
+
+    const opacity = 0.45 + (index / (total - 1)) * 0.45;
+    return `rgb(123 208 255 / ${opacity.toFixed(2)})`;
   }
 
   private mapTicket(incident: Incident): Ticket {
@@ -167,35 +216,51 @@ export class DashboardComponent implements OnInit {
     };
   }
 
-  private mapCategory(category: Incident['category']): Ticket['category'] {
-    if (category === 'DB' || category === 'DATA_LEAK') {
-      return 'DB';
+  private mapThreatLabel(label: string): string {
+    if (label === 'NETWORK BREACH') {
+      return 'VIOLACAO DE REDE';
     }
 
-    if (category === 'AUTH' || category === 'SEGURANÇA') {
-      return 'AUTH';
+    if (label === 'UNAUTHORIZED ACCESS') {
+      return 'ACESSO NAO AUTORIZADO';
+    }
+
+    if (label === 'DATA LEAKAGE') {
+      return 'VAZAMENTO DE DADOS';
+    }
+
+    return label;
+  }
+
+  private mapCategory(category: Incident['category']): Ticket['category'] {
+    if (category === 'DB' || category === 'DATA_LEAK') {
+      return 'BANCO';
+    }
+
+    if (category === 'AUTH' || category === 'SEGURANCA') {
+      return 'AUTENTICACAO';
     }
 
     if (category === 'SERVER' || category === 'RECURSOS') {
-      return 'SERVER';
+      return 'SERVIDOR';
     }
 
     if (category === 'OPS') {
-      return 'OPS';
+      return 'OPERACOES';
     }
 
-    return 'NETWORK';
+    return 'REDE';
   }
 
   private mapStatus(status: Incident['status']): Ticket['status'] {
     if (status === 'CLASSIFICADO' || status === 'RESOLVIDO') {
-      return 'CLASSIFIED';
+      return 'CLASSIFICADO';
     }
 
     if (status === 'EM_ANALISE') {
-      return 'IN PROGRESS';
+      return 'EM ANALISE';
     }
 
-    return 'OPEN';
+    return 'ABERTO';
   }
 }

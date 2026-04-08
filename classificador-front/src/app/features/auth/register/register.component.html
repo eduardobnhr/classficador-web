@@ -1,7 +1,7 @@
 <main class="register-page">
   <div class="register-page__accent" aria-hidden="true"></div>
 
-  <nav class="register-nav" aria-label="Navegação de cadastro">
+  <nav class="register-nav" aria-label="Navegacao de cadastro">
     <a class="register-nav__brand" routerLink="/login">classificador-web</a>
     <a class="register-nav__help" href="#" aria-label="Ajuda">
       <i class="pi pi-question-circle"></i>
@@ -41,7 +41,7 @@
           [attr.aria-invalid]="registerForm.controls.email.invalid && (submitted || registerForm.controls.email.touched)"
         />
         @if (registerForm.controls.email.invalid && (submitted || registerForm.controls.email.touched)) {
-          <p class="register-field__error">Informe um e-mail válido.</p>
+          <p class="register-field__error">Informe um e-mail valido.</p>
         }
       </div>
 
@@ -78,11 +78,11 @@
       <button class="register-card__submit" type="submit">CRIAR CONTA</button>
 
       <p class="register-card__login">
-        Já possui uma conta?
+        Ja possui uma conta?
         <a routerLink="/login">Entrar agora</a>
       </p>
 
-      <p class="register-card__footer">PRIVACY POLICY · SYSTEM STATUS: ONLINE · V4.2.0</p>
+      <p class="register-card__footer">POLITICA DE PRIVACIDADE · STATUS DO SISTEMA: ONLINE · V4.2.0</p>
     </form>
   </section>
 </main>

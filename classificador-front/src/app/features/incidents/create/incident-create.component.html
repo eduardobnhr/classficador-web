@@ -1,40 +1,35 @@
 <section class="create-incident">
   <header class="create-header">
     <h1>Criar Novo Incidente</h1>
-    <p>Preencha os detalhes técnicos para iniciar o processo de classificação automática de segurança.</p>
+    <p>Preencha os detalhes tecnicos para iniciar o processo de classificacao automatica de seguranca.</p>
   </header>
 
   <div class="create-layout">
     <form class="incident-form" [formGroup]="incidentForm" (ngSubmit)="submitForClassification()" novalidate>
       <label class="form-field">
-        <span>TÍTULO DO INCIDENTE *</span>
+        <span>TITULO DO INCIDENTE *</span>
         <input
           pInputText
           type="text"
           formControlName="title"
-          placeholder="Ex: Atividade suspeita em porta não convencional"
+          placeholder="Ex: Atividade suspeita em porta nao convencional"
         />
         @if (incidentForm.controls.title.invalid && incidentForm.controls.title.touched) {
-          <small>Informe um título com pelo menos 8 caracteres.</small>
+          <small>Informe um titulo com pelo menos 8 caracteres.</small>
         }
       </label>
 
       <div class="form-grid">
         <label class="form-field">
           <span>ATIVO AFETADO</span>
-          <input
-            pInputText
-            type="text"
-            formControlName="affectedAsset"
-            placeholder="Ex: BR-MAO-03 · Auth Service"
-          />
+          <input pInputText type="text" formControlName="affectedAsset" placeholder="Ex: BR-MAO-03 · Servico de Autenticacao" />
           @if (incidentForm.controls.affectedAsset.invalid && incidentForm.controls.affectedAsset.touched) {
             <small>Informe o ativo afetado.</small>
           }
         </label>
 
         <label class="form-field">
-          <span>DATA/HORA DA OCORRÊNCIA</span>
+          <span>DATA/HORA DA OCORRENCIA</span>
           <p-calendar
             formControlName="occurredAt"
             appendTo="body"
@@ -46,27 +41,27 @@
             placeholder="Selecionar data e hora"
           />
           @if (incidentForm.controls.occurredAt.invalid && incidentForm.controls.occurredAt.touched) {
-            <small>Informe a data e hora da ocorrência.</small>
+            <small>Informe a data e hora da ocorrencia.</small>
           }
         </label>
       </div>
 
       <label class="form-field">
-        <span>DESCRIÇÃO DETALHADA</span>
+        <span>DESCRICAO DETALHADA</span>
         <textarea
           pInputTextarea
           formControlName="description"
           rows="8"
-          placeholder="Descreva logs, padrões de tráfego, comportamento anômalo, endpoints afetados e qualquer evidência técnica observada."
+          placeholder="Descreva logs, padroes de trafego, comportamento anomalo, endpoints afetados e qualquer evidencia tecnica observada."
         ></textarea>
         @if (incidentForm.controls.description.invalid && incidentForm.controls.description.touched) {
-          <small>Inclua uma descrição técnica com pelo menos 24 caracteres.</small>
+          <small>Inclua uma descricao tecnica com pelo menos 24 caracteres.</small>
         }
       </label>
 
       <button class="incident-form__submit" type="submit" [disabled]="incidentForm.invalid">
         <span aria-hidden="true">✦</span>
-        ENVIAR PARA CLASSIFICAÇÃO
+        ENVIAR PARA CLASSIFICACAO
       </button>
     </form>
 
@@ -80,28 +75,24 @@
         <ul>
           <li>
             <i class="pi pi-check-circle" aria-hidden="true"></i>
-            <span>Use títulos claros e objetivos para agilizar a triagem inicial.</span>
+            <span>Use titulos claros e objetivos para agilizar a triagem inicial.</span>
           </li>
           <li>
             <i class="pi pi-check-circle" aria-hidden="true"></i>
-            <span>Anexe logs de sistema se houver suspeita de intrusão técnica.</span>
-          </li>
-          <li>
-            <i class="pi pi-check-circle" aria-hidden="true"></i>
-            <span>Verifique se o ativo afetado está corretamente mapeado no inventário.</span>
+            <span>Verifique se o ativo afetado esta corretamente mapeado no inventario.</span>
           </li>
         </ul>
       </article>
 
-      <pre class="system-status">CLS-WEB // PROTOCOL_V4
-STATUS: READY_TO_SCAN
-THREAT_MODEL: LOADED</pre>
+      <pre class="system-status">CLS-WEB // PROTOCOLO_V4
+STATUS: PRONTO_PARA_ANALISE
+MODELO_DE_AMEACAS: CARREGADO</pre>
 
       <article class="alert-card">
         <i class="pi pi-exclamation-triangle" aria-hidden="true"></i>
         <div>
-          <h2>NÍVEL DE ALERTA</h2>
-          <p>Incidentes de Nível 1 exigem resposta imediata. Certifique-se de que a classificação é precisa.</p>
+          <h2>NIVEL DE ALERTA</h2>
+          <p>Incidentes de Nivel 1 exigem resposta imediata. Certifique-se de que a classificacao e precisa.</p>
         </div>
       </article>
     </aside>

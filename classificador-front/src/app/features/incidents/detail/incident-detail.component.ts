@@ -1,6 +1,8 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { DecimalPipe } from '@angular/common';
-import { ActivatedRoute, RouterLink } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { ConfirmationService, MessageService } from 'primeng/api';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
 
 import { Incident, IncidentService, RecommendedAction } from '../../../core/services/incident.service';
 
@@ -13,19 +15,23 @@ interface MetadataItem {
 @Component({
   selector: 'app-incident-detail',
   standalone: true,
-  imports: [DecimalPipe, RouterLink],
+  imports: [ConfirmDialogModule, DecimalPipe, RouterLink],
   templateUrl: './incident-detail.component.html',
   styleUrl: './incident-detail.component.scss'
 })
 export class IncidentDetailComponent implements OnInit {
   private readonly route = inject(ActivatedRoute);
+  private readonly router = inject(Router);
   private readonly incidentService = inject(IncidentService);
+  private readonly confirmationService = inject(ConfirmationService);
+  private readonly messageService = inject(MessageService);
 
   protected incident: Incident | null = null;
   protected confidence = 0;
   protected progressOffset = 100;
   protected recommendedActions: RecommendedAction[] = [];
   protected metadata: MetadataItem[] = [];
+  protected deleting = false;
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('id');
@@ -43,8 +49,51 @@ export class IncidentDetailComponent implements OnInit {
         this.metadata = [
           { label: 'Modelo Utilizado', value: incident.aiClassification?.model ?? 'N/D', mono: true },
           { label: 'Tempo de Processamento', value: incident.aiClassification?.processingTime ?? 'N/D' },
-          { label: 'Data da Detecção', value: incident.aiClassification?.detectedAt ?? this.formatDate(incident.createdAt) }
+          { label: 'Data da Deteccao', value: incident.aiClassification?.detectedAt ?? this.formatDate(incident.createdAt) }
         ];
+      }
+    });
+  }
+
+  protected deleteIncident(): void {
+    if (!this.incident) {
+      return;
+    }
+
+    const incidentId = this.incident.id;
+
+    this.confirmationService.confirm({
+      key: 'delete-incident-detail',
+      header: 'Excluir incidente',
+      message: `Deseja realmente excluir o incidente ${incidentId}?`,
+      icon: 'pi pi-exclamation-triangle',
+      acceptLabel: 'Excluir',
+      rejectLabel: 'Cancelar',
+      acceptButtonStyleClass: 'p-button-danger',
+      rejectButtonStyleClass: 'p-button-text',
+      accept: () => {
+        this.deleting = true;
+
+        this.incidentService.deleteIncident(incidentId).subscribe({
+          next: () => {
+            this.messageService.add({
+              key: 'system',
+              severity: 'success',
+              summary: 'Incidente excluido',
+              detail: `O incidente ${incidentId} foi excluido com sucesso.`
+            });
+            void this.router.navigate(['/incidents']);
+          },
+          error: () => {
+            this.deleting = false;
+            this.messageService.add({
+              key: 'system',
+              severity: 'error',
+              summary: 'Falha ao excluir',
+              detail: `Nao foi possivel excluir o incidente ${incidentId}.`
+            });
+          }
+        });
       }
     });
   }

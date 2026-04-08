@@ -29,12 +29,33 @@ interface BackendIncident {
   classification?: BackendClassification | null;
 }
 
+interface BackendDashboardTelemetryItem {
+  label: string;
+  value: number;
+}
+
+interface BackendThreatDistributionItem {
+  label: string;
+  value: number;
+  category: string;
+}
+
+interface BackendDashboardStats {
+  totalIncidents: number;
+  critical: number;
+  pending: number;
+  classified: number;
+  threatDistribution: BackendThreatDistributionItem[];
+  recentTickets: BackendIncident[];
+  telemetry: BackendDashboardTelemetryItem[];
+}
+
 export type IncidentCategory =
   | 'REDE'
   | 'VULNERABILIDADE'
   | 'DATA_LEAK'
   | 'RECURSOS'
-  | 'SEGURANÇA'
+  | 'SEGURANCA'
   | 'AUTH'
   | 'SERVER'
   | 'DB'
@@ -94,6 +115,11 @@ export interface ThreatDistributionItem {
   category: IncidentCategory;
 }
 
+export interface DashboardTelemetryItem {
+  label: string;
+  value: number;
+}
+
 export interface DashboardStats {
   totalIncidents: number;
   critical: number;
@@ -101,6 +127,7 @@ export interface DashboardStats {
   classified: number;
   threatDistribution: ThreatDistributionItem[];
   recentTickets: Incident[];
+  telemetry: DashboardTelemetryItem[];
 }
 
 export interface CreateIncidentPayload {
@@ -147,15 +174,28 @@ export class IncidentService {
     );
   }
 
-  getDashboardStats(): Observable<DashboardStats> {
-    return this.getIncidents({ page: 0, size: 100 }).pipe(
-      map(({ data }) => ({
-        totalIncidents: data.length,
-        critical: data.filter((incident) => incident.severity === 'CRITICA').length,
-        pending: data.filter((incident) => incident.status === 'ATIVO' || incident.status === 'EM_ANALISE').length,
-        classified: data.filter((incident) => incident.status === 'CLASSIFICADO').length,
-        threatDistribution: this.calculateThreatDistribution(data),
-        recentTickets: data.slice(0, 5)
+  deleteIncident(id: string): Observable<void> {
+    return this.authService.ensureCsrfToken().pipe(
+      switchMap(() => this.http.delete<void>(`${this.apiUrl}/incident/${id}`))
+    );
+  }
+
+  getDashboardStats(days = 7): Observable<DashboardStats> {
+    const params = new HttpParams().set('days', String(days));
+
+    return this.http.get<ApiResponse<BackendDashboardStats>>(`${this.apiUrl}/dashboard/stats`, { params }).pipe(
+      map((response) => ({
+        totalIncidents: response.data.totalIncidents,
+        critical: response.data.critical,
+        pending: response.data.pending,
+        classified: response.data.classified,
+        threatDistribution: response.data.threatDistribution.map((item) => ({
+          label: item.label,
+          value: item.value,
+          category: this.mapCategory(item.category)
+        })),
+        recentTickets: response.data.recentTickets.map((incident) => this.mapBackendIncident(incident)),
+        telemetry: response.data.telemetry
       }))
     );
   }
@@ -179,7 +219,7 @@ export class IncidentService {
       id: incident.id,
       title: incident.title,
       description: incident.description,
-      asset: incident.affected_asset ?? 'Ativo não informado',
+      asset: incident.affected_asset ?? 'Ativo nao informado',
       occurredAt: incident.occurred_at ?? incident.created_at,
       category: this.mapCategory(classification?.category),
       severity: this.mapSeverity(classification?.severity),
@@ -211,19 +251,6 @@ export class IncidentService {
       page,
       size
     };
-  }
-
-  private calculateThreatDistribution(incidents: Incident[]): ThreatDistributionItem[] {
-    const total = incidents.length || 1;
-    const auth = incidents.filter((incident) => incident.category === 'AUTH' || incident.category === 'SEGURANÇA').length;
-    const network = incidents.filter((incident) => incident.category === 'REDE').length;
-    const dataLeak = incidents.filter((incident) => incident.category === 'DATA_LEAK').length;
-
-    return [
-      { label: 'NETWORK BREACH', value: Math.round((network / total) * 100), category: 'REDE' },
-      { label: 'UNAUTHORIZED ACCESS', value: Math.round((auth / total) * 100), category: 'AUTH' },
-      { label: 'DATA LEAKAGE', value: Math.round((dataLeak / total) * 100), category: 'DATA_LEAK' }
-    ];
   }
 
   private matchesFilter(incident: Incident, filter: IncidentFilter): boolean {
@@ -307,7 +334,15 @@ export class IncidentService {
       return 'DB';
     }
 
-    return 'SEGURANÇA';
+    if (normalizedCategory?.includes('resource') || normalizedCategory?.includes('recurso')) {
+      return 'RECURSOS';
+    }
+
+    if (normalizedCategory?.includes('ops') || normalizedCategory?.includes('oper')) {
+      return 'OPS';
+    }
+
+    return 'SEGURANCA';
   }
 
   private parseRecommendedActions(actions?: string | null): RecommendedAction[] {
