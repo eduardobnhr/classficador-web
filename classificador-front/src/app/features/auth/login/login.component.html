@@ -14,6 +14,13 @@
         <p>Entre com suas credenciais institucionais para continuar.</p>
       </div>
 
+      @if (authErrorMessage) {
+        <div class="login-card__alert" role="alert" aria-live="polite">
+          <i class="pi pi-exclamation-triangle" aria-hidden="true"></i>
+          <span>{{ authErrorMessage }}</span>
+        </div>
+      }
+
       <div class="login-field">
         <label for="email">EMAIL INSTITUCIONAL</label>
         <div class="login-field__control">
@@ -28,13 +35,13 @@
           />
         </div>
         @if (loginForm.controls.email.invalid && (submitted || loginForm.controls.email.touched)) {
-          <p class="login-field__error">Informe um e-mail institucional válido.</p>
+          <p class="login-field__error">Informe um e-mail institucional valido.</p>
         }
       </div>
 
       <div class="login-field">
         <div class="login-field__label-row">
-          <label for="password">SENHA DE SEGURANÇA</label>
+          <label for="password">SENHA DE SEGURANCA</label>
           <a href="#">ESQUECEU?</a>
         </div>
         <div class="login-field__control">
@@ -53,10 +60,12 @@
         }
       </div>
 
-      <button class="login-card__submit" type="submit">Entrar →</button>
+      <button class="login-card__submit" type="submit" [disabled]="isSubmitting">
+        {{ isSubmitting ? 'Validando...' : 'Entrar →' }}
+      </button>
 
       <p class="login-card__register">
-        Ainda não tem uma conta?
+        Ainda nao tem uma conta?
         <a routerLink="/register">Cadastre-se</a>
       </p>
 
