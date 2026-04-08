@@ -22,32 +22,14 @@
       <div class="form-grid">
         <label class="form-field">
           <span>ATIVO AFETADO</span>
-          <p-dropdown
+          <input
+            pInputText
+            type="text"
             formControlName="affectedAsset"
-            [options]="affectedAssets"
-            appendTo="body"
-            optionLabel="label"
-            optionValue="value"
-            panelStyleClass="sentinel-dropdown-panel"
-            placeholder="Selecionar Ativo..."
-          >
-            <ng-template pTemplate="selectedItem" let-asset>
-              @if (asset) {
-                <div class="asset-option">
-                  <i [class]="asset.icon" aria-hidden="true"></i>
-                  <span>{{ asset.label }}</span>
-                </div>
-              }
-            </ng-template>
-            <ng-template pTemplate="item" let-asset>
-              <div class="asset-option">
-                <i [class]="asset.icon" aria-hidden="true"></i>
-                <span>{{ asset.label }}</span>
-              </div>
-            </ng-template>
-          </p-dropdown>
+            placeholder="Ex: BR-MAO-03 · Auth Service"
+          />
           @if (incidentForm.controls.affectedAsset.invalid && incidentForm.controls.affectedAsset.touched) {
-            <small>Selecione o ativo afetado.</small>
+            <small>Informe o ativo afetado.</small>
           }
         </label>
 

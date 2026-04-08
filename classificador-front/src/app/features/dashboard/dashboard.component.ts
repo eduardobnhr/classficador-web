@@ -39,26 +39,18 @@ export class DashboardComponent implements OnInit {
   private readonly incidentService = inject(IncidentService);
 
   protected metrics: MetricCard[] = [
-    { title: 'TOTAL DE INCIDENTES', value: '1,284', meta: '+12%', tone: 'primary' },
-    { title: 'CRÍTICOS', value: '42', meta: 'High Risk', tone: 'error' },
-    { title: 'PENDENTES', value: '156', meta: 'Awaiting action', tone: 'muted', icon: '···' },
-    { title: 'CLASSIFICADOS', value: '1,086', meta: '84% Resolved', tone: 'primary', icon: '✓' }
+    { title: 'TOTAL DE INCIDENTES', value: '0', meta: 'Sem dados', tone: 'muted' },
+    { title: 'CRÍTICOS', value: '0', meta: 'Sem dados', tone: 'muted' },
+    { title: 'PENDENTES', value: '0', meta: 'Sem dados', tone: 'muted' },
+    { title: 'CLASSIFICADOS', value: '0', meta: 'Sem dados', tone: 'muted' }
   ];
 
   protected readonly chartData = {
-    labels: ['MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT', 'SUN'],
+    labels: [] as string[],
     datasets: [
       {
-        data: [42, 57, 48, 76, 63, 91, 84],
-        backgroundColor: [
-          'rgb(123 208 255 / 0.35)',
-          'rgb(123 208 255 / 0.5)',
-          'rgb(123 208 255 / 0.42)',
-          'rgb(123 208 255 / 0.7)',
-          'rgb(123 208 255 / 0.55)',
-          'rgb(123 208 255 / 0.9)',
-          'rgb(123 208 255 / 0.78)'
-        ],
+        data: [] as number[],
+        backgroundColor: [] as string[],
         borderRadius: 6,
         borderSkipped: false,
         barThickness: 22
@@ -115,58 +107,37 @@ export class DashboardComponent implements OnInit {
     }
   };
 
-  protected threats: ThreatDistribution[] = [
-    { label: 'NETWORK BREACH', value: 32, tone: 'error' },
-    { label: 'UNAUTHORIZED ACCESS', value: 48, tone: 'primary' },
-    { label: 'DATA LEAKAGE', value: 20, tone: 'tertiary' }
-  ];
-
-  protected tickets: Ticket[] = [
-    {
-      id: '#INC-1048',
-      subject: 'Suspicious lateral movement detected',
-      category: 'NETWORK',
-      status: 'IN PROGRESS',
-      createdAt: 'APR 07, 2026'
-    },
-    {
-      id: '#INC-1047',
-      subject: 'Privileged login outside policy window',
-      category: 'AUTH',
-      status: 'OPEN',
-      createdAt: 'APR 07, 2026'
-    },
-    {
-      id: '#INC-1046',
-      subject: 'Database exfiltration signature matched',
-      category: 'DB',
-      status: 'CLASSIFIED',
-      createdAt: 'APR 06, 2026'
-    },
-    {
-      id: '#INC-1045',
-      subject: 'Server telemetry degraded in cluster 04',
-      category: 'SERVER',
-      status: 'OPEN',
-      createdAt: 'APR 06, 2026'
-    },
-    {
-      id: '#INC-1044',
-      subject: 'Operations alert threshold exceeded',
-      category: 'OPS',
-      status: 'CLASSIFIED',
-      createdAt: 'APR 05, 2026'
-    }
-  ];
+  protected threats: ThreatDistribution[] = [];
+  protected tickets: Ticket[] = [];
 
   ngOnInit(): void {
     this.incidentService.getDashboardStats().subscribe({
       next: (stats) => {
         this.metrics = [
-          { title: 'TOTAL DE INCIDENTES', value: String(stats.totalIncidents), meta: '+12%', tone: 'primary' },
-          { title: 'CRÍTICOS', value: String(stats.critical), meta: 'High Risk', tone: 'error' },
-          { title: 'PENDENTES', value: String(stats.pending), meta: 'Awaiting action', tone: 'muted', icon: '···' },
-          { title: 'CLASSIFICADOS', value: String(stats.classified), meta: '84% Resolved', tone: 'primary', icon: '✓' }
+          {
+            title: 'TOTAL DE INCIDENTES',
+            value: String(stats.totalIncidents),
+            meta: stats.totalIncidents > 0 ? `${stats.totalIncidents} registrados` : 'Sem dados',
+            tone: stats.totalIncidents > 0 ? 'primary' : 'muted'
+          },
+          {
+            title: 'CRÍTICOS',
+            value: String(stats.critical),
+            meta: stats.critical > 0 ? 'High Risk' : 'Sem críticos',
+            tone: stats.critical > 0 ? 'error' : 'muted'
+          },
+          {
+            title: 'PENDENTES',
+            value: String(stats.pending),
+            meta: stats.pending > 0 ? 'Awaiting action' : 'Sem pendências',
+            tone: 'muted'
+          },
+          {
+            title: 'CLASSIFICADOS',
+            value: String(stats.classified),
+            meta: stats.totalIncidents > 0 ? `${Math.round((stats.classified / stats.totalIncidents) * 100)}% Resolved` : 'Sem dados',
+            tone: stats.classified > 0 ? 'primary' : 'muted'
+          }
         ];
         this.threats = stats.threatDistribution.map((item, index) => ({
           label: item.label,
@@ -174,6 +145,10 @@ export class DashboardComponent implements OnInit {
           tone: index === 0 ? 'error' : index === 1 ? 'primary' : 'tertiary'
         }));
         this.tickets = stats.recentTickets.map((incident) => this.mapTicket(incident));
+      },
+      error: () => {
+        this.threats = [];
+        this.tickets = [];
       }
     });
   }

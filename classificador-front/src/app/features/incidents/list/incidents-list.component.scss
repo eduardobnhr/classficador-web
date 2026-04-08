@@ -269,6 +269,12 @@
   font-size: 0.875rem;
 }
 
+.insight-card__empty {
+  color: var(--on-surface-variant);
+  font-size: 0.875rem;
+  text-align: right;
+}
+
 .sparkline {
   display: flex;
   width: 7rem;

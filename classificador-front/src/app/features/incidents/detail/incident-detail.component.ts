@@ -41,7 +41,7 @@ export class IncidentDetailComponent implements OnInit {
         this.progressOffset = 100 - this.confidence;
         this.recommendedActions = incident.recommendedActions ?? [];
         this.metadata = [
-          { label: 'Modelo Utilizado', value: incident.aiClassification?.model ?? 'SENTINEL-V4.2-PRO', mono: true },
+          { label: 'Modelo Utilizado', value: incident.aiClassification?.model ?? 'N/D', mono: true },
           { label: 'Tempo de Processamento', value: incident.aiClassification?.processingTime ?? 'N/D' },
           { label: 'Data da Detecção', value: incident.aiClassification?.detectedAt ?? this.formatDate(incident.createdAt) }
         ];
