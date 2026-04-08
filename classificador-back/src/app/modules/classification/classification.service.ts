@@ -22,7 +22,6 @@ export class ClassificationService {
         category: prediction.category,
         severity: prediction.severity,
         confidence_score: prediction.confidence_score,
-        recommended_actions: JSON.stringify(prediction.recommended_actions),
       });
 
       return await this.classificationRepository.save(classification);

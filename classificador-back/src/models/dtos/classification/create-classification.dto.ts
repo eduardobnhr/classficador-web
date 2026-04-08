@@ -23,16 +23,6 @@ export class CreateClassificationDto {
     @ApiProperty({ required: false })
     @IsOptional()
     @IsString()
-    explanation?: string;
-
-    @ApiProperty({ required: false })
-    @IsOptional()
-    @IsString()
-    recommended_actions?: string;
-
-    @ApiProperty({ required: false })
-    @IsOptional()
-    @IsString()
     @MaxLength(50)
     model_version?: string;
 }

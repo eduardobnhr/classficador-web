@@ -24,10 +24,6 @@ export class Incident {
     description: string;
 
     @ApiProperty({ required: false })
-    @Column({ type: 'varchar', length: 255, nullable: true })
-    affected_asset: string;
-
-    @ApiProperty({ required: false })
     @Column({ type: 'timestamptz', nullable: true })
     occurred_at: Date;
 
