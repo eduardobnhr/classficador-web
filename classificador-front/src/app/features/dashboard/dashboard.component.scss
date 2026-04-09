@@ -1,5 +1,7 @@
 .dashboard {
   position: relative;
+  display: grid;
+  gap: 1.5rem;
 }
 
 .dashboard__primary {

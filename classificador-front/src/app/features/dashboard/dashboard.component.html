@@ -56,7 +56,6 @@
     <p-table [value]="tickets" styleClass="tickets-table" responsiveLayout="scroll">
       <ng-template pTemplate="header">
         <tr>
-          <th>ID</th>
           <th>ASSUNTO</th>
           <th>CATEGORIA</th>
           <th>STATUS</th>
@@ -67,7 +66,6 @@
 
       <ng-template pTemplate="body" let-ticket>
         <tr>
-          <td>{{ ticket.id }}</td>
           <td>{{ ticket.subject }}</td>
           <td>
             <span class="category-badge">

@@ -113,26 +113,19 @@
   padding: 1.5rem;
 }
 
-.incident-id {
-  color: var(--primary);
-  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', monospace;
-  font-weight: 700;
-  text-decoration: none;
-}
-
 .incident-title {
   display: grid;
   gap: 0.3rem;
 }
 
-.incident-title strong {
+.incident-title__link {
   color: var(--on-surface);
   font-weight: 700;
+  text-decoration: none;
 }
 
-.incident-title span {
-  color: var(--on-surface-variant);
-  font-size: 0.75rem;
+.incident-title__link:hover {
+  color: var(--primary);
 }
 
 .category-pill,

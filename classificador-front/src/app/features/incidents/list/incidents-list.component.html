@@ -80,7 +80,6 @@
     >
       <ng-template pTemplate="header">
         <tr>
-          <th>ID</th>
           <th>TITULO</th>
           <th>CATEGORIA</th>
           <th>SEVERIDADE</th>
@@ -93,14 +92,10 @@
       <ng-template pTemplate="body" let-incident>
         <tr>
           <td>
-            <a class="incident-id" [routerLink]="['/incidents', incident.id]">
-              {{ incident.id }}
-            </a>
-          </td>
-          <td>
             <div class="incident-title">
-              <strong>{{ incident.title }}</strong>
-              <span>{{ incident.id }}</span>
+              <a class="incident-title__link" [routerLink]="['/incidents', incident.id]">
+                {{ incident.title }}
+              </a>
             </div>
           </td>
           <td>
