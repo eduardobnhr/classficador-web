@@ -1,11 +1,11 @@
 import { Logger, ValidationPipe } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';
+import cookieParser from 'cookie-parser';
 import { AppModule } from './app/app.module';
+import { CsrfConfig } from './commons/configs/csrf/csrf.config';
 import { Swagger } from './commons/configs/swagger/swagger.config';
 import { ServicesUtils } from './commons/utils/services';
-import cookieParser from 'cookie-parser';
-import { CsrfConfig } from './commons/configs/csrf/csrf.config';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
@@ -35,7 +35,7 @@ async function bootstrap() {
   app.useGlobalPipes(
     new ValidationPipe({
       whitelist: true,
-      forbidNonWhitelisted: true,
+      // forbidNonWhitelisted: true,
       transform: true,
     }),
   );
