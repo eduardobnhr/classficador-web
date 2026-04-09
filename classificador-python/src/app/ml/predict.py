@@ -37,6 +37,13 @@ def predict_category(title: str, description: str) -> tuple[str, float]:
     confidence = 0.0
     if hasattr(model, "predict_proba"):
         probabilities = model.predict_proba([text])[0]
-        confidence = float(max(probabilities))
+        ordered = sorted((float(prob) for prob in probabilities), reverse=True)
+        top1 = ordered[0]
+        top2 = ordered[1] if len(ordered) > 1 else 0.0
+
+        # Absolute probability can look low in multi-class settings.
+        # Blend it with relative separation from the second best class.
+        relative_confidence = top1 / (top1 + top2) if (top1 + top2) > 0 else top1
+        confidence = float(0.4 * top1 + 0.6 * relative_confidence)
 
     return str(category), confidence

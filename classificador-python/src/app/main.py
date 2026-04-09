@@ -3,6 +3,7 @@ from __future__ import annotations
 from fastapi import FastAPI, HTTPException
 
 from .ml.predict import ModelNotTrainedError, load_model, model_is_ready, predict_category
+from .ml.severity import infer_severity
 from .schemas import ClassificationRequest, ClassificationResponse, HealthResponse
 
 
@@ -35,9 +36,12 @@ def classificar(payload: ClassificationRequest) -> ClassificationResponse:
     except ModelNotTrainedError as exc:
         raise HTTPException(status_code=503, detail=str(exc)) from exc
 
+    severity = infer_severity(category, payload.title, payload.description)
+
     return ClassificationResponse(
         title=payload.title,
         description=payload.description,
         category=category,
         confidence=confidence,
+        severity=severity,
     )

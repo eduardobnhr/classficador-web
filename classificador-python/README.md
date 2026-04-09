@@ -82,7 +82,7 @@ uvicorn main:app --reload
 
 - `GET /` retorna uma mensagem simples.
 - `GET /health` retorna o status da API e informa se o modelo está carregado.
-- `POST /classificar` recebe `title` e `description` e devolve a classe prevista.
+- `POST /classificar` recebe `title` e `description` e devolve a classe prevista e a severidade (`baixa`, `moderada`, `alta`, `muito_alta`).
 
 Exemplo de requisição:
 
