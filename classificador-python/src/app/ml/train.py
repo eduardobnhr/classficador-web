@@ -1,7 +1,9 @@
 from __future__ import annotations
 
+import itertools
 import json
 from pathlib import Path
+from typing import Any
 
 import joblib
 import pandas as pd
@@ -25,6 +27,19 @@ EXPECTED_CATEGORIES = {
     "brute_force",
     "ddos",
     "vazamento_de_dados",
+}
+
+# Model selection prioritizes classification quality.
+# Confidence is used only as a secondary tie-breaker.
+SELECTION_MIN_F1_IMPROVEMENT = 0.0005
+
+PARAM_GRID = {
+    "ngram_range": [(1, 1), (1, 2), (1, 3)],
+    "max_features": [10000, 20000],
+    "min_df": [1, 2],
+    "max_df": [0.9, 0.95, 1.0],
+    "sublinear_tf": [False, True],
+    "alpha": [0.1, 0.3, 0.7, 1.0],
 }
 
 
@@ -66,20 +81,75 @@ def build_samples(dataframe: pd.DataFrame) -> tuple[list[str], list[str]]:
     return texts, labels
 
 
-def build_pipeline() -> Pipeline:
+def build_pipeline(params: dict[str, Any]) -> Pipeline:
     return Pipeline(
         [
             (
                 "tfidf",
                 TfidfVectorizer(
-                    ngram_range=(1, 2),
-                    max_features=10000,
-                    min_df=1,
+                    ngram_range=params["ngram_range"],
+                    max_features=params["max_features"],
+                    max_df=params["max_df"],
+                    min_df=params["min_df"],
+                    sublinear_tf=params["sublinear_tf"],
                 ),
             ),
-            ("nb", MultinomialNB()),
+            ("nb", MultinomialNB(alpha=params["alpha"])),
         ]
     )
+
+
+def iter_param_combinations() -> list[dict[str, Any]]:
+    keys = list(PARAM_GRID.keys())
+    combinations = itertools.product(*(PARAM_GRID[key] for key in keys))
+    return [dict(zip(keys, values)) for values in combinations]
+
+
+def evaluate_pipeline(
+    pipeline: Pipeline,
+    x_test: list[str],
+    y_test: list[str],
+) -> dict[str, Any]:
+    y_pred = pipeline.predict(x_test)
+    accuracy = float(accuracy_score(y_test, y_pred))
+    report = classification_report(y_test, y_pred, output_dict=True, zero_division=0)
+
+    avg_confidence = 0.0
+    if hasattr(pipeline, "predict_proba"):
+        probabilities = pipeline.predict_proba(x_test)
+        max_confidences = probabilities.max(axis=1)
+        avg_confidence = float(max_confidences.mean())
+
+    macro_f1 = float(report.get("macro avg", {}).get("f1-score", 0.0))
+    return {
+        "accuracy": accuracy,
+        "classification_report": report,
+        "macro_f1": macro_f1,
+        "avg_confidence": avg_confidence,
+    }
+
+
+def is_better_result(candidate: dict[str, Any], current_best: dict[str, Any] | None) -> bool:
+    if current_best is None:
+        return True
+
+    candidate_f1 = candidate["macro_f1"]
+    current_f1 = current_best["macro_f1"]
+
+    # Primary criterion: macro F1 should clearly improve.
+    if candidate_f1 > current_f1 + SELECTION_MIN_F1_IMPROVEMENT:
+        return True
+    if candidate_f1 + SELECTION_MIN_F1_IMPROVEMENT < current_f1:
+        return False
+
+    # Tie-breaker 1: higher accuracy.
+    if candidate["accuracy"] > current_best["accuracy"]:
+        return True
+    if candidate["accuracy"] < current_best["accuracy"]:
+        return False
+
+    # Tie-breaker 2: higher average confidence.
+    return candidate["avg_confidence"] > current_best["avg_confidence"]
 
 
 def train_and_save_model(
@@ -98,19 +168,62 @@ def train_and_save_model(
         stratify=labels,
     )
 
-    pipeline = build_pipeline()
-    pipeline.fit(x_train, y_train)
+    tuning_results: list[dict[str, Any]] = []
+    best_pipeline: Pipeline | None = None
+    best_result: dict[str, Any] | None = None
+    best_params: dict[str, Any] | None = None
 
-    y_pred = pipeline.predict(x_test)
-    accuracy = float(accuracy_score(y_test, y_pred))
-    report = classification_report(y_test, y_pred, output_dict=True, zero_division=0)
+    for params in iter_param_combinations():
+        pipeline = build_pipeline(params)
+        pipeline.fit(x_train, y_train)
+
+        result = evaluate_pipeline(pipeline, x_test, y_test)
+        result["params"] = {
+            **params,
+            "ngram_range": list(params["ngram_range"]),
+        }
+        tuning_results.append(result)
+
+        if is_better_result(result, best_result):
+            best_result = result
+            best_pipeline = pipeline
+            best_params = params
+
+    if best_pipeline is None or best_result is None or best_params is None:
+        raise RuntimeError("Falha ao selecionar o melhor modelo durante o treino.")
+
+    # Train a final model on the full dataset with the best parameters.
+    final_pipeline = build_pipeline(best_params)
+    final_pipeline.fit(texts, labels)
 
     ARTIFACTS_DIR.mkdir(parents=True, exist_ok=True)
-    joblib.dump(pipeline, model_path)
+    joblib.dump(final_pipeline, model_path)
 
     metrics = {
-        "accuracy": accuracy,
-        "classification_report": report,
+        "accuracy": best_result["accuracy"],
+        "classification_report": best_result["classification_report"],
+        "macro_f1": best_result["macro_f1"],
+        "avg_confidence": best_result["avg_confidence"],
+        "selection_strategy": {
+            "primary": "macro_f1",
+            "tie_breakers": ["accuracy", "avg_confidence"],
+            "min_f1_improvement": SELECTION_MIN_F1_IMPROVEMENT,
+        },
+        "best_params": {
+            **best_params,
+            "ngram_range": list(best_params["ngram_range"]),
+        },
+        "grid_search_candidates": len(tuning_results),
+        "final_model_trained_on_full_dataset": True,
+        "tuning_results": sorted(
+            tuning_results,
+            key=lambda item: (
+                item["macro_f1"],
+                item["accuracy"],
+                item["avg_confidence"],
+            ),
+            reverse=True,
+        )[:10],
         "dataset_rows": int(len(dataframe)),
         "train_rows": int(len(x_train)),
         "test_rows": int(len(x_test)),

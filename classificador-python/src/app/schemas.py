@@ -19,6 +19,7 @@ class ClassificationResponse(BaseModel):
     description: str
     category: str
     confidence: float
+    severity: str
 
 
 class HealthResponse(BaseModel):
