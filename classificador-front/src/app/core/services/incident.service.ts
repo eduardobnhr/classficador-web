@@ -49,16 +49,7 @@ interface BackendDashboardStats {
   telemetry: BackendDashboardTelemetryItem[];
 }
 
-export type IncidentCategory =
-  | 'REDE'
-  | 'VULNERABILIDADE'
-  | 'DATA_LEAK'
-  | 'RECURSOS'
-  | 'SEGURANCA'
-  | 'AUTH'
-  | 'SERVER'
-  | 'DB'
-  | 'OPS';
+export type IncidentCategory = string;
 
 export type IncidentSeverity = 'CRITICA' | 'ALTA' | 'MEDIA' | 'BAIXA';
 
@@ -110,7 +101,7 @@ export interface PagedResult<T> {
 export interface ThreatDistributionItem {
   label: string;
   value: number;
-  category: IncidentCategory;
+  category: string;
 }
 
 export interface DashboardTelemetryItem {
@@ -188,7 +179,7 @@ export class IncidentService {
         threatDistribution: response.data.threatDistribution.map((item) => ({
           label: item.label,
           value: item.value,
-          category: this.mapCategory(item.category)
+          category: item.category
         })),
         recentTickets: response.data.recentTickets.map((incident) => this.mapBackendIncident(incident)),
         telemetry: response.data.telemetry
@@ -216,7 +207,7 @@ export class IncidentService {
       title: incident.title,
       description: incident.description,
       occurredAt: incident.occurred_at ?? incident.created_at,
-      category: this.mapCategory(classification?.category),
+      category: classification?.category ?? 'N/D',
       severity: this.mapSeverity(classification?.severity),
       status: this.mapStatus(incident.status),
       createdAt: incident.created_at,
@@ -308,40 +299,6 @@ export class IncidentService {
     }
 
     return 'MEDIA';
-  }
-
-  private mapCategory(category?: string): IncidentCategory {
-    const normalizedCategory = category?.toLowerCase();
-
-    if (normalizedCategory?.includes('network') || normalizedCategory?.includes('rede')) {
-      return 'REDE';
-    }
-
-    if (normalizedCategory?.includes('leak')) {
-      return 'DATA_LEAK';
-    }
-
-    if (normalizedCategory?.includes('auth') || normalizedCategory?.includes('phishing')) {
-      return 'AUTH';
-    }
-
-    if (normalizedCategory?.includes('server')) {
-      return 'SERVER';
-    }
-
-    if (normalizedCategory?.includes('db') || normalizedCategory?.includes('database')) {
-      return 'DB';
-    }
-
-    if (normalizedCategory?.includes('resource') || normalizedCategory?.includes('recurso')) {
-      return 'RECURSOS';
-    }
-
-    if (normalizedCategory?.includes('ops') || normalizedCategory?.includes('oper')) {
-      return 'OPS';
-    }
-
-    return 'SEGURANCA';
   }
 
   private parseRecommendedActions(actions?: string | null): RecommendedAction[] {

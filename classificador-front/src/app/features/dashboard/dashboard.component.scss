@@ -1,18 +1,11 @@
 .dashboard {
   position: relative;
-  display: grid;
-  grid-template-columns: minmax(0, 2fr) minmax(18rem, 1fr);
-  gap: 1.5rem;
 }
 
 .dashboard__primary {
   display: grid;
   min-width: 0;
   gap: 1.5rem;
-}
-
-.dashboard__secondary {
-  min-width: 0;
 }
 
 .dashboard-panel,
@@ -41,7 +34,6 @@
 
 .metric-card__title,
 .panel-header__label,
-.threat-item__header,
 .tickets-panel th {
   color: var(--on-surface-variant);
   font-size: 0.72rem;
@@ -140,46 +132,6 @@
   color: var(--on-surface-variant);
   font-size: 0.875rem;
   text-align: center;
-}
-
-.threat-panel {
-  min-height: 100%;
-}
-
-.threat-list {
-  display: grid;
-  gap: 1.5rem;
-}
-
-.threat-item__header {
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 0.625rem;
-}
-
-.threat-item__header strong {
-  color: var(--on-surface);
-}
-
-.threat-panel__status {
-  display: flex;
-  gap: 0.875rem;
-  margin-top: 2rem;
-  padding: 1rem;
-  border-radius: var(--radius-md);
-  background: var(--surface-container-low);
-  color: var(--on-surface-variant);
-}
-
-.threat-panel__status i {
-  color: var(--primary);
-  font-size: 1.2rem;
-}
-
-.threat-panel__status p {
-  margin: 0;
-  font-size: 0.875rem;
-  line-height: 1.6;
 }
 
 .tickets-panel {
@@ -283,28 +235,6 @@
     height: 100%;
   }
 
-  .p-progressbar {
-    height: 0.5rem;
-    border-radius: var(--radius-md);
-    background: var(--surface-container-lowest);
-  }
-
-  .p-progressbar .p-progressbar-value {
-    border-radius: var(--radius-md);
-  }
-
-  .threat-item--error .p-progressbar-value {
-    background: var(--error);
-  }
-
-  .threat-item--primary .p-progressbar-value {
-    background: var(--primary);
-  }
-
-  .threat-item--tertiary .p-progressbar-value {
-    background: var(--tertiary);
-  }
-
   .tickets-table.p-datatable,
   .tickets-table .p-datatable-wrapper,
   .tickets-table .p-datatable-table {
@@ -335,10 +265,6 @@
 }
 
 @media (max-width: 76rem) {
-  .dashboard {
-    grid-template-columns: 1fr;
-  }
-
   .metrics-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }

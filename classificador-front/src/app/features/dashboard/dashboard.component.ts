@@ -1,7 +1,6 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { ChartModule } from 'primeng/chart';
-import { ProgressBarModule } from 'primeng/progressbar';
 import { TableModule } from 'primeng/table';
 
 import { Incident, IncidentService } from '../../core/services/incident.service';
@@ -13,16 +12,10 @@ interface MetricCard {
   tone: 'primary' | 'error' | 'muted';
 }
 
-interface ThreatDistribution {
-  label: string;
-  value: number;
-  tone: 'error' | 'primary' | 'tertiary';
-}
-
 interface Ticket {
   id: string;
   subject: string;
-  category: 'SERVIDOR' | 'REDE' | 'AUTENTICACAO' | 'BANCO' | 'OPERACOES';
+  category: string;
   status: 'ABERTO' | 'EM ANALISE' | 'CLASSIFICADO';
   createdAt: string;
 }
@@ -30,7 +23,7 @@ interface Ticket {
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [ChartModule, ProgressBarModule, RouterLink, TableModule],
+  imports: [ChartModule, RouterLink, TableModule],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.scss'
 })
@@ -110,7 +103,6 @@ export class DashboardComponent implements OnInit {
     }
   };
 
-  protected threats: ThreatDistribution[] = [];
   protected tickets: Ticket[] = [];
 
   ngOnInit(): void {
@@ -168,15 +160,9 @@ export class DashboardComponent implements OnInit {
           ]
         };
 
-        this.threats = stats.threatDistribution.map((item, index) => ({
-          label: this.mapThreatLabel(item.label),
-          value: item.value,
-          tone: index === 0 ? 'error' : index === 1 ? 'primary' : 'tertiary'
-        }));
         this.tickets = stats.recentTickets.map((incident) => this.mapTicket(incident));
       },
       error: () => {
-        this.threats = [];
         this.tickets = [];
         this.chartData = {
           ...this.chartData,
@@ -206,7 +192,7 @@ export class DashboardComponent implements OnInit {
     return {
       id: incident.id,
       subject: incident.title,
-      category: this.mapCategory(incident.category),
+      category: incident.aiClassification?.category ?? incident.category,
       status: this.mapStatus(incident.status),
       createdAt: new Intl.DateTimeFormat('pt-BR', {
         day: '2-digit',
@@ -214,42 +200,6 @@ export class DashboardComponent implements OnInit {
         year: 'numeric'
       }).format(new Date(incident.createdAt))
     };
-  }
-
-  private mapThreatLabel(label: string): string {
-    if (label === 'NETWORK BREACH') {
-      return 'VIOLACAO DE REDE';
-    }
-
-    if (label === 'UNAUTHORIZED ACCESS') {
-      return 'ACESSO NAO AUTORIZADO';
-    }
-
-    if (label === 'DATA LEAKAGE') {
-      return 'VAZAMENTO DE DADOS';
-    }
-
-    return label;
-  }
-
-  private mapCategory(category: Incident['category']): Ticket['category'] {
-    if (category === 'DB' || category === 'DATA_LEAK') {
-      return 'BANCO';
-    }
-
-    if (category === 'AUTH' || category === 'SEGURANCA') {
-      return 'AUTENTICACAO';
-    }
-
-    if (category === 'SERVER' || category === 'RECURSOS') {
-      return 'SERVIDOR';
-    }
-
-    if (category === 'OPS') {
-      return 'OPERACOES';
-    }
-
-    return 'REDE';
   }
 
   private mapStatus(status: Incident['status']): Ticket['status'] {

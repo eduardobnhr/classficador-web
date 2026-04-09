@@ -43,44 +43,6 @@
     </article>
   </div>
 
-  <aside class="dashboard__secondary">
-    <article class="dashboard-panel threat-panel">
-      <header class="panel-header">
-        <div>
-          <p class="panel-header__label">ANALISE DE VETORES DE RISCO</p>
-          <h2>Distribuicao de Ameacas</h2>
-        </div>
-      </header>
-
-      <div class="threat-list">
-        @for (threat of threats; track threat.label) {
-          <div class="threat-item threat-item--{{ threat.tone }}">
-            <div class="threat-item__header">
-              <span>{{ threat.label }}</span>
-              <strong>{{ threat.value }}%</strong>
-            </div>
-            <p-progressBar [value]="threat.value" [showValue]="false" />
-          </div>
-        }
-
-        @if (threats.length === 0) {
-          <div class="dashboard-empty">Sem distribuicao de ameacas disponivel.</div>
-        }
-      </div>
-
-      <div class="threat-panel__status">
-        <i class="pi pi-shield" aria-hidden="true"></i>
-        <p>
-          @if (metrics[3].value !== '0') {
-            Os protocolos de protecao estao operando com telemetria classificada disponivel.
-          } @else {
-            Aguardando dados operacionais do backend.
-          }
-        </p>
-      </div>
-    </article>
-  </aside>
-
   <article class="dashboard-panel tickets-panel">
     <header class="panel-header tickets-panel__header">
       <div>
@@ -108,7 +70,7 @@
           <td>{{ ticket.id }}</td>
           <td>{{ ticket.subject }}</td>
           <td>
-            <span class="category-badge category-badge--{{ ticket.category.toLowerCase() }}">
+            <span class="category-badge">
               {{ ticket.category }}
             </span>
           </td>
