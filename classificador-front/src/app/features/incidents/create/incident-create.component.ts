@@ -21,7 +21,6 @@ export class IncidentCreateComponent {
 
   protected readonly incidentForm = this.formBuilder.nonNullable.group({
     title: ['', [Validators.required, Validators.minLength(8)]],
-    affectedAsset: ['', [Validators.required, Validators.minLength(3)]],
     occurredAt: [null as Date | null, [Validators.required]],
     description: ['', [Validators.required, Validators.minLength(24)]]
   });
@@ -38,7 +37,6 @@ export class IncidentCreateComponent {
       .createIncident({
         title: payload.title,
         description: payload.description,
-        asset: payload.affectedAsset,
         occurredAt: payload.occurredAt?.toISOString() ?? new Date().toISOString()
       })
       .subscribe({

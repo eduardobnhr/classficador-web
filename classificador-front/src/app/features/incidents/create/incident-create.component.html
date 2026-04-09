@@ -21,14 +21,6 @@
 
       <div class="form-grid">
         <label class="form-field">
-          <span>ATIVO AFETADO</span>
-          <input pInputText type="text" formControlName="affectedAsset" placeholder="Ex: BR-MAO-03 · Servico de Autenticacao" />
-          @if (incidentForm.controls.affectedAsset.invalid && incidentForm.controls.affectedAsset.touched) {
-            <small>Informe o ativo afetado.</small>
-          }
-        </label>
-
-        <label class="form-field">
           <span>DATA/HORA DA OCORRENCIA</span>
           <p-calendar
             formControlName="occurredAt"
@@ -60,7 +52,7 @@
       </label>
 
       <button class="incident-form__submit" type="submit" [disabled]="incidentForm.invalid">
-        <span aria-hidden="true">✦</span>
+        <span aria-hidden="true">*</span>
         ENVIAR PARA CLASSIFICACAO
       </button>
     </form>
@@ -79,7 +71,7 @@
           </li>
           <li>
             <i class="pi pi-check-circle" aria-hidden="true"></i>
-            <span>Verifique se o ativo afetado esta corretamente mapeado no inventario.</span>
+            <span>Inclua evidencias tecnicas suficientes para facilitar a classificacao automatica.</span>
           </li>
         </ul>
       </article>

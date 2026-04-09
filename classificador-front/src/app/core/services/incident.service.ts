@@ -22,7 +22,6 @@ interface BackendIncident {
   id: string;
   title: string;
   description: string;
-  affected_asset?: string | null;
   occurred_at?: string | null;
   status: string;
   created_at: string;
@@ -76,7 +75,6 @@ export interface Incident {
   id: string;
   title: string;
   description: string;
-  asset: string;
   occurredAt: string;
   category: IncidentCategory;
   severity: IncidentSeverity;
@@ -133,7 +131,6 @@ export interface DashboardStats {
 export interface CreateIncidentPayload {
   title: string;
   description: string;
-  asset: string;
   occurredAt: string;
   category?: IncidentCategory;
   severity?: IncidentSeverity;
@@ -164,7 +161,6 @@ export class IncidentService {
     const backendPayload = {
       title: payload.title,
       description: payload.description,
-      affected_asset: payload.asset,
       occurred_at: payload.occurredAt
     };
 
@@ -219,7 +215,6 @@ export class IncidentService {
       id: incident.id,
       title: incident.title,
       description: incident.description,
-      asset: incident.affected_asset ?? 'Ativo nao informado',
       occurredAt: incident.occurred_at ?? incident.created_at,
       category: this.mapCategory(classification?.category),
       severity: this.mapSeverity(classification?.severity),
