@@ -65,6 +65,18 @@
             <span>CLASSIFICACAO DA IA</span>
           </header>
 
+          @if (!hasClassification() && incident.status === 'EM_ANALISE') {
+            <p class="detail-card__empty">
+              {{ isRefreshingClassification ? 'A IA ainda esta processando este incidente. A tela sera atualizada automaticamente.' : 'Classificacao em andamento.' }}
+            </p>
+          }
+
+          @if (!hasClassification() && incident.status === 'ERRO') {
+            <p class="detail-card__empty">
+              A classificacao nao foi concluida pelo backend. Verifique o servico da IA e tente novamente.
+            </p>
+          }
+
           <div class="confidence" [attr.aria-label]="'Confianca ' + confidence + '%'">
             <svg viewBox="0 0 120 120" role="img">
               <circle class="confidence__track" cx="60" cy="60" r="48"></circle>
@@ -87,11 +99,11 @@
           <div class="classification-list">
             <div class="classification-row">
               <span>CATEGORIA</span>
-              <strong class="detail-badge">{{ incident.aiClassification?.category ?? incident.category }}</strong>
+              <strong class="detail-badge">{{ incident.aiClassification?.category ?? 'AGUARDANDO RETORNO' }}</strong>
             </div>
             <div class="classification-row">
               <span>SEVERIDADE</span>
-              <strong class="detail-badge detail-badge--critical">⚠ {{ incident.severity }}</strong>
+              <strong class="detail-badge detail-badge--critical">{{ incident.aiClassification?.severity ?? 'AGUARDANDO RETORNO' }}</strong>
             </div>
             <div class="classification-row">
               <span>STATUS</span>

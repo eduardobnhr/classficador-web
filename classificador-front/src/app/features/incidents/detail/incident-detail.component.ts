@@ -1,8 +1,10 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, DestroyRef, OnInit, inject } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { DecimalPipe } from '@angular/common';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { EMPTY, expand, switchMap, timer } from 'rxjs';
 
 import { Incident, IncidentService, RecommendedAction } from '../../../core/services/incident.service';
 
@@ -22,11 +24,13 @@ interface MetadataItem {
 export class IncidentDetailComponent implements OnInit {
   private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
+  private readonly destroyRef = inject(DestroyRef);
   private readonly incidentService = inject(IncidentService);
   private readonly confirmationService = inject(ConfirmationService);
   private readonly messageService = inject(MessageService);
 
   protected incident: Incident | null = null;
+  protected isRefreshingClassification = false;
   protected confidence = 0;
   protected progressOffset = 100;
   protected recommendedActions: RecommendedAction[] = [];
@@ -40,19 +44,7 @@ export class IncidentDetailComponent implements OnInit {
       return;
     }
 
-    this.incidentService.getIncidentById(id).subscribe({
-      next: (incident) => {
-        this.incident = incident;
-        this.confidence = incident.aiClassification?.confidence ?? 0;
-        this.progressOffset = 100 - this.confidence;
-        this.recommendedActions = incident.recommendedActions ?? [];
-        this.metadata = [
-          { label: 'Modelo Utilizado', value: incident.aiClassification?.model ?? 'N/D', mono: true },
-          { label: 'Tempo de Processamento', value: incident.aiClassification?.processingTime ?? 'N/D' },
-          { label: 'Data da Deteccao', value: incident.aiClassification?.detectedAt ?? this.formatDate(incident.createdAt) }
-        ];
-      }
-    });
+    this.watchIncident(id);
   }
 
   protected deleteIncident(): void {
@@ -106,5 +98,47 @@ export class IncidentDetailComponent implements OnInit {
       hour: '2-digit',
       minute: '2-digit'
     }).format(new Date(value));
+  }
+
+  protected hasClassification(): boolean {
+    return !!this.incident?.aiClassification;
+  }
+
+  private watchIncident(id: string): void {
+    this.incidentService
+      .getIncidentById(id)
+      .pipe(
+        expand((incident) => {
+          const shouldPoll = !incident.aiClassification && incident.status === 'EM_ANALISE';
+
+          this.isRefreshingClassification = shouldPoll;
+
+          return shouldPoll
+            ? timer(2000).pipe(switchMap(() => this.incidentService.getIncidentById(id)))
+            : EMPTY;
+        }),
+        takeUntilDestroyed(this.destroyRef)
+      )
+      .subscribe({
+        next: (incident) => {
+          this.applyIncidentState(incident);
+
+          if (incident.aiClassification || incident.status !== 'EM_ANALISE') {
+            this.isRefreshingClassification = false;
+          }
+        }
+      });
+  }
+
+  private applyIncidentState(incident: Incident): void {
+    this.incident = incident;
+    this.confidence = incident.aiClassification?.confidence ?? 0;
+    this.progressOffset = 100 - this.confidence;
+    this.recommendedActions = incident.recommendedActions ?? [];
+    this.metadata = [
+      { label: 'Modelo Utilizado', value: incident.aiClassification?.model ?? 'N/D', mono: true },
+      { label: 'Tempo de Processamento', value: incident.aiClassification?.processingTime ?? 'N/D' },
+      { label: 'Data da Deteccao', value: incident.aiClassification?.detectedAt ?? this.formatDate(incident.createdAt) }
+    ];
   }
 }

@@ -62,7 +62,7 @@ export type IncidentCategory =
 
 export type IncidentSeverity = 'CRITICA' | 'ALTA' | 'MEDIA' | 'BAIXA';
 
-export type IncidentStatus = 'ATIVO' | 'EM_ANALISE' | 'CLASSIFICADO' | 'RESOLVIDO';
+export type IncidentStatus = 'ATIVO' | 'EM_ANALISE' | 'CLASSIFICADO' | 'RESOLVIDO' | 'ERRO';
 
 export interface RecommendedAction {
   id: string;
@@ -283,6 +283,10 @@ export class IncidentService {
 
     if (normalizedStatus === 'resolved') {
       return 'RESOLVIDO';
+    }
+
+    if (normalizedStatus === 'error') {
+      return 'ERRO';
     }
 
     return 'ATIVO';
